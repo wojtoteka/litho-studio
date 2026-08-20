@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
+    "types": ["vite/client", "node"],
+    "noEmit": true,
+    /* No `baseUrl`: it is deprecated as of TypeScript 6 and stops working in 7.
+       Since TS 5.0 `paths` no longer needs it — the patterns below resolve
+       against the directory of the config file they are written in, which is
+       the repo root either way. */
+    "paths": {
+      "@/*": ["./src/*"],
+      "@shared/*": ["./shared/*"]
+    }
+  },
+  "include": ["src", "shared", "tests/unit", "vite.config.ts", "vitest.config.ts"]
+}

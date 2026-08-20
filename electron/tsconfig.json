@@ -1,0 +1,21 @@
+{
+  // Editor-facing shim for the main process — the same trick, and the same
+  // reason, as `tests/e2e/tsconfig.json`.
+  //
+  // `npm run typecheck` builds these files with `-p tsconfig.electron.json` and
+  // has always passed. VS Code's language service does not read that file:
+  // tsserver resolves a file's project by walking *up* from the file, and the
+  // first `tsconfig.json` it finds — the one at the repo root — does not
+  // `include` `electron`. Every main-process file therefore landed in an
+  // inferred project with default options, no `types: ["node"]` and no `paths`,
+  // which is why the editor reported `Cannot find name 'node:path'` and
+  // `Cannot find module '@shared/…'` for imports the real compiler resolves
+  // without complaint.
+  //
+  // This file is that first `tsconfig.json` on the way up, and it delegates
+  // straight to the real one. Relative paths inside an `extends`-ed config are
+  // resolved against the config they were written in, so the base's `include`
+  // and `paths` still point at the repo root — nothing is duplicated here, and
+  // there is no second source of truth to drift.
+  "extends": "../tsconfig.electron.json"
+}

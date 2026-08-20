@@ -1,0 +1,28 @@
+# Zależności
+node_modules/
+
+# Artefakty budowania
+dist/
+dist-electron/
+release/
+out/
+
+# Certyfikaty podpisywania instalatorów – zostają lokalnie
+certs/
+
+# Testy
+test-results/
+playwright-report/
+coverage/
+
+# Logi i pliki tymczasowe
+*.log
+npm-debug.log*
+.eslintcache
+.DS_Store
+Thumbs.db
+
+# Edytory
+.vscode/
+.idea/
+.claude/

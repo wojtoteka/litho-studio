@@ -1,0 +1,198 @@
+appId: app.lithostudio.editor
+productName: Litho Studio
+copyright: Copyright © 2026 Litho Studio
+
+directories:
+  output: release
+  buildResources: resources/icons
+
+# Only the built output plus the runtime dependencies that stay external in the
+# esbuild bundle. Sources, tests and dev tooling are deliberately excluded so the
+# installer stays small.
+files:
+  - dist/**/*
+  - package.json
+  - '!**/*.map'
+  - '!**/node_modules/**/{test,tests,__tests__,example,examples,doc,docs}/**'
+  - '!**/node_modules/**/*.{md,markdown,ts,map}'
+
+extraResources:
+  - from: resources/icons
+    to: icons
+    filter:
+      - '*.png'
+      - '*.ico'
+      - '*.icns'
+
+# `prettier`, `electron-log` and `chokidar` are required at runtime and are
+# marked external in scripts/build-electron.mjs, so they must be unpacked rather
+# than left inside the asar for native/dynamic resolution. `node-pty` ships a
+# native `.node` binary — and on Windows also helper executables it launches as
+# separate processes (`winpty-agent.exe`, `conpty\OpenConsole.exe`, `winpty.dll`)
+# — none of which can be loaded or spawned from inside an asar archive at all,
+# so it needs the same treatment.
+asar: true
+asarUnpack:
+  - '**/node_modules/prettier/**'
+  - '**/node_modules/node-pty/**'
+
+# node-pty >=1.1 is built on node-addon-api (N-API), whose ABI is stable across
+# Node *and* Electron versions — the prebuilt binary `npm install` fetches
+# already works unmodified inside Electron, so no native rebuild step is
+# needed for it (unlike the classic node-gyp-per-Electron-version dance).
+npmRebuild: false
+
+mac:
+  target:
+    - target: dmg
+      arch: [x64, arm64]
+  icon: resources/icons/icon.icns
+  category: public.app-category.developer-tools
+  darkModeSupport: true
+  # The app only ever reads and writes folders the user explicitly picks.
+  extendInfo:
+    NSHumanReadableCopyright: Copyright © 2026 Litho Studio
+
+dmg:
+  artifactName: ${productName}-${version}-${arch}.${ext}
+
+win:
+  # nsis: instalator (dwuklik, wpis w "Aplikacje", odinstalowanie).
+  # portable: jeden .exe odpalany bez instalowania — odpowiednik AppImage.
+  target:
+    - target: nsis
+      arch: [x64]
+    - target: portable
+      arch: [x64]
+  # Podane wprost, mimo że electron-builder umie złożyć .ico z icon.png. Ikona
+  # z tego pliku jedzie w metadanych .exe, w oknie instalatora i we wpisie
+  # odinstalowywania, a wygenerowana w locie bywa uboższa w rozmiarach.
+  icon: resources/icons/icon.ico
+  # Nazwa z wersją i architekturą w środku. Poza czytelnością na stronie pobrań
+  # jest to warunek działania `scripts/verify-installer.mjs`: szuka on plików
+  # tej wersji po fragmencie `-<wersja>-` w nazwie.
+  artifactName: ${productName}-${version}-${arch}.${ext}
+  # Certyfikat idzie przez CSC_LINK (ścieżka do .pfx) i CSC_KEY_PASSWORD — nie
+  # wpisujemy go tutaj, żeby klucz nie wylądował w konfiguracji.
+  #
+  # Na Linuksie electron-builder podpisuje przez osslsigncode, ale binarka, którą
+  # wozi ze sobą (winCodeSign-2.6.0), jest zlinkowana z OpenSSL 1.1 — Debian 13 ma
+  # 3.x i taki podpis pada na starcie. Dlatego build wymaga systemowego pakietu
+  # `osslsigncode` i USE_SYSTEM_SIGNCODE=true; robi to `npm run package:win`.
+  signtoolOptions:
+    signingHashAlgorithms: [sha256]
+    # Bez znacznika czasu podpis przestaje być ważny razem z certyfikatem, więc
+    # stare buildy z dnia na dzień robią się "niepodpisane".
+    rfc3161TimeStampServer: http://timestamp.digicert.com
+    # Wydawca widoczny w „Zainstalowane aplikacje" i w polu CompanyName pliku
+    # .exe. MUSI się zgadzać z podmiotem certyfikatu, którym podpisujemy — w
+    # certs/litho-selfsigned.pfx jest to `CN=Litho Studio`, stąd ta wartość;
+    # rozbieżność psuje weryfikację podpisu. Przy przejściu na certyfikat firmowy
+    # trzeba poprawić jedno i drugie razem.
+    #
+    # Miejsce nie jest dowolne: jako `win.publisherName` electron-builder 25
+    # przyjmuje to pole, ale na każdym pliku wypisuje ostrzeżenie o przenoszeniu
+    # go tutaj.
+    publisherName: Litho Studio
+
+# Instalator Windows: kreator w ciemnym motywie aplikacji.
+#
+# Bez tej sekcji electron-builder robi `oneClick: true` — instalator, który po
+# dwukliku wypakowuje się sam, o nic nie pyta i od razu uruchamia aplikację.
+# Kolejność stron kreatora i całe malowanie na ciemno siedzą w
+# resources/installer/installer.nsh; ten plik tylko go wciąga i podaje grafiki.
+nsis:
+  # Przełącza na kreator: powitanie → wybór użytkownika → wybór folderu →
+  # instalacja → koniec. Reszta opcji poniżej ma sens dopiero przy `false`.
+  oneClick: false
+
+  # Strona „zainstaluj dla wszystkich / tylko dla mnie" pojawia się dokładnie
+  # wtedy, gdy `perMachine` NIE jest `true`: przy `true` electron-builder
+  # definiuje `INSTALL_MODE_PER_ALL_USERS`, a szablon kreatora pomija na tej
+  # podstawie `PAGE_INSTALL_MODE` (assistedInstaller.nsh) i decyduje za
+  # użytkownika. Dlatego stoi tu jawnie, mimo że `false` jest domyślne — to jedno
+  # pole odpowiada za obecność tej strony.
+  perMachine: false
+
+  # Katalog nadal wybiera użytkownik — tę stronę wstawia jednak
+  # resources/installer/installer.nsh, bo tylko wtedy da się jej podpiąć
+  # malowanie na ciemno. Szczegóły w komentarzu w tamtym pliku.
+  allowToChangeInstallationDirectory: false
+
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Litho Studio
+  installerIcon: resources/icons/icon.ico
+  uninstallerIcon: resources/icons/icon.ico
+
+  # Wygląd kreatora: ciemny motyw aplikacji zamiast szarego domyślnego NSIS-a.
+  # Bitmapy powstają z resources/logo.svg przez `npm run installer:art`.
+  installerHeader: resources/installer/header.bmp
+  installerSidebar: resources/installer/sidebar.bmp
+  uninstallerSidebar: resources/installer/sidebar-uninstall.bmp
+  include: resources/installer/installer.nsh
+
+  # Aplikacja jest po polsku, więc instalator też — angielski zostaje dla
+  # systemów, które polskiego nie mają. Dokładając język, trzeba dopisać jego
+  # LangString-i w installer.nsh, inaczej nasze teksty będą puste.
+  installerLanguages:
+    - pl_PL
+    - en_US
+
+  # Ustawienia i lista ostatnich projektów siedzą w %APPDATA%\litho-studio.
+  # Odinstalowanie ich nie rusza, żeby ponowna instalacja zastała je na miejscu;
+  # kto chce czystego startu, kasuje ten folder ręcznie. (Projekty użytkownika i
+  # tak leżą tam, gdzie je założył — instalator nigdy ich nie dotyka.)
+  deleteAppDataOnUninstall: false
+
+  # Blockmapa (`*.exe.blockmap`, ~90 kB obok instalatora) służy wyłącznie
+  # aktualizacjom różnicowym electron-updatera. Ta aplikacja nie ma
+  # auto-aktualizacji ani publikowania (`publish: null` na końcu pliku), więc był
+  # to plik, którego nic nigdy nie czytało.
+  differentialPackage: false
+
+portable:
+  # Bez tego portable i instalator nazywałyby się tak samo, tylko z „Setup".
+  artifactName: ${productName}-${version}-portable.${ext}
+
+linux:
+  # AppImage: jeden przenośny plik — bez instalowania czegokolwiek, ikonka na
+  # pulpit i gotowe.
+  # deb: prawdziwy instalator (odpowiednik Windowsowego .exe) — podwójne
+  # kliknięcie otwiera menedżera pakietów systemu (albo `sudo apt install
+  # ./plik.deb`), wpina aplikację do menu z ikoną i porządnym odinstalowaniem.
+  # electron-builder buduje go przez `fpm`, ale pobiera własny, gotowy binarek
+  # (`fpm-*-linux-x86_64`) — nie trzeba instalować Ruby/fpm w systemie.
+  # tar.gz: goły archiwum, przydatne tam gdzie AppImage/deb nie wchodzą w grę
+  # (kontenery, dystrybucje bez FUSE i bez apt).
+  target:
+    - target: AppImage
+      arch: [x64]
+    - target: deb
+      arch: [x64]
+    - target: tar.gz
+      arch: [x64]
+  icon: resources/icons
+  # Instrukcja i launcher lądują obok pliku wykonywalnego, w korzeniu
+  # rozpakowanego folderu — czyli tam, gdzie użytkownik patrzy, gdy paczka nie
+  # chce się uruchomić. Muszą jechać *wewnątrz* archiwum, bo tar.gz wędruje
+  # dalej sam, bez pliku obok niego w release/.
+  extraFiles:
+    - from: resources/linux/JAK-URUCHOMIC.md
+      to: JAK-URUCHOMIC.md
+    - from: resources/linux/uruchom.sh
+      to: uruchom.sh
+  category: Development
+  # Wymagane przez deb — bez tego pola electron-builder wstawia do metadanych
+  # paczki zmyślone „user@hostname" z maszyny budującej.
+  maintainer: Litho Studio <hello@lithostudio.app>
+  synopsis: Wizualny edytor stron WWW edytujący prawdziwe pliki HTML/CSS/JS
+  desktop:
+    entry:
+      Name: Litho Studio
+      Comment: Wizualny edytor stron WWW
+      Categories: Development;WebDevelopment;
+
+# Litho Studio jest w pełni offline — nie ma auto-aktualizacji ani żadnego
+# publikowania. Instalatory buduje się lokalnie i rozprowadza ręcznie.
+publish: null

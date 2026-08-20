@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    // Playwright's `page.evaluate` callbacks execute in the renderer, so these
+    // files legitimately need DOM types — which the main-process config must
+    // not have, or main could reach for browser APIs that do not exist there.
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["node"],
+    "noEmit": true,
+    /* See the note in `tsconfig.json` — `baseUrl` is deprecated, and `paths`
+       resolves relative to this file without it. */
+    "paths": {
+      "@/*": ["./src/*"],
+      "@shared/*": ["./shared/*"]
+    }
+  },
+  "include": ["tests/e2e", "playwright.config.ts", "src/types/global.d.ts"]
+}

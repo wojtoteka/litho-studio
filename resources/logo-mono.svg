@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="Litho Studio">
+  <title>Litho Studio — wariant monochromatyczny</title>
+  <desc>
+    Wariant jednokolorowy do ikon systemowych i tray. Używa currentColor, więc
+    dziedziczy kolor z kontekstu. Geometria identyczna jak w logo.svg.
+  </desc>
+
+  <g
+    fill="none"
+    stroke="currentColor"
+    stroke-width="4"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path d="M11 16 L5 24 L11 32" />
+    <path d="M37 16 L43 24 L37 32" />
+  </g>
+
+  <path
+    d="M15.6 10.1 L15.6 34.1 L20.7 29 L25.2 37.9 L29.1 35.9 L24.6 27 L32.5 27 Z"
+    fill="currentColor"
+  />
+</svg>
