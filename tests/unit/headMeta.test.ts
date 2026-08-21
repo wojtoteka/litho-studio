@@ -78,7 +78,7 @@ describe('applyPageMeta', () => {
     expect(html).toContain('property="og:description"');
   });
 
-  it('is idempotent — writing the same value twice adds no second tag', () => {
+  it('is idempotent - writing the same value twice adds no second tag', () => {
     const doc = load(BARE);
     applyPageMeta(doc.root, { description: 'Ten sam opis' });
     expect(applyPageMeta(doc.root, { description: 'Ten sam opis' })).toBe(false);

@@ -70,7 +70,7 @@ describe('store: attach and re-read an element script', () => {
 
     useEditorStore.getState().setElementScript(id, {
       presetId: 'aktualny-rok',
-      params: { rokStartowy: '', separator: '–', przedrostek: '', przyrostek: '' },
+      params: { rokStartowy: '', separator: '-', przedrostek: '', przyrostek: '' },
     });
 
     const state = useEditorStore.getState().elementScriptState(id);
@@ -84,7 +84,7 @@ describe('store: attach and re-read an element script', () => {
 
     useEditorStore.getState().setElementScript(id, {
       presetId: 'aktualny-rok',
-      params: { rokStartowy: '2020', separator: '–', przedrostek: '© ', przyrostek: '' },
+      params: { rokStartowy: '2020', separator: '-', przedrostek: '© ', przyrostek: '' },
     });
     await useEditorStore.getState().flushSave();
 
@@ -98,13 +98,13 @@ describe('store: attach and re-read an element script', () => {
 
     useEditorStore.getState().setElementScript(id, {
       presetId: 'aktualny-rok',
-      params: { rokStartowy: '2020', separator: '–', przedrostek: '© ', przyrostek: '' },
+      params: { rokStartowy: '2020', separator: '-', przedrostek: '© ', przyrostek: '' },
     });
 
     const doc = useEditorStore.getState().document!;
     const element = findById(doc.root, id);
     const text = element?.children.map((c) => (c.kind === 'text' ? c.value : '')).join('') ?? '';
-    expect(text).toBe(`© 2020–${new Date().getFullYear()}`);
+    expect(text).toBe(`© 2020-${new Date().getFullYear()}`);
   });
 
   it('leaves nested markup alone rather than flattening it to plain text', async () => {
@@ -119,7 +119,7 @@ describe('store: attach and re-read an element script', () => {
     });
 
     const element = findById(doc.root, id)!;
-    // The footer's <span> child must survive — custom-code preview is `null`,
+    // The footer's <span> child must survive - custom-code preview is `null`,
     // and even for readable presets a container with element children is
     // skipped so its structure is never flattened to plain text.
     expect(element.children.some((c) => c.kind === 'element')).toBe(true);

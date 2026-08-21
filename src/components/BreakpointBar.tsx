@@ -12,7 +12,7 @@ import {
 import { Icon } from './Icon.js';
 
 /**
- * "3 elementy poza układem" — a running count of elements pinned to absolute
+ * "3 elementy poza układem" - a running count of elements pinned to absolute
  * pixels, and a way to go and look at them.
  *
  * Free placement is easy to do by accident and invisible until someone views
@@ -21,8 +21,8 @@ import { Icon } from './Icon.js';
  *
  * The count alone was a dead end, though: it said three elements were wrong and
  * gave no way to find out *which* three. Clicking now opens the list, and each
- * entry both selects its element — which scrolls the canvas to it and fills the
- * properties panel, so it can be fixed on the spot — and offers the one-click
+ * entry both selects its element - which scrolls the canvas to it and fills the
+ * properties panel, so it can be fixed on the spot - and offers the one-click
  * undo of "put it back in the flow".
  */
 function OutOfLayoutCounter(): JSX.Element | null {
@@ -34,12 +34,12 @@ function OutOfLayoutCounter(): JSX.Element | null {
   const ignoreOutOfLayout = useEditorStore((state) => state.ignoreOutOfLayout);
   const setBreakpoint = useEditorStore((state) => state.setBreakpoint);
   const breakpoints = useEditorStore((state) => state.breakpoints);
-  // Recomputed when anything commits — the tree and stylesheets mutate in place,
+  // Recomputed when anything commits - the tree and stylesheets mutate in place,
   // so `revision` is the signal, exactly as in Canvas.tsx.
   const revision = useEditorStore((state) => state.revision);
   // Subscribed to explicitly, even though `outOfLayoutIds()` already filters by
   // it: dismissing an element mutates *only* this array, and a component that
-  // does not read it never re-renders — the count then keeps showing the
+  // does not read it never re-renders - the count then keeps showing the
   // element the user just told it to forget, which reads as "the button does
   // nothing". `revision` cannot stand in here, since a dismissal is deliberately
   // not a document edit.
@@ -51,7 +51,7 @@ function OutOfLayoutCounter(): JSX.Element | null {
   void ignored;
 
   /*
-   * The list drops out of the bar and straight over the work area — which, in
+   * The list drops out of the bar and straight over the work area - which, in
    * "Przeglądanie" mode or with the side-by-side preview on, is a native
    * `WebContentsView` that composites above the whole document. Registering the
    * popover makes that view stand down while it is open; without it the list
@@ -76,8 +76,8 @@ function OutOfLayoutCounter(): JSX.Element | null {
   const label =
     ids.length === 1
       ? '1 element poza układem'
-      : // Polish plurals: 2–4 take "elementy", 5+ take "elementów", and the
-        // teens (12–14) take "elementów" despite ending in 2–4.
+      : // Polish plurals: 2-4 take "elementy", 5+ take "elementów", and the
+        // teens (12-14) take "elementów" despite ending in 2-4.
         `${ids.length} ${pluralElements(ids.length)} poza układem`;
 
   return (
@@ -119,7 +119,7 @@ function OutOfLayoutCounter(): JSX.Element | null {
                   type="button"
                   className="button button--icon"
                   onClick={() => returnToLayout(id)}
-                  title="Wróć do układu — usuwa position/left/top z tego elementu"
+                  title="Wróć do układu - usuwa position/left/top z tego elementu"
                   aria-label="Wróć do układu"
                 >
                   <Icon name="undo" size={14} />
@@ -128,7 +128,7 @@ function OutOfLayoutCounter(): JSX.Element | null {
                   type="button"
                   className="button button--icon"
                   onClick={() => ignoreOutOfLayout(id)}
-                  title="Ignoruj — to pozycjonowanie jest zamierzone, przestań o nim ostrzegać"
+                  title="Ignoruj - to pozycjonowanie jest zamierzone, przestań o nim ostrzegać"
                   aria-label="Ignoruj ten błąd"
                 >
                   <Icon name="visibility_off" size={14} />
@@ -168,7 +168,7 @@ function describeNode(document: PageDocument, id: string): string {
   const kind = `${ELEMENT_KIND_LABELS[classifyElement(element)]} · ${element.tag}`;
   const text = textContent(element).replace(/\s+/gu, ' ').trim();
   if (text === '') return kind;
-  return `${kind} — „${text.length > 34 ? `${text.slice(0, 34)}…` : text}”`;
+  return `${kind} - „${text.length > 34 ? `${text.slice(0, 34)}…` : text}”`;
 }
 
 function pluralElements(count: number): string {
@@ -187,7 +187,7 @@ function pluralElements(count: number): string {
  * spells that out, because a responsive editor that silently writes to the
  * wrong place is worse than no responsive editor.
  *
- * The gear opens an editor for the active breakpoint's widths — the canvas
+ * The gear opens an editor for the active breakpoint's widths - the canvas
  * width (preview size) and, for non-base breakpoints, the `max-width` that goes
  * into the generated media query.
  */
@@ -210,7 +210,7 @@ export function BreakpointBar(): JSX.Element {
           two states of one thing, and pairing them in a single recessed track
           says so before the labels are read. */}
       <div className="breakpoints__modes" role="group" aria-label="Tryb obszaru edycji">
-        {/* Deliberately not called "Podgląd" — the Toolbar already has an
+        {/* Deliberately not called "Podgląd" - the Toolbar already has an
             unrelated button with that exact label (toggles the separate live
             preview pane), and the two were getting confused for each other. */}
         <button
@@ -218,7 +218,7 @@ export function BreakpointBar(): JSX.Element {
           className="button"
           aria-pressed={canvasMode === 'preview'}
           onClick={() => setCanvasMode('preview')}
-          title="Przeglądanie — kliknięcie w obszarze roboczym pokazuje sekcję w panelach, bez włączania edycji"
+          title="Przeglądanie - kliknięcie w obszarze roboczym pokazuje sekcję w panelach, bez włączania edycji"
         >
           <Icon name="visibility" size={15} />
           Przeglądanie
@@ -228,7 +228,7 @@ export function BreakpointBar(): JSX.Element {
           className="button"
           aria-pressed={canvasMode === 'edit'}
           onClick={() => setCanvasMode('edit')}
-          title="Edycja — kliknięcie w obszarze roboczym zaznacza element do edycji"
+          title="Edycja - kliknięcie w obszarze roboczym zaznacza element do edycji"
         >
           <Icon name="edit" size={15} />
           Edycja
@@ -246,17 +246,17 @@ export function BreakpointBar(): JSX.Element {
           onClick={() => setBreakpoint(breakpoint.id)}
           title={
             breakpoint.maxWidth === null
-              ? 'Style bazowe — bez media query. Strona zajmuje całą dostępną szerokość obszaru roboczego.'
+              ? 'Style bazowe - bez media query. Strona zajmuje całą dostępną szerokość obszaru roboczego.'
               : `Style w @media (max-width: ${breakpoint.maxWidth}px)`
           }
         >
           {breakpoint.label}
           <span className="breakpoints__size">
-            {/* A fluid breakpoint has no width of its own — it renders at the
+            {/* A fluid breakpoint has no width of its own - it renders at the
                 size of the work area, so showing a stored number there would be
                 a lie. See `isFluidBreakpoint` in Canvas.tsx. */}
             {breakpoint.fluid
-              ? `${canvasPaneWidth > 0 ? canvasPaneWidth : '—'}px`
+              ? `${canvasPaneWidth > 0 ? canvasPaneWidth : '-'}px`
               : `${breakpoint.canvasWidth}px`}
           </span>
         </button>
@@ -289,7 +289,7 @@ export function BreakpointBar(): JSX.Element {
           {/* The base breakpoint used to show a paragraph of explanation and no
               control at all, which is what "page size cannot be edited" meant:
               it is the breakpoint selected by default, so that dead end was the
-              first — usually only — thing anyone saw. It now chooses between
+              first - usually only - thing anyone saw. It now chooses between
               filling the work area and a width the user types. */}
           {active.maxWidth === null ? (
             <>
@@ -333,7 +333,7 @@ export function BreakpointBar(): JSX.Element {
               </label>
 
               <span className="breakpoints__hint">
-                Breakpoint bazowy nie ma media query — szerokość zmienia tylko to, jak szeroko rysowana jest
+                Breakpoint bazowy nie ma media query - szerokość zmienia tylko to, jak szeroko rysowana jest
                 strona, a style zapisują się jako reguły bazowe.
               </span>
             </>

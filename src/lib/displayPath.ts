@@ -2,7 +2,7 @@
  * Turning an absolute filesystem path into something a person can read at a
  * glance, for the recent-projects list on the start screen.
  *
- * The list used to do this in CSS — `direction: rtl` plus an ellipsis, the
+ * The list used to do this in CSS - `direction: rtl` plus an ellipsis, the
  * usual trick for truncating a path from the left. It is the wrong tool for a
  * POSIX path and it showed: bidi reordering moves the *leading* slash to the
  * far end, so `/home/ala/strona/index.html` was drawn as
@@ -18,7 +18,7 @@
 /** Roughly how many characters of path a row can show before it must truncate. */
 const DEFAULT_MAX = 58;
 
-/** The horizontal ellipsis, not three periods — one glyph, and it kerns. */
+/** The horizontal ellipsis, not three periods - one glyph, and it kerns. */
 const ELLIPSIS = '…';
 
 function separatorOf(value: string): string {
@@ -49,7 +49,7 @@ export function collapseHome(value: string, homeDir: string): string {
  *
  * Truncating the *front* rather than the end is what keeps the useful half: two
  * sibling projects differ in their last segments, never in `/home/ala/`. The
- * final segment is always kept whole even when it alone is over budget — a row
+ * final segment is always kept whole even when it alone is over budget - a row
  * reading `…` would tell the user nothing at all.
  */
 export function shortenPath(value: string, maxChars = DEFAULT_MAX): string {
@@ -70,7 +70,7 @@ export function shortenPath(value: string, maxChars = DEFAULT_MAX): string {
   return `${ELLIPSIS}${separator}${kept}`;
 }
 
-/** `collapseHome` then `shortenPath` — the order the two must be applied in. */
+/** `collapseHome` then `shortenPath` - the order the two must be applied in. */
 export function displayPath(value: string, homeDir: string, maxChars = DEFAULT_MAX): string {
   return shortenPath(collapseHome(value, homeDir), maxChars);
 }
@@ -80,7 +80,7 @@ export function displayPath(value: string, homeDir: string, maxChars = DEFAULT_M
  *
  * Compared by calendar day rather than by elapsed hours: something opened at
  * 23:00 yesterday should read "wczoraj" at 01:00 today, not "2 godziny temu".
- * Polish needs no plural branching here — `dni`, `tyg.` and `mies.` are the
+ * Polish needs no plural branching here - `dni`, `tyg.` and `mies.` are the
  * right form for every count these buckets can produce.
  */
 export function relativeDay(openedAt: number, now = Date.now()): string {

@@ -12,7 +12,7 @@ import {
  * runs, and the dialog shows the user that same entry as the command it is about
  * to execute. Two properties therefore matter more than anything else here:
  *
- *  - the command the user *reads* is the command that gets *run* — they are
+ *  - the command the user *reads* is the command that gets *run* - they are
  *    derived from one field, and these tests pin that they cannot drift;
  *  - an id arriving over the IPC bridge only ever resolves to a catalogue entry,
  *    because `validateToolId` in electron/ipc/index.ts rejects anything
@@ -51,7 +51,7 @@ describe('AI tool catalogue', () => {
     );
   });
 
-  it('resolves only known ids — anything else is refused before it reaches a shell', () => {
+  it('resolves only known ids - anything else is refused before it reaches a shell', () => {
     expect(findAiTool('claude-code')?.name).toBe('Claude Code');
     expect(findAiTool('nope')).toBeUndefined();
     expect(findAiTool('')).toBeUndefined();
@@ -101,7 +101,7 @@ describe('parseVersion', () => {
     expect(parseVersion('Cursor Agent\nCopyright (c) Anysphere\ncursor-agent 0.3.7')).toBe('0.3.7');
   });
 
-  it('orders 1.0.10 correctly — it is read as one token, not truncated to 1.0.1', () => {
+  it('orders 1.0.10 correctly - it is read as one token, not truncated to 1.0.1', () => {
     expect(parseVersion('1.0.10')).toBe('1.0.10');
   });
 

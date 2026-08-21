@@ -7,7 +7,7 @@ import { INLINE_ELEMENTS, RAW_TEXT_ELEMENTS, VOID_ELEMENTS } from '@shared/docum
  * The output has to satisfy two constraints that pull against each other:
  *
  *  1. **It must render identically to what the canvas showed.** Whitespace
- *     between inline elements is significant in HTML — `<b>a</b> <i>b</i>` and
+ *     between inline elements is significant in HTML - `<b>a</b> <i>b</i>` and
  *     `<b>a</b>\n<i>b</i>` differ visually under some CSS. So any element whose
  *     children contain inline content is emitted *verbatim*, with its original
  *     whitespace intact.
@@ -110,8 +110,8 @@ function serialiseBlockChild(child: DocNode, context: Context): string | null {
 }
 
 /**
- * `<script>`/`<style>` bodies are emitted verbatim — escaping them would change
- * the code — but re-indented as a block so the surrounding HTML stays readable.
+ * `<script>`/`<style>` bodies are emitted verbatim - escaping them would change
+ * the code - but re-indented as a block so the surrounding HTML stays readable.
  */
 function serialiseRawTextElement(
   element: ElementNode,

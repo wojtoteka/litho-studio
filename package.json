@@ -2,7 +2,7 @@
   "name": "litho-studio",
   "productName": "Litho Studio",
   "version": "1.0.6",
-  "description": "Visual website editor that edits real HTML/CSS/JS files on disk — no project format, no export step.",
+  "description": "Visual website editor that edits real HTML/CSS/JS files on disk - no project format, no export step.",
   "author": {
     "name": "Litho Studio",
     "email": "hello@lithostudio.app"

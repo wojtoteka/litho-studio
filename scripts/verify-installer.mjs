@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
  * itself when it is double-clicked.
  *
  * Every NSIS installer ends with a CRC32 of its own bytes, and refuses to start
- * with "Installer integrity check has failed" when that CRC does not match —
+ * with "Installer integrity check has failed" when that CRC does not match -
  * before any window of ours is drawn, so there is nothing to log and nothing to
  * see. A single flipped byte anywhere in the 88 MB file is enough, and it can
  * be flipped long after makensis finished: an antivirus rewriting the file, a
@@ -25,7 +25,7 @@ import { fileURLToPath } from 'node:url';
  *     node scripts/verify-installer.mjs "C:\\...\\Litho Studio-1.0.1-x64.exe"
  *
  * Layout of what is read below (NSIS `firstheader`, exehead/fileform.h): after
- * the Windows executable that unpacks everything comes a 28-byte header —
+ * the Windows executable that unpacks everything comes a 28-byte header -
  * flags, the `0xDEADBEEF` + "NullsoftInst" signature, and the size of all the
  * data that follows it. The CRC is the last four bytes of the file and covers
  * everything from offset 512 onwards; the first 512 bytes are skipped by NSIS
@@ -44,14 +44,14 @@ const FLAG_NO_CRC = 4;
  * File range holding the Authenticode signature, or `null` when unsigned.
  *
  * This exists because signing breaks the naive "file length must equal the size
- * NSIS declares" rule that this script used to apply — and it did apply it
+ * NSIS declares" rule that this script used to apply - and it did apply it
  * correctly right up until the project got a certificate. `signtool` appends the
  * signature *after* everything NSIS wrote, so a perfectly good signed installer
  * looks ~8 kB too long. NSIS itself is unbothered: it reads its own length from
  * the header and never looks past it.
  *
- * Rather than allowing any trailing slack — which would stop catching genuinely
- * appended junk, the thing this check exists for — the exact range is read from
+ * Rather than allowing any trailing slack - which would stop catching genuinely
+ * appended junk, the thing this check exists for - the exact range is read from
  * the PE certificate table: data directory 4, the one directory whose "virtual
  * address" is really a file offset.
  */
@@ -77,7 +77,7 @@ function authenticodeRange(buffer) {
  * How long the file is allowed to be: the end of the NSIS data, plus the
  * signature when there is one.
  *
- * The signature is accepted only where it belongs — running to the very end of
+ * The signature is accepted only where it belongs - running to the very end of
  * the file, and beginning at the end of the NSIS data give or take the padding
  * needed to reach the certificate table's 8-byte alignment (6 and 7 bytes on the
  * two artifacts this project builds). A "signature" sitting anywhere else leaves
@@ -114,7 +114,7 @@ function inspect(buffer) {
   const headerStart = buffer.indexOf(SIGNATURE) - 4;
   if (headerStart < 4) {
     // Portable builds are NSIS too, so anything else here is not ours at all.
-    return { ok: false, note: 'to nie jest instalator NSIS — plik jest uszkodzony albo podmieniony' };
+    return { ok: false, note: 'to nie jest instalator NSIS - plik jest uszkodzony albo podmieniony' };
   }
 
   const flags = buffer.readUInt32LE(headerStart);
@@ -131,13 +131,13 @@ function inspect(buffer) {
       note:
         trailing > 0
           ? `plik ma ${trailing} B nadmiarowych danych na końcu, nie licząc podpisu (doklejone przez coś po budowaniu)`
-          : `plik jest obcięty o ${-trailing} B — kopiowanie lub pobieranie się nie dokończyło`,
+          : `plik jest obcięty o ${-trailing} B - kopiowanie lub pobieranie się nie dokończyło`,
     };
   }
 
   if (flags & FLAG_NO_CRC) {
     // `portable.nsi` electron-buildera ustawia `CRCCheck off`, więc portable nie
-    // ma czego sprawdzać — zostaje sam rozmiar, sprawdzony wyżej.
+    // ma czego sprawdzać - zostaje sam rozmiar, sprawdzony wyżej.
     return { ok: true, note: `rozmiar zgodny, ${signatureNote} (ten cel nie zapisuje CRC)` };
   }
 
@@ -169,7 +169,7 @@ async function collectTargets() {
 async function main() {
   const targets = await collectTargets();
   if (targets.length === 0) {
-    console.error('Nie ma czego sprawdzać — w release/ nie znaleziono żadnego .exe.');
+    console.error('Nie ma czego sprawdzać - w release/ nie znaleziono żadnego .exe.');
     process.exitCode = 1;
     return;
   }
@@ -178,12 +178,12 @@ async function main() {
   for (const target of targets) {
     const { ok, note } = inspect(await fs.readFile(target));
     if (!ok) broken += 1;
-    console.log(`${ok ? 'OK  ' : 'BŁĄD'}  ${path.basename(target)} — ${note}`);
+    console.log(`${ok ? 'OK  ' : 'BŁĄD'}  ${path.basename(target)} - ${note}`);
   }
 
   if (broken > 0) {
     console.error(
-      `\n${broken} z ${targets.length} plików nie przejdzie własnej kontroli spójności — przy uruchomieniu\n` +
+      `\n${broken} z ${targets.length} plików nie przejdzie własnej kontroli spójności - przy uruchomieniu\n` +
         'pokaże „Installer integrity check has failed”. Zbuduj paczkę ponownie i, jeśli błąd wróci,\n' +
         'sprawdź antywirusa oraz dysk (to on, a nie kompilacja, najczęściej psuje gotowy plik).',
     );

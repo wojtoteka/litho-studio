@@ -1,12 +1,12 @@
 # Litho Studio
 
-Wizualny edytor stron, który **edytuje prawdziwe pliki HTML, CSS i JS na dysku**. Nie ma formatu projektu, nie ma kroku eksportu, nie ma bazy danych z układem strony — otwierasz katalog ze stroną, klikasz w elementy, a zmiany lądują z powrotem w tych samych plikach. Możesz w każdej chwili przestać używać Litho i pracować dalej w zwykłym edytorze tekstu.
+Wizualny edytor stron, który **edytuje prawdziwe pliki HTML, CSS i JS na dysku**. Nie ma formatu projektu, nie ma kroku eksportu, nie ma bazy danych z układem strony - otwierasz katalog ze stroną, klikasz w elementy, a zmiany lądują z powrotem w tych samych plikach. Możesz w każdej chwili przestać używać Litho i pracować dalej w zwykłym edytorze tekstu.
 
 Aplikacja desktopowa na Electronie (Windows, Linux, macOS).
 
 ## Główna idea
 
-Większość edytorów WYSIWYG trzyma stronę we własnym formacie i generuje HTML dopiero przy eksporcie — efekt jest taki, że kod wyjściowy jest nieczytelny, a powrót do ręcznej edycji oznacza koniec pracy z edytorem. Litho działa odwrotnie: **plik na dysku jest jedynym źródłem prawdy.** Parser (`htmlParser.ts`) czyta istniejący dokument, edytor operuje na jego strukturze, a generatory (`htmlGenerator.ts`, `cssGenerator.ts`, `jsGenerator.ts`) zapisują wynik z powrotem, zachowując formatowanie.
+Większość edytorów WYSIWYG trzyma stronę we własnym formacie i generuje HTML dopiero przy eksporcie - efekt jest taki, że kod wyjściowy jest nieczytelny, a powrót do ręcznej edycji oznacza koniec pracy z edytorem. Litho działa odwrotnie: **plik na dysku jest jedynym źródłem prawdy.** Parser (`htmlParser.ts`) czyta istniejący dokument, edytor operuje na jego strukturze, a generatory (`htmlGenerator.ts`, `cssGenerator.ts`, `jsGenerator.ts`) zapisują wynik z powrotem, zachowując formatowanie.
 
 ## Funkcje
 
@@ -31,17 +31,17 @@ Większość edytorów WYSIWYG trzyma stronę we własnym formacie i generuje HT
 | Audit | Kontrola jakości strony (`pageAudit.ts`) |
 
 **Praca z projektem**
-- **Responsywność** — pasek punktów granicznych (`BreakpointBar.tsx`) do sprawdzania układu na różnych szerokościach
-- **Wiele podstron** — przełącznik stron i wspólne sekcje współdzielone między nimi (`sharedSections.ts`)
-- **Meta i SEO** — edycja zawartości `<head>` (`headMeta.ts`)
-- **Skrypty na elemencie** — podpinanie kodu JS pod konkretny element (`elementScripts.ts`)
-- **Animacje pojawiania** — `revealHooks.ts`
-- **Google Fonts** — wbudowana przeglądarka krojów
-- **Historia zmian** — cofanie i ponawianie (`historyStore.ts`)
-- **Obserwowanie plików** — `chokidar` wychwytuje zmiany zrobione poza edytorem i synchronizuje je z kanwą
-- **Wykrywanie brakujących odwołań** — baner ostrzega, gdy strona linkuje do nieistniejącego pliku
-- **Instalator narzędzi AI** — dialog pobierający CLI dostawców AI (tylko Windows — uzasadnienie decyzji jest opisane w komentarzu w `shared/aiTools.ts`)
-- **Aktualizacje** — przy starcie aplikacja pyta serwer o najnowszą wersję i pokazuje baner; „Pobierz" otwiera stronę pobierania w przeglądarce, nie ściąga nic w tle
+- **Responsywność** - pasek punktów granicznych (`BreakpointBar.tsx`) do sprawdzania układu na różnych szerokościach
+- **Wiele podstron** - przełącznik stron i wspólne sekcje współdzielone między nimi (`sharedSections.ts`)
+- **Meta i SEO** - edycja zawartości `<head>` (`headMeta.ts`)
+- **Skrypty na elemencie** - podpinanie kodu JS pod konkretny element (`elementScripts.ts`)
+- **Animacje pojawiania** - `revealHooks.ts`
+- **Google Fonts** - wbudowana przeglądarka krojów
+- **Historia zmian** - cofanie i ponawianie (`historyStore.ts`)
+- **Obserwowanie plików** - `chokidar` wychwytuje zmiany zrobione poza edytorem i synchronizuje je z kanwą
+- **Wykrywanie brakujących odwołań** - baner ostrzega, gdy strona linkuje do nieistniejącego pliku
+- **Instalator narzędzi AI** - dialog pobierający CLI dostawców AI (tylko Windows - uzasadnienie decyzji jest opisane w komentarzu w `shared/aiTools.ts`)
+- **Aktualizacje** - przy starcie aplikacja pyta serwer o najnowszą wersję i pokazuje baner; „Pobierz" otwiera stronę pobierania w przeglądarce, nie ściąga nic w tle
 
 ## Architektura
 
@@ -103,6 +103,6 @@ Numer wersji jest zapisany **wyłącznie** w `package.json`. Wszystko inne bierz
 
 ## Czego nie ma w repozytorium
 
-- **`release/`** — zbudowane instalatory i rozpakowana aplikacja (618 MB)
-- **`dist/`** — artefakty kompilacji, odtwarzane przez `npm run build`
-- **`certs/`** — certyfikat i klucz prywatny do podpisywania instalatorów; zostają wyłącznie lokalnie
+- **`release/`** - zbudowane instalatory i rozpakowana aplikacja (618 MB)
+- **`dist/`** - artefakty kompilacji, odtwarzane przez `npm run build`
+- **`certs/`** - certyfikat i klucz prywatny do podpisywania instalatorów; zostają wyłącznie lokalnie

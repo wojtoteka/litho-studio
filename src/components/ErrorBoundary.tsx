@@ -16,7 +16,7 @@ interface State {
  * Error boundary.
  *
  * The editor writes to real files, so a crashed panel must never take the whole
- * window with it — the user has to keep access to the parts that still work,
+ * window with it - the user has to keep access to the parts that still work,
  * and to the console panel that explains what happened. Recovery is a local
  * remount rather than a page reload, which preserves unsaved editor state.
  */

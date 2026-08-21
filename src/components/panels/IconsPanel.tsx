@@ -25,14 +25,14 @@ import { Icon } from '../Icon.js';
  *
  * Material Symbols icons are inserted as a `<span>` carrying the icon's
  * ligature name (see `buildMaterialSymbolIcon`) and the page pulls the font
- * from Google's CDN — the same "reference, don't bundle" choice
+ * from Google's CDN - the same "reference, don't bundle" choice
  * `googleFonts.ts` documents. A custom upload instead gets copied into the
  * project's own `assets/` folder (like any other asset) and an `@font-face`
  * rule written into the project stylesheet, because there is no CDN to point
  * at for a font only this project has.
  *
  * Both kinds support click-insert (appends after the current selection, or to
- * the end of the page — same convention as `ElementsPanel`) and drag-and-drop
+ * the end of the page - same convention as `ElementsPanel`) and drag-and-drop
  * (free placement at the cursor, via `Canvas.tsx`'s drop handler), so an icon
  * can be positioned precisely without first clicking it in, then dragging it.
  */
@@ -92,7 +92,7 @@ export function IconsPanel(): JSX.Element {
       {/*
        * Search, style and "upload your own" stay pinned while the icon grid
        * scrolls under them. Uploading used to live at the very bottom of the
-       * panel — below every one of the ~500 Material Symbols — so reaching it
+       * panel - below every one of the ~500 Material Symbols - so reaching it
        * meant a long scroll past content that had nothing to do with it, and
        * most people never found out the feature existed. Sticky is what makes
        * "put my own icons in" a first-class action instead of a footnote.
@@ -131,7 +131,7 @@ export function IconsPanel(): JSX.Element {
             className="button icons__upload"
             onClick={customFonts.pickFile}
             disabled={customFonts.busy}
-            title="Wgraj własną czcionkę ikon (.ttf/.otf) — np. z IcoMoon albo Fontello"
+            title="Wgraj własną czcionkę ikon (.ttf/.otf) - np. z IcoMoon albo Fontello"
           >
             <Icon name="upload_file" size={15} />
             {customFonts.busy ? 'Wgrywanie…' : 'Wgraj ikony'}
@@ -150,7 +150,7 @@ export function IconsPanel(): JSX.Element {
       <CustomIconFontList fonts={customFonts.fonts} />
 
       <p className="dialog__hint" style={{ marginTop: 6 }}>
-        Przeciągnij ikonę na stronę, aby umieścić ją dokładnie tam, gdzie chcesz — kliknięcie wstawia ją za
+        Przeciągnij ikonę na stronę, aby umieścić ją dokładnie tam, gdzie chcesz - kliknięcie wstawia ją za
         zaznaczeniem (lub na końcu strony).
       </p>
 
@@ -198,7 +198,7 @@ function IconGrid({
           draggable
           onDragStart={(event) => setDragPayload(event, { kind: 'icon', iconName, style })}
           onClick={() => onInsert(iconName)}
-          title={`${iconName} — przeciągnij na stronę lub kliknij, aby wstawić`}
+          title={`${iconName} - przeciągnij na stronę lub kliknij, aby wstawić`}
         >
           <span className={iconClass} aria-hidden="true" translate="no">
             {iconName}
@@ -315,7 +315,7 @@ function useCustomIconFonts(): {
 
 /**
  * The fonts the user has uploaded this session, each with the field for the
- * glyph to insert. Renders nothing at all until there is a font — an empty
+ * glyph to insert. Renders nothing at all until there is a font - an empty
  * "your fonts" heading above 500 stock icons is just noise.
  */
 function CustomIconFontList({ fonts }: { fonts: CustomIconFont[] }): JSX.Element | null {
@@ -339,7 +339,7 @@ function CustomIconFontList({ fonts }: { fonts: CustomIconFont[] }): JSX.Element
     <section className="icons__custom">
       <h3 className="palette__group-title">Twoje czcionki ikon</h3>
       <p className="dialog__hint">
-        Znak ikony to zwykle kod Unicode z prywatnego obszaru — wklej tu znak wygenerowany przez narzędzie,
+        Znak ikony to zwykle kod Unicode z prywatnego obszaru - wklej tu znak wygenerowany przez narzędzie,
         którym stworzono czcionkę (np. IcoMoon, Fontello).
       </p>
 

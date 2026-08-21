@@ -12,7 +12,7 @@ import { Icon, type IconName } from './Icon.js';
  * indicator.
  *
  * The save indicator is the most important control here even though it is not
- * a button — the product has no "Save" and no "Export", so the user needs
+ * a button - the product has no "Save" and no "Export", so the user needs
  * continuous, unambiguous feedback that their files on disk are current.
  *
  * Layout is brand · tools · status, in three grid tracks, and the *tools* track
@@ -59,7 +59,7 @@ export function Toolbar(): JSX.Element {
   return (
     <header className="toolbar">
       <div className="toolbar__brand">
-        {/* The app's own menu, and on Windows/Linux the only one — the platform
+        {/* The app's own menu, and on Windows/Linux the only one - the platform
             menu bar is hidden on both. See AppMenu.tsx. */}
         <AppMenu />
         <Logo className="toolbar__logo" />
@@ -242,7 +242,7 @@ interface SaveState {
   text: string;
   icon: IconName;
   /** `idle` is the neutral chip: nothing has been written yet, so nothing to
-   *  reassure the user about — a green "saved" tint there would be a claim the
+   *  reassure the user about - a green "saved" tint there would be a claim the
    *  editor cannot back up. */
   tone: 'idle' | 'saved' | 'saving' | 'pending' | 'error';
 }

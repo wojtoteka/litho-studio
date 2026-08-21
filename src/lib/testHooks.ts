@@ -7,7 +7,7 @@ import { logger } from './logger.js';
  * Test-only surface for the end-to-end suite.
  *
  * Two operations in this editor start from a *DOM text selection inside the
- * canvas iframe* — applying a text action, and selecting an element by what it
+ * canvas iframe* - applying a text action, and selecting an element by what it
  * says. Playwright cannot construct that selection across the iframe boundary,
  * so rather than weakening the production code to be testable, these hooks
  * express the same intent ("act on the element containing this text") through

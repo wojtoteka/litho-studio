@@ -7,7 +7,7 @@ import { launchApp, openProject, writeProject, type LaunchedApp } from './helper
  * purpose, and clearing the selection from the properties panel.
  *
  * Both were reported as "not there" after they had been written and built, so
- * they are pinned here — a passing unit suite said nothing about whether the
+ * they are pinned here - a passing unit suite said nothing about whether the
  * buttons actually render in the running application.
  */
 
@@ -21,7 +21,7 @@ test.afterEach(async () => {
   await harness?.close();
 });
 
-/** A badge pinned to pixels — exactly the shape the warning is about. */
+/** A badge pinned to pixels - exactly the shape the warning is about. */
 const PINNED_PROJECT = {
   'index.html': `<!DOCTYPE html>
 <html lang="pl">

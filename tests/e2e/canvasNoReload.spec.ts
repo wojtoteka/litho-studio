@@ -7,14 +7,14 @@ import { launchApp, openProject, waitForFile, writeProject, type LaunchedApp } f
  *
  * That was one canvas reload per keystroke: the properties panel's text fields
  * commit on every character, and a commit that touched markup rebuilt the
- * iframe's whole document — blank frame, every web font and image fetched
+ * iframe's whole document - blank frame, every web font and image fetched
  * again, full re-layout. Small markup edits are now applied to the loaded
  * document instead (see `canvasPatch` in editorStore.ts).
  *
  * The test proves it the only way that cannot be faked: it stamps the live
  * document, types, and checks the stamp is still there. A reload would have
  * taken it with it. It then checks the canvas really did change and the file on
- * disk agrees — a patch that skipped the reload but showed stale markup would
+ * disk agrees - a patch that skipped the reload but showed stale markup would
  * be worse than the reload it replaced.
  */
 
@@ -60,7 +60,7 @@ test('pisanie w panelu nie przeładowuje obszaru edycji', async () => {
   await openProject(harness.page, projectPath);
   await harness.page.waitForTimeout(600);
 
-  // Select the image by clicking it on the canvas, exactly as a user would —
+  // Select the image by clicking it on the canvas, exactly as a user would -
   // the click listeners live inside the iframe's own document.
   await harness.page.evaluate(() => {
     const frame = document.querySelector('iframe.canvas__frame') as HTMLIFrameElement;
@@ -75,7 +75,7 @@ test('pisanie w panelu nie przeładowuje obszaru edycji', async () => {
   expect(await stampSurvived()).toBe(true);
 
   // Typed the way a person types: click in, select the old value, replace it.
-  // One commit per character — the exact pattern that used to reload the page
+  // One commit per character - the exact pattern that used to reload the page
   // once per keystroke.
   await altField.click();
   await harness.page.keyboard.press('Control+a');

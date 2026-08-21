@@ -5,14 +5,14 @@ import { AI_TOOLS_PLATFORM } from '@shared/aiTools.js';
 /**
  * The native application menu.
  *
- * Menu items do not act on the document directly — they emit a `MenuCommand`
+ * Menu items do not act on the document directly - they emit a `MenuCommand`
  * that the renderer's command registry handles, which is the same path the
  * keyboard shortcuts take. One implementation, two entry points.
  *
  * On Windows and Linux this menu is built but its *bar* is never shown (see
  * `setMenuBarVisibility` in main.ts). That bar is drawn by the platform, so it
  * answers to the desktop's own font, metrics and colours rather than to this
- * app's — on a dark editor it reads as a strip of some other program bolted above
+ * app's - on a dark editor it reads as a strip of some other program bolted above
  * the toolbar, and on Windows it was a second menu holding exactly what the
  * toolbar's own already held. The renderer draws the same tree itself
  * (`AppMenu.tsx`); keeping the native menu registered anyway is what keeps
@@ -25,8 +25,8 @@ import { AI_TOOLS_PLATFORM } from '@shared/aiTools.js';
  * accelerator is consumed before the renderer ever sees the key, so Ctrl+C in
  * a properties-panel text field would copy the selected element instead of the
  * text, and Delete while typing would delete the element. With registration
- * off the accelerator is display-only and the renderer's keydown handler —
- * which knows whether focus is in a text field — implements the behaviour.
+ * off the accelerator is display-only and the renderer's keydown handler -
+ * which knows whether focus is in a text field - implements the behaviour.
  */
 
 export function buildApplicationMenu(getWindow: () => BrowserWindow | null): void {
@@ -119,7 +119,7 @@ export function buildApplicationMenu(getWindow: () => BrowserWindow | null): voi
   /*
    * "Narzędzia" exists only where it has something in it. The AI installer is
    * Windows-only (see `AI_TOOLS_PLATFORM`), and a menu holding one permanently
-   * greyed-out item is worse than no menu — it advertises a feature the build
+   * greyed-out item is worse than no menu - it advertises a feature the build
    * does not have. The in-app menu (`AppMenu.tsx`) hides its copy on the same
    * condition.
    */

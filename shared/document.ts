@@ -8,7 +8,7 @@
  *
  * Element *semantics* (heading vs. button vs. container) are derived on demand
  * by `classifyElement` rather than stored on the node. That is what makes the
- * editor agnostic to who wrote the page — there is no marker attribute a page
+ * editor agnostic to who wrote the page - there is no marker attribute a page
  * must carry to be editable.
  */
 
@@ -26,7 +26,7 @@ export interface ElementNode {
   id: NodeId;
   /** Lowercased tag name, e.g. `div`, `h1`, `svg`. */
   tag: string;
-  /** Ordered attribute list — order and duplicates from the source are kept. */
+  /** Ordered attribute list - order and duplicates from the source are kept. */
   attrs: Attribute[];
   children: DocNode[];
   /** `html` for normal content, `svg` / `math` for foreign content. */
@@ -93,7 +93,7 @@ export const VOID_ELEMENTS: ReadonlySet<string> = new Set([
 
 /**
  * Elements whose text children must be emitted verbatim (no entity escaping).
- * Escaping inside these would corrupt CSS/JS — `a && b` must not become `a &amp;&amp; b`.
+ * Escaping inside these would corrupt CSS/JS - `a && b` must not become `a &amp;&amp; b`.
  */
 export const RAW_TEXT_ELEMENTS: ReadonlySet<string> = new Set([
   'script',
@@ -224,7 +224,7 @@ export function getClassList(node: ElementNode): string[] {
 }
 
 /**
- * Classes that come from an icon *font library* — Material Symbols, the older
+ * Classes that come from an icon *font library* - Material Symbols, the older
  * Material Icons, or a font uploaded through the icons panel (`ikona-…`).
  *
  * Two things follow from a class being shared by every icon in the page rather
@@ -246,7 +246,7 @@ export function isIconFontElement(node: ElementNode): boolean {
 
 /**
  * Maps a raw element onto the editor's palette of element kinds. Purely
- * structural — it never depends on classes the editor itself generated, so a
+ * structural - it never depends on classes the editor itself generated, so a
  * page written by hand classifies exactly like one the editor produced.
  */
 export function classifyElement(node: ElementNode): ElementKind {

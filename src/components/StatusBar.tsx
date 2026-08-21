@@ -8,7 +8,7 @@ import { Icon } from './Icon.js';
  * It answers the three questions the rest of the chrome deliberately does not:
  * *which folder on disk am I actually editing*, *what exactly is selected right
  * now*, and *how big is this project*. All three were previously only
- * derivable — the project's path appeared once in the "open recent" list and
+ * derivable - the project's path appeared once in the "open recent" list and
  * then never again, and a multi-element selection was visible only as several
  * outlines on the canvas, with no count.
  *
@@ -55,8 +55,8 @@ export function StatusBar(): JSX.Element | null {
 }
 
 /**
- * One element gets named — its kind and tag, the same wording the canvas label
- * and the properties breadcrumb use — because at that point the user is asking
+ * One element gets named - its kind and tag, the same wording the canvas label
+ * and the properties breadcrumb use - because at that point the user is asking
  * "what am I about to change". Several get counted instead: eleven names would
  * not fit and would not help.
  */
@@ -81,7 +81,7 @@ function pluralElements(count: number): string {
   return isFewForm(count) ? 'elementy' : 'elementów';
 }
 
-/** The "2–4" ending, which also applies to 22–24, 32–34 … but never to 12–14. */
+/** The "2-4" ending, which also applies to 22-24, 32-34 … but never to 12-14. */
 function isFewForm(count: number): boolean {
   const last = count % 10;
   const lastTwo = count % 100;

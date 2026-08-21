@@ -22,7 +22,7 @@ import type { FileChangeEvent, FileWrite } from '@shared/project.js';
  * passthrough: a compromised renderer can then only call the operations listed
  * here, and only with arguments the main process re-validates anyway.
  *
- * Nothing here trusts its own inputs either — argument shapes are checked again
+ * Nothing here trusts its own inputs either - argument shapes are checked again
  * on the main side, because the preload runs in the renderer's process.
  */
 

@@ -21,7 +21,7 @@ function parseFixture(fixture: typeof inlineEverything) {
   return parseHtml(fixture.entry, fixture.files[fixture.entry] ?? '', { files: fixture.files });
 }
 
-describe('reconcileNodeIds — surviving an external edit', () => {
+describe('reconcileNodeIds - surviving an external edit', () => {
   it('keeps ids stable when the file is re-parsed unchanged', () => {
     const source = multipleStylesheets.files['index.html'] ?? '';
     const first = parseHtml('index.html', source);
@@ -72,7 +72,7 @@ describe('reconcileNodeIds — surviving an external edit', () => {
   });
 });
 
-describe('ensureStyleSheet — adapting to the project layout', () => {
+describe('ensureStyleSheet - adapting to the project layout', () => {
   it('targets the existing writable external sheet without creating a file', () => {
     const parsed = parseFixture(multipleStylesheets);
     const result = ensureStyleSheet(parsed.document, parsed.styles);
@@ -83,7 +83,7 @@ describe('ensureStyleSheet — adapting to the project layout', () => {
     const parsed = parseFixture(inlineEverything);
     const result = ensureStyleSheet(parsed.document, parsed.styles);
     expect(result.created).toBe(false);
-    // No <link> was added — the page still has exactly one <style> and no <link>.
+    // No <link> was added - the page still has exactly one <style> and no <link>.
     const links = [...walk(parsed.document.root)].filter((n) => n.kind === 'element' && n.tag === 'link');
     expect(links).toHaveLength(0);
   });
@@ -143,7 +143,7 @@ describe('ensureScript', () => {
     expect(result.relPath).toBe(embeddedScriptKey(inlineSource!.hostNodeId!));
     expect(result.initialContent).toBe(inlineSource!.code);
 
-    // No new <script src> was appended — the page still has exactly one <script>.
+    // No new <script src> was appended - the page still has exactly one <script>.
     const scripts = [...walk(parsed.document.root)].filter((n) => n.kind === 'element' && n.tag === 'script');
     expect(scripts).toHaveLength(1);
   });
@@ -168,7 +168,7 @@ describe('ensureScript', () => {
   });
 });
 
-describe('findScriptTarget — where generated code would go', () => {
+describe('findScriptTarget - where generated code would go', () => {
   it('reports the page existing script without touching the document', () => {
     const parsed = parseFixture(multipleStylesheets);
     const before = JSON.stringify(parsed.document);
@@ -192,7 +192,7 @@ describe('findScriptTarget — where generated code would go', () => {
   });
 });
 
-describe('collectWrites — model to disk', () => {
+describe('collectWrites - model to disk', () => {
   it('writes a single file for a page that keeps everything inline', () => {
     const parsed = parseFixture(inlineEverything);
     const models = parseStyleSheets(parsed.styles);

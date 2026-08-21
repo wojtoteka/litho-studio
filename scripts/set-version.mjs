@@ -39,7 +39,7 @@ const manifest = JSON.parse(raw);
 const previous = manifest.version;
 
 if (previous === requested) {
-  console.log(`Wersja już wynosi ${requested} — nic nie zmieniono.`);
+  console.log(`Wersja już wynosi ${requested} - nic nie zmieniono.`);
   process.exit(0);
 }
 
@@ -48,7 +48,7 @@ if (previous === requested) {
 // turning a one-word change into an unreadable diff.
 const updated = raw.replace(/("version"\s*:\s*")[^"]+(")/u, `$1${requested}$2`);
 if (updated === raw) {
-  console.error('Nie znaleziono pola "version" w package.json — przerwano.');
+  console.error('Nie znaleziono pola "version" w package.json - przerwano.');
   process.exit(1);
 }
 

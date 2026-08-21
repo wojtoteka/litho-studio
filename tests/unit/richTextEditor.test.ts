@@ -23,7 +23,7 @@ import {
 import { findFirstTag, type ElementNode } from '@shared/document.js';
 
 /**
- * Partial rich-text editing — the headline feature. The tests below follow the
+ * Partial rich-text editing - the headline feature. The tests below follow the
  * two worked examples from the specification, then cover the surrounding edge
  * cases that would produce broken HTML if handled naively.
  */
@@ -67,8 +67,8 @@ function renderElement(element: ElementNode): string {
 
 describe('plain-text projection', () => {
   it('flattens inline markup into the string the user sees', () => {
-    const element = elementFrom('<p>© <b>wojtoteka</b>.ovh 2024–2026</p>', 'p');
-    expect(getPlainText(element)).toBe('© wojtoteka.ovh 2024–2026');
+    const element = elementFrom('<p>© <b>wojtoteka</b>.ovh 2024-2026</p>', 'p');
+    expect(getPlainText(element)).toBe('© wojtoteka.ovh 2024-2026');
   });
 
   it('recognises elements that can host rich text', () => {
@@ -117,7 +117,7 @@ describe('spliceRange', () => {
 
 describe('action: zamień na link', () => {
   it('wraps only the selected fragment, exactly as specified', () => {
-    const element = elementFrom('<p>© wojtoteka.ovh 2024–2026</p>', 'p');
+    const element = elementFrom('<p>© wojtoteka.ovh 2024-2026</p>', 'p');
     const context = contextFor(element, 'wojtoteka.ovh');
     const result = convertToLinkAction.apply(context, {
       href: 'https://wojtoteka.ovh',
@@ -127,7 +127,7 @@ describe('action: zamień na link', () => {
     element.children = result.children;
 
     expect(renderElement(element)).toContain(
-      '<p>© <a href="https://wojtoteka.ovh">wojtoteka.ovh</a> 2024–2026</p>',
+      '<p>© <a href="https://wojtoteka.ovh">wojtoteka.ovh</a> 2024-2026</p>',
     );
   });
 
@@ -225,15 +225,15 @@ describe('action: zamień na dynamiczny skrypt (aktualny rok)', () => {
 
     const result = dynamicYearAction.apply(context, params);
     expect(result.scriptSnippets[0]?.code).toContain('String(currentYear)');
-    expect(result.scriptSnippets[0]?.code).not.toMatch(/"20\d\d–"/u);
+    expect(result.scriptSnippets[0]?.code).not.toMatch(/"20\d\d-"/u);
   });
 
   it('leaves a no-JavaScript fallback in the HTML', () => {
-    const element = elementFrom('<p>© 2024–2026</p>', 'p');
-    const context = contextFor(element, '2024–2026');
+    const element = elementFrom('<p>© 2024-2026</p>', 'p');
+    const context = contextFor(element, '2024-2026');
     const result = dynamicYearAction.apply(context, dynamicYearAction.defaultParams(context));
     element.children = result.children;
-    expect(renderElement(element)).toMatch(/<span id="[^"]+">2024–\d{4}<\/span>/u);
+    expect(renderElement(element)).toMatch(/<span id="[^"]+">2024-\d{4}<\/span>/u);
   });
 
   it('keeps the surrounding text untouched', () => {
@@ -250,8 +250,8 @@ describe('action: zamień na dynamiczny skrypt (aktualny rok)', () => {
   });
 
   it('generates dependency-free, readable JavaScript', () => {
-    const element = elementFrom('<p>2024–2026</p>', 'p');
-    const context = contextFor(element, '2024–2026');
+    const element = elementFrom('<p>2024-2026</p>', 'p');
+    const context = contextFor(element, '2024-2026');
     const code = dynamicYearAction.apply(context, dynamicYearAction.defaultParams(context)).scriptSnippets[0]
       ?.code as string;
 
@@ -265,8 +265,8 @@ describe('action: zamień na dynamiczny skrypt (aktualny rok)', () => {
 describe('parseYearSelection', () => {
   it.each([
     ['2024-aktualna data', 2024],
-    ['2024–obecnie', 2024],
-    ['2024–2026', 2024],
+    ['2024-obecnie', 2024],
+    ['2024-2026', 2024],
     ['2024 - 2026', 2024],
     ['od 2019 do teraz', 2019],
   ])('reads %s as a range starting in %i', (input, expected) => {
@@ -278,8 +278,8 @@ describe('parseYearSelection', () => {
   });
 
   it('keeps the separator the author typed', () => {
-    expect(parseYearSelection('2024–2026').separator).toBe('–');
-    expect(parseYearSelection('2024—2026').separator).toBe('—');
+    expect(parseYearSelection('2024-2026').separator).toBe('-');
+    expect(parseYearSelection('2024-2026').separator).toBe('-');
     expect(parseYearSelection('2024 - 2026').separator).toBe('-');
   });
 
@@ -293,8 +293,8 @@ describe('parseYearSelection', () => {
 describe('script snippet integration', () => {
   it('appends generated code in a marked region, below untouched user code', () => {
     const userCode = 'const nav = document.querySelector(".nav");\nnav.classList.add("ready");\n';
-    const element = elementFrom('<p>© 2024–2026</p>', 'p');
-    const context = contextFor(element, '2024–2026');
+    const element = elementFrom('<p>© 2024-2026</p>', 'p');
+    const context = contextFor(element, '2024-2026');
     const result = dynamicYearAction.apply(context, dynamicYearAction.defaultParams(context));
 
     let script = parseManagedScript(userCode);
@@ -308,8 +308,8 @@ describe('script snippet integration', () => {
   });
 
   it('does not duplicate code when the same action runs twice', () => {
-    const element = elementFrom('<p>© 2024–2026</p>', 'p');
-    const context = contextFor(element, '2024–2026');
+    const element = elementFrom('<p>© 2024-2026</p>', 'p');
+    const context = contextFor(element, '2024-2026');
     const params = dynamicYearAction.defaultParams(context);
 
     let script = parseManagedScript('// user code\n');
@@ -324,8 +324,8 @@ describe('script snippet integration', () => {
   });
 
   it('round-trips: rendering then reparsing yields the same snippets', () => {
-    const element = elementFrom('<p>© 2024–2026</p>', 'p');
-    const context = contextFor(element, '2024–2026');
+    const element = elementFrom('<p>© 2024-2026</p>', 'p');
+    const context = contextFor(element, '2024-2026');
     const result = dynamicYearAction.apply(context, dynamicYearAction.defaultParams(context));
 
     let script = parseManagedScript('const a = 1;\n');
@@ -352,8 +352,8 @@ describe('action registry', () => {
   });
 
   it('filters the menu down to what applies to the selection', () => {
-    const element = elementFrom('<p><a href="/x">rok 2024–2026 tutaj</a></p>', 'p');
-    const ids = availableTextActions(contextFor(element, '2024–2026')).map((action) => action.id);
+    const element = elementFrom('<p><a href="/x">rok 2024-2026 tutaj</a></p>', 'p');
+    const ids = availableTextActions(contextFor(element, '2024-2026')).map((action) => action.id);
     // Inside a link: no nested anchor, but the year action still applies.
     expect(ids).toEqual(['dynamic-year']);
   });

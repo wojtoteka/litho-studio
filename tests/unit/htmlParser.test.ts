@@ -19,7 +19,7 @@ function parseFixture(fixture: (typeof allFixtures)[number]) {
   return parseHtml(fixture.entry, source, { files: fixture.files });
 }
 
-describe('parseHtml — structural agnosticism', () => {
+describe('parseHtml - structural agnosticism', () => {
   it('builds an editable tree for every fixture regardless of file layout', () => {
     for (const fixture of allFixtures) {
       const parsed = parseFixture(fixture);
@@ -51,7 +51,7 @@ describe('parseHtml — structural agnosticism', () => {
   });
 });
 
-describe('parseHtml — stylesheet discovery', () => {
+describe('parseHtml - stylesheet discovery', () => {
   it('finds a single embedded <style> block', () => {
     const parsed = parseFixture(inlineEverything);
     expect(parsed.styles).toHaveLength(1);
@@ -98,7 +98,7 @@ describe('parseHtml — stylesheet discovery', () => {
   });
 });
 
-describe('parseHtml — script discovery', () => {
+describe('parseHtml - script discovery', () => {
   it('finds an embedded script', () => {
     const parsed = parseFixture(inlineEverything);
     expect(parsed.scripts).toHaveLength(1);
@@ -132,7 +132,7 @@ describe('parseHtml — script discovery', () => {
   });
 });
 
-describe('parseHtml — classification', () => {
+describe('parseHtml - classification', () => {
   it('classifies elements without relying on editor-specific markers', () => {
     const parsed = parseHtml(
       'index.html',
@@ -203,7 +203,7 @@ describe('looksMinified', () => {
   });
 });
 
-describe('parseHtml — resilience', () => {
+describe('parseHtml - resilience', () => {
   it('produces a usable page for empty input', () => {
     const parsed = parseHtml('index.html', '', { files: {} });
     expect(parsed.document.root.tag).toBe('html');
@@ -212,7 +212,7 @@ describe('parseHtml — resilience', () => {
 
   it('keeps text content intact through parsing', () => {
     const parsed = parseFixture(inlineEverything);
-    expect(textContent(parsed.document.root)).toContain('wojtoteka.ovh 2024–2026');
+    expect(textContent(parsed.document.root)).toContain('wojtoteka.ovh 2024-2026');
   });
 
   it('assigns a unique id to every node', () => {

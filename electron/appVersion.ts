@@ -3,11 +3,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 /**
- * The application's own version — 1.0.1, not Electron's.
+ * The application's own version - 1.0.1, not Electron's.
  *
  * `app.getVersion()` reads the version out of the app bundle's `package.json`,
- * which only exists once the app *is* a bundle. Run unpackaged — `electron
- * dist/electron/main.cjs`, which is `npm run dev` and the whole test suite —
+ * which only exists once the app *is* a bundle. Run unpackaged - `electron
+ * dist/electron/main.cjs`, which is `npm run dev` and the whole test suite -
  * there is no manifest at the app path and Electron quietly answers with its
  * own version instead. That is how the update check ended up comparing "33.4.11"
  * against the released "1.0.1" and concluding, reasonably, that nothing newer
@@ -18,7 +18,7 @@ import path from 'node:path';
  * answer. Everywhere else the manifest is looked up by walking out of the
  * bundle directory, which is where `package.json` sits in a checkout.
  *
- * `package.json` therefore stays the single place a version number is written —
+ * `package.json` therefore stays the single place a version number is written -
  * see `scripts/set-version.mjs`.
  */
 
@@ -45,7 +45,7 @@ function readManifestVersion(): string | null {
         return manifest.version;
       }
     } catch {
-      // No manifest here (or an unreadable one) — keep climbing.
+      // No manifest here (or an unreadable one) - keep climbing.
     }
     const parent = path.dirname(directory);
     if (parent === directory) break;

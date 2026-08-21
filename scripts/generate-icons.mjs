@@ -8,8 +8,8 @@
  * git-ignored precisely because it is derived.
  *
  * Formats produced:
- *   icon-{16..1024}.png  — Linux, and the input for the icns format
- *   icon.icns            — macOS (built by hand; no macOS-only tooling needed)
+ *   icon-{16..1024}.png  - Linux, and the input for the icns format
+ *   icon.icns            - macOS (built by hand; no macOS-only tooling needed)
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -24,7 +24,7 @@ const PNG_SIZES = [16, 24, 32, 48, 64, 128, 256, 512, 1024];
 
 /** Padding around the mark so it does not touch the icon edge. */
 const PADDING_RATIO = 0.12;
-/** Graphite background — the mark's gradient needs a dark field to read well. */
+/** Graphite background - the mark's gradient needs a dark field to read well. */
 const BACKGROUND = { r: 0x1a, g: 0x1b, b: 0x23, alpha: 1 };
 
 function log(message) {
@@ -116,7 +116,7 @@ async function main() {
     await renderPng(512, { transparent: true }),
   );
 
-  log(`gotowe — ${outputDirectory}`);
+  log(`gotowe - ${outputDirectory}`);
 }
 
 main().catch((error) => {

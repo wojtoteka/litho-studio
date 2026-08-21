@@ -4,8 +4,8 @@ import { compareVersions } from '../../electron/ipc/updateService.js';
 /**
  * The update banner appears on exactly one condition: the API's version is
  * *newer* than the running one. Getting that comparison wrong in either
- * direction is user-visible and annoying — a banner that never goes away, or
- * one that never appears — so the ordering rules are pinned here.
+ * direction is user-visible and annoying - a banner that never goes away, or
+ * one that never appears - so the ordering rules are pinned here.
  */
 describe('compareVersions', () => {
   it('treats equal versions as equal', () => {
@@ -19,7 +19,7 @@ describe('compareVersions', () => {
     expect(compareVersions('1.0.1', '1.0.2')).toBe(-1);
   });
 
-  it('orders 1.0.10 above 1.0.9 — the case a string comparison gets backwards', () => {
+  it('orders 1.0.10 above 1.0.9 - the case a string comparison gets backwards', () => {
     expect(compareVersions('1.0.10', '1.0.9')).toBe(1);
   });
 

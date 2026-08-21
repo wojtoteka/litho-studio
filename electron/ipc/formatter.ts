@@ -9,8 +9,8 @@ import { log } from '../logger.js';
  * guarantees the files a user opens in VS Code look hand-written. It runs in the
  * main process so the renderer stays free of Node dependencies.
  *
- * Formatting is strictly best-effort: if Prettier throws — which it will for a
- * page containing template syntax it does not understand — the unformatted but
+ * Formatting is strictly best-effort: if Prettier throws - which it will for a
+ * page containing template syntax it does not understand - the unformatted but
  * *correct* generated source is written instead. Losing pretty-printing is
  * acceptable; refusing to save the user's work is not.
  */

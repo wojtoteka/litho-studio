@@ -97,7 +97,7 @@ export async function listAssets(guard: PathGuard): Promise<IpcResult<AssetRef[]
           modifiedAt: stats.mtimeMs,
         });
       } catch {
-        // Unreadable file — skip it rather than failing the whole listing.
+        // Unreadable file - skip it rather than failing the whole listing.
       }
     }
   }

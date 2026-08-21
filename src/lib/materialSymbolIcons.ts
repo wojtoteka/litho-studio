@@ -4,8 +4,8 @@
  * The full set has several thousand icons; Google does not publish a static
  * list this app can fetch offline, so this is a hand-picked catalogue of the
  * ones people reach for most, grouped for the search/browse UI in
- * `IconsPanel`. Each string is the icon's ligature name — the exact text the
- * font renders as that glyph — so it doubles as the element's text content.
+ * `IconsPanel`. Each string is the icon's ligature name - the exact text the
+ * font renders as that glyph - so it doubles as the element's text content.
  */
 
 export interface MaterialSymbolGroup {
@@ -200,7 +200,7 @@ export const MATERIAL_SYMBOL_GROUPS: MaterialSymbolGroup[] = [
        *
        * `discount` is a real Material Symbols name on fonts.google.com but the
        * ligature is absent from the variable font the CSS2 endpoint serves for
-       * all three styles — measured in the app, the glyph box came back 176 px
+       * all three styles - measured in the app, the glyph box came back 176 px
        * wide against 22 px for every neighbour here, which is the width of the
        * literal word "discount" rendered as text. That is exactly what the user
        * saw: one tile in this group showing its own name instead of an icon,
@@ -300,5 +300,5 @@ export const MATERIAL_SYMBOL_GROUPS: MaterialSymbolGroup[] = [
   },
 ];
 
-/** Every curated icon, flattened — for search across all groups at once. */
+/** Every curated icon, flattened - for search across all groups at once. */
 export const ALL_MATERIAL_SYMBOLS: string[] = MATERIAL_SYMBOL_GROUPS.flatMap((group) => group.icons);

@@ -11,8 +11,8 @@ export type { IconName };
  *  - **It works offline.** `electron/main.ts` blocks outbound requests except
  *    passive resources for the *edited page*; the editor itself must never
  *    depend on a CDN being reachable. An icon font would render its ligature
- *    name as literal text ("settings", "undo") in the toolbar until — or
- *    unless — the network answered.
+ *    name as literal text ("settings", "undo") in the toolbar until - or
+ *    unless - the network answered.
  *  - **It inherits colour and size from CSS.** `fill: currentColor` means an
  *    icon inside a ghost button, an active tab or a danger action is tinted by
  *    the same token that colours the text next to it, with no per-icon rules.
@@ -21,7 +21,7 @@ export type { IconName };
  * a control that carries its own `aria-label`. Naming it twice is worse than
  * not naming it at all.
  *
- * The `0 -960 960 960` viewBox is Material Symbols' own coordinate system —
+ * The `0 -960 960 960` viewBox is Material Symbols' own coordinate system -
  * the path data is used exactly as Google publishes it, unscaled and unedited.
  */
 export function Icon({
@@ -30,7 +30,7 @@ export function Icon({
   className,
 }: {
   name: IconName;
-  /** Rendered box in px. 18 for inline controls, 20–22 for standalone buttons. */
+  /** Rendered box in px. 18 for inline controls, 20-22 for standalone buttons. */
   size?: number;
   className?: string;
 }): JSX.Element {

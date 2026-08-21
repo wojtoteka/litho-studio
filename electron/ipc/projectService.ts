@@ -22,7 +22,7 @@ import { listAssets } from './assetService.js';
  * could participate in them.
  *
  * There is deliberately no manifest, no `.litho` folder and no required layout.
- * A folder is a Litho project if it contains at least one HTML file — that is
+ * A folder is a Litho project if it contains at least one HTML file - that is
  * the whole contract, which is what lets the editor open pages written by hand,
  * by another generator, or by an AI.
  */
@@ -156,7 +156,7 @@ async function scanDirectory(rootPath: string): Promise<ScanResult> {
 
   await walk(rootPath, 0);
 
-  // Shallow pages first, then alphabetically — `index.html` ends up on top.
+  // Shallow pages first, then alphabetically - `index.html` ends up on top.
   pages.sort((a, b) => depthOf(a) - depthOf(b) || a.localeCompare(b));
   return { pages, textFiles };
 }
@@ -176,7 +176,7 @@ async function buildPageRefs(pages: string[], files: Record<string, string>): Pr
   }));
 }
 
-/** Cheap `<title>` extraction — the full parse happens in the renderer. */
+/** Cheap `<title>` extraction - the full parse happens in the renderer. */
 function extractTitle(html: string): string | null {
   const match = /<title[^>]*>([\s\S]*?)<\/title>/iu.exec(html);
   if (!match?.[1]) return null;
@@ -218,7 +218,7 @@ export async function createProject(parentPath: string, name: string): Promise<I
     await writeAtomic(path.join(target, 'style.css'), starterCss());
     await writeAtomic(path.join(target, 'script.js'), starterJs());
     // The image templates in the palette reference this file, so a fresh
-    // project must ship it — otherwise the first dropped image is broken.
+    // project must ship it - otherwise the first dropped image is broken.
     await writeAtomic(path.join(target, 'assets', 'placeholder.svg'), PLACEHOLDER_SVG);
     return ok(target);
   } catch (error) {

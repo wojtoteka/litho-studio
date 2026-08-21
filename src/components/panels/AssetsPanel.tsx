@@ -10,7 +10,7 @@ import { Icon } from '../Icon.js';
  * Asset manager.
  *
  * Files dropped here are copied into the project's own `assets/` folder, never
- * merely referenced from wherever they happened to live — the folder has to
+ * merely referenced from wherever they happened to live - the folder has to
  * stay uploadable to any host as-is.
  *
  * Stylesheets are the one kind of drop that does *not* go to `assets/`: a

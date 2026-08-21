@@ -7,8 +7,8 @@ import { launchApp, openProject, waitForFile, writeProject, type LaunchedApp } f
  * The complaint this covers was "you can't put an image into the gallery": the
  * properties panel offered only a text field for `src`, so the job meant typing
  * six project-relative paths by hand and knowing the convention for them. The
- * behaviour under test is the whole path a user actually takes — click a tile
- * on the canvas, click a thumbnail — ending where it has to end, in the file on
+ * behaviour under test is the whole path a user actually takes - click a tile
+ * on the canvas, click a thumbnail - ending where it has to end, in the file on
  * disk.
  */
 
@@ -22,7 +22,7 @@ test.afterEach(async () => {
   await harness?.close();
 });
 
-/** A 1x1 red PNG — a real decodable image, so the thumbnail is not a broken icon. */
+/** A 1x1 red PNG - a real decodable image, so the thumbnail is not a broken icon. */
 const RED_PNG = Buffer.from(
   'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
   'base64',
@@ -63,7 +63,7 @@ test('podmienia zdjęcie w galerii przez wybór miniatury w panelu', async () =>
   // Select the first tile the way a user does: by clicking it on the canvas.
   await frame.locator('img').first().click();
 
-  // The picker offers what is already in assets/ — no path to type, no detour
+  // The picker offers what is already in assets/ - no path to type, no detour
   // through the Zasoby panel.
   const pick = page.getByRole('button', { name: 'Ustaw obraz: kot.png' });
   await expect(pick).toBeVisible();
@@ -77,7 +77,7 @@ test('podmienia zdjęcie w galerii przez wybór miniatury w panelu', async () =>
   expect(html).toContain('src="assets/kot.png"');
   expect(html).toContain('src="assets/placeholder.svg"');
   // The previous picture's intrinsic size must not survive onto a different
-  // image — 10x10 belonged to the placeholder.
+  // image - 10x10 belonged to the placeholder.
   expect(html).not.toContain('width="10"');
   // Nothing about the editor leaks into the markup.
   expect(html).not.toContain('data-litho');
@@ -121,7 +121,7 @@ test('upuszczenie zdjęcia na kafelek galerii podmienia je zamiast kłaść nowe
   // The *second* tile changed, the first did not, and no extra <img> was added.
   expect(html.match(/<img/gu)).toHaveLength(2);
   expect(html).toContain('src="assets/placeholder.svg"');
-  // A replaced tile keeps its place in the grid — nothing gets torn out of flow.
+  // A replaced tile keeps its place in the grid - nothing gets torn out of flow.
   expect(html).not.toContain('position: absolute');
 });
 
@@ -137,7 +137,7 @@ test('zmienia tło zaznaczonej sekcji i zapisuje regułę do arkusza', async () 
 
   // "Kolor tła" is a colour picker paired with a text input, because CSS
   // colours a native picker cannot express have to stay typeable.
-  await page.getByRole('textbox', { name: 'Kolor tła — wartość CSS' }).fill('#101828');
+  await page.getByRole('textbox', { name: 'Kolor tła - wartość CSS' }).fill('#101828');
 
   const css = await waitForFile(projectPath, 'style.css', (content) => content.includes('#101828'));
   expect(css).toContain('background-color: #101828');

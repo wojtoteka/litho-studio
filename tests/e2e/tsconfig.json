@@ -4,7 +4,7 @@
   // `npm run typecheck` builds these files with `-p tsconfig.e2e.json` and has
   // always passed. VS Code's language service does not read that file: tsserver
   // resolves a file's project by walking *up* from the file, and the first
-  // `tsconfig.json` it finds — the one at the repo root — does not `include`
+  // `tsconfig.json` it finds - the one at the repo root - does not `include`
   // `tests/e2e`. The spec files therefore landed in an inferred project with
   // default options and none of the ambient declarations, so `window.litho` and
   // `window.__lithoTestHooks` (declared in `src/types/global.d.ts`) were
@@ -13,7 +13,7 @@
   // This file is that first `tsconfig.json` on the way up, and it delegates
   // straight to the real one. Relative paths inside an `extends`-ed config are
   // resolved against the config they were written in, so the base's `include`
-  // and `paths` still point at the repo root — nothing is duplicated here, and
+  // and `paths` still point at the repo root - nothing is duplicated here, and
   // there is no second source of truth to drift.
   "extends": "../../tsconfig.e2e.json"
 }

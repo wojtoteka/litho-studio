@@ -8,9 +8,9 @@ import { Icon } from './Icon.js';
  *
  * This used to be a bare `<select>`, which cost more than it looked like it
  * did. A native option list can hold exactly one string per row, so the page's
- * title and its file path had to be crushed into `Tytuł — sciezka/pliku.html`;
- * at the control's width the path — the part that actually distinguishes
- * `o-nas.html` from `oferta/o-nas.html` — was the half that got truncated. It
+ * title and its file path had to be crushed into `Tytuł - sciezka/pliku.html`;
+ * at the control's width the path - the part that actually distinguishes
+ * `o-nas.html` from `oferta/o-nas.html` - was the half that got truncated. It
  * also cannot show which page is the entry point, cannot be filtered, and is
  * drawn by the OS, so it ignored the app's theme entirely.
  *
@@ -45,7 +45,7 @@ export function PageSwitcher({
         aria-haspopup="listbox"
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
-        title={current ? `${current.title} — ${current.relPath}` : 'Wybierz stronę'}
+        title={current ? `${current.title} - ${current.relPath}` : 'Wybierz stronę'}
       >
         <Icon name="description" size={15} />
         <span className="page-switcher__current">
@@ -117,7 +117,7 @@ function PageMenu({
     setStyle({ left, top, minWidth: box.width, visibility: 'visible' });
   }, [anchorRef, visible.length]);
 
-  // Drops out of the toolbar and over the work area — and the native preview
+  // Drops out of the toolbar and over the work area - and the native preview
   // composites above the document, so it has to be told to stand down.
   useFloatingLayer(menuRef);
 
@@ -177,7 +177,7 @@ function PageMenu({
                 <span className="page-switcher__path">{page.relPath}</span>
               </span>
               {/* Which file the site actually opens on is not derivable from the
-                  name — plenty of projects have no `index.html` at the root. */}
+                  name - plenty of projects have no `index.html` at the root. */}
               {page.isEntry ? <span className="page-switcher__badge">start</span> : null}
             </button>
           );

@@ -5,8 +5,8 @@ import { computeSnap } from '@/lib/canvasDrop.js';
  * `computeSnap` is the pure core of free placement: it decides when a box being
  * placed or dragged should line up with a nearby element, and returns both the
  * nudge to apply and the guide lines the overlay draws. It is exercised in two
- * shapes — a real box (dragging an existing element) and a zero-size box (a
- * bare drop point) — so both are covered here.
+ * shapes - a real box (dragging an existing element) and a zero-size box (a
+ * bare drop point) - so both are covered here.
  */
 
 function box(left: number, top: number, width: number, height: number) {
@@ -31,7 +31,7 @@ describe('computeSnap', () => {
   });
 
   it('snaps a drop point to a nearby left edge and emits a vertical guide', () => {
-    // A heading at x=40; the point is 3px to its right — within the 6px default.
+    // A heading at x=40; the point is 3px to its right - within the 6px default.
     const point = box(43, 200, 0, 0);
     const heading = box(40, 100, 200, 32);
     const { dx, dy, guides } = computeSnap(point, [heading]);

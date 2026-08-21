@@ -24,14 +24,14 @@ import { Icon } from '../Icon.js';
  * The properties panel.
  *
  * Every control writes a real CSS declaration into the project's stylesheet at
- * the active breakpoint — there is no intermediate "style object" and no inline
+ * the active breakpoint - there is no intermediate "style object" and no inline
  * `style` attribute. A field left empty removes the declaration rather than
  * writing an explicit default, so the panel never accumulates noise in the
  * user's CSS for properties they did not set.
  *
  * Values shown are the *declared* ones for this element's own selector, so an
  * empty field means "inherited or from another rule", which is the honest
- * answer — the canvas shows the computed result.
+ * answer - the canvas shows the computed result.
  */
 export function PropertiesPanel(): JSX.Element {
   const document = useEditorStore((state) => state.document);
@@ -56,15 +56,15 @@ export function PropertiesPanel(): JSX.Element {
   /*
    * Selecting a different element drops back to the normal state.
    *
-   * Unlike the breakpoint — a deliberate "I am designing for phones now" mode
-   * that should persist — a pseudo-state belongs to the element in front of
+   * Unlike the breakpoint - a deliberate "I am designing for phones now" mode
+   * that should persist - a pseudo-state belongs to the element in front of
    * you. Leaving it on "Najechanie" while clicking through the page would mean
    * every later edit silently landed in a `:hover` rule.
    */
   useEffect(() => {
     setStyleState('normal');
   }, [selectedId, setStyleState]);
-  // Whether the selected element already carries a dynamic script — drives the
+  // Whether the selected element already carries a dynamic script - drives the
   // badge and auto-open on the "Skrypt" section, so re-selecting a scripted
   // element does not look empty.
   const scriptAttached = useMemo(
@@ -78,7 +78,7 @@ export function PropertiesPanel(): JSX.Element {
   );
   const element = useMemo(
     () => (document && selectedId ? findElement(document.root, selectedId) : null),
-    // `revision` is included because the tree mutates in place — see editorStore.
+    // `revision` is included because the tree mutates in place - see editorStore.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [document, selectedId, revision],
   );
@@ -144,12 +144,12 @@ export function PropertiesPanel(): JSX.Element {
   const kind = classifyElement(element);
   const ancestors = ancestorsOf(document, selectedId).filter((node) => node.tag !== 'html');
   // Editing text here means *replacing* the element's children with a single
-  // text node (see `setTextContent`) — safe only when there is no nested
+  // text node (see `setTextContent`) - safe only when there is no nested
   // markup to lose. A heading, paragraph or button almost always qualifies; a
   // `<div>` wrapping other elements does not, and is left to be edited
   // element-by-element instead.
   const hasOnlyTextChildren = element.children.every((child) => child.kind !== 'element');
-  // Typography properties have nothing to act on for these kinds — an <img>,
+  // Typography properties have nothing to act on for these kinds - an <img>,
   // an <svg> icon, a checkbox/radio input never render text through their own
   // font/line-height/letter-spacing, so a control that visibly does nothing
   // is worse than no control. Left in for every other kind, including
@@ -159,7 +159,7 @@ export function PropertiesPanel(): JSX.Element {
     kind,
   );
   // Every element can carry a reusable style, so the picker is offered for
-  // every kind — the styles panel exists precisely so that one named class can
+  // every kind - the styles panel exists precisely so that one named class can
   // be reused across headings, paragraphs, buttons and whole sections alike.
   // Free-form multi-class editing still lives in "Atrybuty i zaawansowane".
 
@@ -181,7 +181,7 @@ export function PropertiesPanel(): JSX.Element {
           type="button"
           className="button button--icon props__deselect"
           onClick={() => select([])}
-          title="Odznacz element — nic nie będzie zaznaczone"
+          title="Odznacz element - nic nie będzie zaznaczone"
           aria-label="Odznacz element"
         >
           <Icon name="close" size={14} />
@@ -210,7 +210,7 @@ export function PropertiesPanel(): JSX.Element {
             onChange={(value) => setAttribute(selectedId, 'class', value.trim() === '' ? null : value)}
           />
           <p className="dialog__hint" style={{ margin: 0 }}>
-            Wybierz styl zdefiniowany w panelu „Style”, albo wpisz nową nazwę — zdefiniujesz ją tam.
+            Wybierz styl zdefiniowany w panelu „Style”, albo wpisz nową nazwę - zdefiniujesz ją tam.
           </p>
 
           <PromoteToStyleClass key={`promote:${selectedId}`} nodeId={selectedId} element={element} />
@@ -226,19 +226,19 @@ export function PropertiesPanel(): JSX.Element {
           </Section>
         ) : hasOnlyTextChildren && scriptAttached ? (
           <p className="dialog__hint" style={{ margin: '0 10px 8px' }}>
-            Treść tego elementu ustawia przypisany skrypt (sekcja „Skrypt / Funkcja dynamiczna” niżej) —
+            Treść tego elementu ustawia przypisany skrypt (sekcja „Skrypt / Funkcja dynamiczna” niżej) -
             ręczna edycja tekstu tutaj i tak zostałaby nadpisana przy kolejnym „Zastosuj”. Dopisz tekst
             przed/po przez parametry skryptu, albo usuń skrypt, żeby odzyskać to pole.
           </p>
         ) : kind === 'select' ? null : (
           <p className="dialog__hint" style={{ margin: '0 10px 8px' }}>
-            Ten element zawiera zagnieżdżone elementy — edytuj ich tekst osobno, po zaznaczeniu każdego z
+            Ten element zawiera zagnieżdżone elementy - edytuj ich tekst osobno, po zaznaczeniu każdego z
             nich.
           </p>
         )}
 
         {/* A picture is an image's content, so it belongs next to "Treść" and
-            open by default — not buried under "Atrybuty i zaawansowane", where
+            open by default - not buried under "Atrybuty i zaawansowane", where
             filling a gallery meant knowing to look for a text field called
             "src" behind a collapsed header. */}
         {kind === 'image' ? (
@@ -338,7 +338,7 @@ export function PropertiesPanel(): JSX.Element {
  * The page's own settings: what it is called, how it is described, what picture
  * represents it, and what shows in the browser tab.
  *
- * None of this was reachable from the UI before — the only way to give a page a
+ * None of this was reachable from the UI before - the only way to give a page a
  * description or an Open Graph image was to open the HTML by hand. A site built
  * entirely in Litho therefore shipped with no description and no social card,
  * which looks broken everywhere the link gets pasted, and nothing in the
@@ -384,7 +384,7 @@ function PageMetaSection(): JSX.Element {
           className="input"
           type="text"
           value={draft.title}
-          placeholder="np. Kowalski — stolarnia z Krakowa"
+          placeholder="np. Kowalski - stolarnia z Krakowa"
           onChange={(event) => setDraft({ ...draft, title: event.target.value })}
           onBlur={commit('title')}
         />
@@ -397,7 +397,7 @@ function PageMetaSection(): JSX.Element {
           className="textarea"
           rows={3}
           value={draft.description}
-          placeholder="Jedno–dwa zdania o tym, czym jest ta strona. Widoczne w Google i przy udostępnianiu linku."
+          placeholder="Jedno-dwa zdania o tym, czym jest ta strona. Widoczne w Google i przy udostępnianiu linku."
           onChange={(event) => setDraft({ ...draft, description: event.target.value })}
           onBlur={commit('description')}
         />
@@ -446,9 +446,9 @@ function LengthHint({ value, range }: { value: string; range: { min: number; max
   const tone = length === 0 ? 'empty' : length < range.min ? 'short' : length > range.max ? 'long' : 'ok';
   const message =
     tone === 'empty'
-      ? `zalecane ${range.min}–${range.max} znaków`
+      ? `zalecane ${range.min}-${range.max} znaków`
       : tone === 'short'
-        ? `krótko — celuj w ${range.min}–${range.max}`
+        ? `krótko - celuj w ${range.min}-${range.max}`
         : tone === 'long'
           ? `za długo, wyszukiwarka utnie po ~${range.max}`
           : 'dobra długość';
@@ -494,7 +494,7 @@ function AssetPickerField({
                 type="button"
                 className={`bg-asset-picker__item${href === value ? ' bg-asset-picker__item--active' : ''}`}
                 onClick={() => onPick(href === value ? '' : href)}
-                title={href === value ? `${asset.name} — kliknij, aby usunąć` : asset.name}
+                title={href === value ? `${asset.name} - kliknij, aby usunąć` : asset.name}
               >
                 <img src={toAssetUrl(asset.relPath)} alt="" />
               </button>
@@ -511,7 +511,7 @@ function AssetPickerField({
  * Offers to turn an element's generated `#id` hook into a named, reusable class.
  *
  * Styling an element that has no class of its own makes the editor invent an id
- * to hang the rules on — correct, but private: an hour of work leaves the
+ * to hang the rules on - correct, but private: an hour of work leaves the
  * stylesheet full of one-off `#naglowek-3 { … }` blocks nobody would choose to
  * maintain by hand, which quietly undercuts the promise that the files stay
  * yours. This is where that becomes reversible.
@@ -537,7 +537,7 @@ function PromoteToStyleClass({
   const hookId = getAttr(element, 'id');
   const hasRules = useMemo(
     () => (hookId ? styleModels.some((model) => definesSelector(model, `#${hookId}`)) : false),
-    // The models mutate in place, so `revision` is the signal — see editorStore.
+    // The models mutate in place, so `revision` is the signal - see editorStore.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [hookId, styleModels, revision],
   );
@@ -561,7 +561,7 @@ function PromoteToStyleClass({
         type="button"
         className="button promote-style__trigger"
         onClick={() => setOpen(true)}
-        title={`Style tego elementu są zapisane pod #${hookId} — zamień je na nazwaną klasę, której da się użyć ponownie`}
+        title={`Style tego elementu są zapisane pod #${hookId} - zamień je na nazwaną klasę, której da się użyć ponownie`}
       >
         <Icon name="sell" size={15} />
         Zapisz jako styl…
@@ -599,7 +599,7 @@ function PromoteToStyleClass({
         </p>
       ) : (
         <p className="dialog__hint" style={{ margin: 0 }}>
-          Reguły spod <code>#{hookId}</code> przeniosą się do <code>.{slugifyPreview(name)}</code> — razem ze
+          Reguły spod <code>#{hookId}</code> przeniosą się do <code>.{slugifyPreview(name)}</code> - razem ze
           stanami i breakpointami. Od tej chwili styl będzie w panelu „Style”.
         </p>
       )}
@@ -645,7 +645,7 @@ function formHasNoDestination(action: string | null): boolean {
  * nowhere. Nobody finds out until a customer complains that they wrote and got
  * no answer.
  *
- * A static site genuinely cannot receive form posts by itself — so rather than
+ * A static site genuinely cannot receive form posts by itself - so rather than
  * pretend otherwise, this states the constraint plainly and offers the one
  * thing that fixes it: somewhere to send the data. No integration, no account,
  * no network access from the editor; just an honest explanation and a field for
@@ -681,7 +681,7 @@ function FormDestinationSection({
         <p className="form-destination__warning" role="note">
           <Icon name="warning" size={15} />
           <span>
-            Ten formularz nie ma dokąd wysyłać danych — po kliknięciu „Wyślij” nic się nie stanie. Zwykła
+            Ten formularz nie ma dokąd wysyłać danych - po kliknięciu „Wyślij” nic się nie stanie. Zwykła
             strona WWW nie obsłuży wysyłki sama.
           </span>
         </p>
@@ -707,7 +707,7 @@ function FormDestinationSection({
 
       <p className="dialog__hint" style={{ margin: 0 }}>
         Wklej adres z darmowej usługi odbierającej formularze (Formspree, Basin, Web3Forms) albo własny
-        endpoint. Litho tylko zapisze go w atrybucie <code>action</code> — nic nigdzie nie wysyła.
+        endpoint. Litho tylko zapisze go w atrybucie <code>action</code> - nic nigdzie nie wysyła.
       </p>
     </Section>
   );
@@ -719,7 +719,7 @@ function FormDestinationSection({
  * The second axis of the same idea as the breakpoint bar: that one decides
  * which `@media` block a declaration is written into, this one decides which
  * pseudo-class the selector carries. Picking "Najechanie" and setting a
- * background writes `.przycisk:hover { background: … }` — the thing that
+ * background writes `.przycisk:hover { background: … }` - the thing that
  * previously required leaving the app and editing CSS by hand.
  *
  * Deliberately worded in plain language rather than as `:hover`/`:focus`: the
@@ -749,7 +749,7 @@ function StyleStateSwitch(): JSX.Element {
       </div>
       {styleState !== 'normal' ? (
         <p className="style-state__hint">
-          Zmiany zapisują się jako <code>:{styleState}</code> — działają tylko w tym stanie. Zaznaczony
+          Zmiany zapisują się jako <code>:{styleState}</code> - działają tylko w tym stanie. Zaznaczony
           element pokazuje ten stan w obszarze edycji, dopóki tu jesteś; wróć do „Normalny”, żeby zobaczyć
           go zwyczajnie.
         </p>
@@ -769,7 +769,7 @@ function StyleStateSwitch(): JSX.Element {
  * right up until someone opened it on a phone.
  *
  * Three ways out, all one click: look at the damage, undo the cause, or say
- * it's fine — not every fixed/absolute element is a mistake (a sticky header,
+ * it's fine - not every fixed/absolute element is a mistake (a sticky header,
  * a badge deliberately placed inside a relatively positioned parent), and a
  * warning with no "you're wrong about this one" gets tuned out entirely.
  */
@@ -833,7 +833,7 @@ function OutOfLayoutWarning({
           type="button"
           className="button"
           onClick={() => returnToLayout(nodeId)}
-          title="Usuwa position/left/top — element wraca na swoje miejsce w normalnym przepływie strony"
+          title="Usuwa position/left/top - element wraca na swoje miejsce w normalnym przepływie strony"
         >
           <Icon name="undo" size={15} />
           Wróć do układu
@@ -842,7 +842,7 @@ function OutOfLayoutWarning({
           type="button"
           className="button"
           onClick={() => ignoreOutOfLayout(nodeId)}
-          title="To pozycjonowanie jest zamierzone — przestań o nim ostrzegać dla tego elementu"
+          title="To pozycjonowanie jest zamierzone - przestań o nim ostrzegać dla tego elementu"
         >
           <Icon name="visibility_off" size={15} />
           Ignoruj
@@ -853,7 +853,7 @@ function OutOfLayoutWarning({
 }
 
 /**
- * Shown instead of "select an element" once nothing is selected — which is
+ * Shown instead of "select an element" once nothing is selected - which is
  * also what happens right after clicking empty canvas background, since
  * `<body>` itself is not a selectable canvas target (see `isSelectableTag`).
  * Writes through the same `setStyle` used for every other element, targeting
@@ -906,7 +906,7 @@ function PageBackgroundPanel({ bodyId }: { bodyId: string }): JSX.Element {
 }
 
 /**
- * Text content, edited here instead of directly on the canvas — the canvas
+ * Text content, edited here instead of directly on the canvas - the canvas
  * only supports two narrow rich-text transforms (link, dynamic year) via a
  * selected-text context menu, which is not the same thing as just retyping a
  * heading or a button's label. Commits on blur rather than per keystroke: a
@@ -941,9 +941,9 @@ function TextContentField({
 
 /**
  * The choices inside a `<select>`. These can't be reached by clicking on the
- * canvas — a closed native dropdown renders its option list as an OS-level
+ * canvas - a closed native dropdown renders its option list as an OS-level
  * popup outside the iframe's DOM, so there is nothing for the canvas' click
- * handler to hit-test against — so this is the only place to edit an
+ * handler to hit-test against - so this is the only place to edit an
  * option's label, its `value` attribute, or add/remove a choice.
  */
 function OptionsField({
@@ -1045,14 +1045,14 @@ function OptionRow({
 
 /**
  * Assigns a CSS class to an element from a combobox of classes the page's
- * stylesheets already define — typing a name that does not exist yet still
+ * stylesheets already define - typing a name that does not exist yet still
  * works, so this doubles as "create a new style hook". Existing classes show
  * as removable chips; the effect of picking one is visible on the canvas
  * immediately, since `onChange` writes the real `class` attribute.
  *
  * The suggestion list is built by hand rather than with a native `<datalist>`.
  * A real project defines hundreds of class names, and the native popup gives
- * no control over its height, its scrolling or how it filters — on a long list
+ * no control over its height, its scrolling or how it filters - on a long list
  * it either ran off the window or showed a handful of entries with no way to
  * reach the rest. A plain scroll container does exactly what is wanted: a
  * fixed-height, scrollable, substring-filtered list.
@@ -1182,7 +1182,7 @@ function ClassNameField({
           }}
           onBlur={(event) => {
             // Focus moving to one of the suggestion buttons is not "leaving the
-            // field" — committing the half-typed query here would add a bogus
+            // field" - committing the half-typed query here would add a bogus
             // class alongside the one being clicked.
             if (rootRef.current?.contains(event.relatedTarget as Node | null)) return;
             setOpen(false);
@@ -1215,7 +1215,7 @@ function ClassNameField({
             <li className="class-picker__empty">
               {options.length === 0
                 ? 'Arkusze tej strony nie definiują jeszcze żadnych klas.'
-                : 'Brak pasujących klas — Enter utworzy nową.'}
+                : 'Brak pasujących klas - Enter utworzy nową.'}
             </li>
           ) : (
             suggestions.map((name, index) => (
@@ -1412,7 +1412,7 @@ function ImageAssetPicker({
 
 /**
  * Lets the user pick an already-uploaded audio file for a selected `<audio>`
- * element, instead of having to know/type its project-relative path by hand —
+ * element, instead of having to know/type its project-relative path by hand -
  * the same "pick from Zasoby" affordance `BackgroundSection` offers for
  * images, just as a plain list since there is no useful thumbnail for audio.
  */
@@ -1432,7 +1432,7 @@ function AudioAssetPicker({
   if (audioAssets.length === 0) {
     return (
       <p className="dialog__hint" style={{ margin: 0 }}>
-        Brak plików audio w zasobach — dodaj je w panelu „Zasoby”.
+        Brak plików audio w zasobach - dodaj je w panelu „Zasoby”.
       </p>
     );
   }
@@ -1447,7 +1447,7 @@ function AudioAssetPicker({
           if (event.target.value !== '') onChange(event.target.value);
         }}
       >
-        <option value="">— wybierz plik —</option>
+        <option value="">- wybierz plik -</option>
         {audioAssets.map((asset) => {
           const href = relativeHref(pageRelPath, asset.relPath);
           return (

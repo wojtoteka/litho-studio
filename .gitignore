@@ -7,7 +7,7 @@ dist-electron/
 release/
 out/
 
-# Certyfikaty podpisywania instalatorów – zostają lokalnie
+# Certyfikaty podpisywania instalatorów - zostają lokalnie
 certs/
 
 # Testy

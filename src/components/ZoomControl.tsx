@@ -6,11 +6,11 @@ import { Icon } from './Icon.js';
 /**
  * The zoom readout in the toolbar, and the menu behind it.
  *
- * The percentage used to be a button that did exactly one thing — snap back to
- * 100 % — which meant every other magnification had to be reached by clicking
+ * The percentage used to be a button that did exactly one thing - snap back to
+ * 100 % - which meant every other magnification had to be reached by clicking
  * −/+ repeatedly and watching the number go past the one you wanted. It now
  * behaves the way a zoom readout does in every drawing tool: it *reads* as a
- * value, and clicking it opens the ways of setting that value — type an exact
+ * value, and clicking it opens the ways of setting that value - type an exact
  * number, or pick a step.
  *
  * "Dopasuj do okna" lives in this menu as well as on its own toolbar button,
@@ -37,7 +37,7 @@ export function ZoomControl(): JSX.Element {
         aria-haspopup="menu"
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
-        title="Powiększenie — kliknij, aby wpisać własną wartość lub wybrać z listy"
+        title="Powiększenie - kliknij, aby wpisać własną wartość lub wybrać z listy"
       >
         {percent}%
         <Icon name="expand_more" size={14} />
@@ -102,7 +102,7 @@ function ZoomMenu({
   }, [anchorRef]);
 
   // The toolbar spans the preview too, so this menu can drop over the native
-  // view — which would otherwise composite straight over it.
+  // view - which would otherwise composite straight over it.
   useFloatingLayer(menuRef);
 
   /* Open with the current value selected, so typing replaces it outright. */

@@ -3,7 +3,7 @@
  *
  * The main process already knows and passes it across the bridge
  * (`LithoApi.platform`, set from `process.platform` in preload.ts), so this is
- * not a guess — except in the one case where the bridge is absent: the renderer
+ * not a guess - except in the one case where the bridge is absent: the renderer
  * opened in a plain browser tab against the Vite dev server, and jsdom under
  * Vitest. Both fall back to sniffing the user agent, which is imprecise but only
  * ever affects cosmetics (see below), never behaviour that matters.
@@ -12,7 +12,7 @@
  *
  *  - `data-platform` on <html>, which app.css uses to size the UI. Windows
  *    carries the shell's own display scaling underneath CSS, so it needs a
- *    smaller base scale than Linux — see the platform block in app.css.
+ *    smaller base scale than Linux - see the platform block in app.css.
  *  - the AI tool installer, which is Windows-only. That gate is enforced in the
  *    *main* process (`aiToolsService.ts`); this value only decides whether the
  *    entry point is worth drawing, so a wrong guess in a browser tab hides a
@@ -39,7 +39,7 @@ export const isWindows = uiPlatform === 'win32';
 
 /**
  * Stamps the platform onto <html> before React mounts, so the first paint is
- * already at the right scale — doing it in a component would show one frame of
+ * already at the right scale - doing it in a component would show one frame of
  * Linux-sized chrome on Windows.
  */
 export function applyPlatformAttribute(): void {

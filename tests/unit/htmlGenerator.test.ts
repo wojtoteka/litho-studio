@@ -15,10 +15,10 @@ function roundTrip(relPath: string, source: string, files: Record<string, string
   return generateHtml(parsed.document);
 }
 
-describe('generateHtml — round-trip fidelity', () => {
+describe('generateHtml - round-trip fidelity', () => {
   /**
    * Whitespace is normalised away before comparing. Re-indenting block-level
-   * siblings legitimately adds newlines between them — `<h3>a</h3><p>b</p>`
+   * siblings legitimately adds newlines between them - `<h3>a</h3><p>b</p>`
    * renders identically either way, and Prettier reformats it the same. This
    * assertion is therefore about *characters not being lost or invented*;
    * whitespace that genuinely is significant, inside an inline run, is pinned
@@ -38,7 +38,7 @@ describe('generateHtml — round-trip fidelity', () => {
     }
   });
 
-  it('is stable — a second round trip changes nothing', () => {
+  it('is stable - a second round trip changes nothing', () => {
     for (const fixture of allFixtures) {
       const source = fixture.files[fixture.entry] ?? '';
       const once = roundTrip(fixture.entry, source, fixture.files);
@@ -57,7 +57,7 @@ describe('generateHtml — round-trip fidelity', () => {
   });
 });
 
-describe('generateHtml — whitespace safety', () => {
+describe('generateHtml - whitespace safety', () => {
   it('does not insert whitespace between inline elements', () => {
     const output = roundTrip('index.html', '<p><b>a</b><i>b</i></p>');
     expect(output).toContain('<p><b>a</b><i>b</i></p>');
@@ -69,8 +69,8 @@ describe('generateHtml — whitespace safety', () => {
   });
 
   it('keeps mixed text and markup on one line', () => {
-    const output = roundTrip('index.html', '<p>© <a href="https://x.pl">x.pl</a> 2024–2026</p>');
-    expect(output).toContain('<p>© <a href="https://x.pl">x.pl</a> 2024–2026</p>');
+    const output = roundTrip('index.html', '<p>© <a href="https://x.pl">x.pl</a> 2024-2026</p>');
+    expect(output).toContain('<p>© <a href="https://x.pl">x.pl</a> 2024-2026</p>');
   });
 
   it('preserves <pre> content exactly', () => {
@@ -84,7 +84,7 @@ describe('generateHtml — whitespace safety', () => {
   });
 });
 
-describe('generateHtml — raw text elements', () => {
+describe('generateHtml - raw text elements', () => {
   it('never escapes JavaScript operators', () => {
     const output = roundTrip('index.html', '<script>if (a && b && c < d) { e = "<x>"; }</script>');
     expect(output).toContain('a && b && c < d');
@@ -105,7 +105,7 @@ describe('generateHtml — raw text elements', () => {
   });
 });
 
-describe('generateHtml — attributes', () => {
+describe('generateHtml - attributes', () => {
   it('emits boolean attributes bare', () => {
     const output = roundTrip(
       'index.html',
@@ -137,7 +137,7 @@ describe('generateHtml — attributes', () => {
   });
 });
 
-describe('generateHtml — doctype and line endings', () => {
+describe('generateHtml - doctype and line endings', () => {
   it('emits a modern doctype', () => {
     expect(roundTrip('index.html', '<!DOCTYPE html><html></html>')).toMatch(/^<!doctype html>/u);
   });
@@ -167,7 +167,7 @@ describe('escaping helpers', () => {
   });
 });
 
-describe('generateHtml — structural preservation', () => {
+describe('generateHtml - structural preservation', () => {
   it('keeps SVG markup usable', () => {
     const output = roundTrip(
       'index.html',

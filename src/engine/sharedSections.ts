@@ -11,7 +11,7 @@ import {
 import { createRuntimeNodeId } from './idAllocator.js';
 
 /**
- * Sections shared across every subpage — the navigation bar, the footer.
+ * Sections shared across every subpage - the navigation bar, the footer.
  *
  * A five-page site needs five identical menus, and adding one entry means five
  * edits of which the fourth is always subtly different. This is the fix, and it
@@ -24,7 +24,7 @@ import { createRuntimeNodeId } from './idAllocator.js';
  * ```
  *
  * The markers are ordinary HTML comments. The page still opens in a browser,
- * still opens in VS Code, still has no build step and no runtime — delete the
+ * still opens in VS Code, still has no build step and no runtime - delete the
  * comments by hand and the only thing lost is the syncing. That is deliberate:
  * the product's whole premise is that the output is a plain website, so a
  * feature that required a template language or a project file would cost more
@@ -45,7 +45,7 @@ export interface SharedSection {
   /** Index of the closing comment inside its parent's `children`. */
   end: number;
   parent: ElementNode;
-  /** The nodes between the markers — the shared content itself. */
+  /** The nodes between the markers - the shared content itself. */
   nodes: DocNode[];
 }
 
@@ -69,8 +69,8 @@ function isCloseMarker(node: DocNode): boolean {
 /**
  * Every shared block in the document.
  *
- * Unbalanced markers — an opener with no closer, most likely because someone
- * deleted one by hand — are skipped rather than guessed at. Silently adopting
+ * Unbalanced markers - an opener with no closer, most likely because someone
+ * deleted one by hand - are skipped rather than guessed at. Silently adopting
  * the rest of the page as "the shared section" would then overwrite four other
  * pages with it, which is exactly the kind of surprise this feature must never
  * produce.
@@ -122,7 +122,7 @@ export function sharedSectionFor(document: PageDocument, nodeId: NodeId): Shared
 /**
  * Wraps an element in shared-section markers, in place.
  *
- * Returns false when the element cannot be shared — it has no parent (the
+ * Returns false when the element cannot be shared - it has no parent (the
  * `<body>` itself), or it already sits inside a shared block, which would nest
  * one sync inside another and make "which page wins" ambiguous.
  */

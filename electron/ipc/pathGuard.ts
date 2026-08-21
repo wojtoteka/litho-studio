@@ -11,7 +11,7 @@ import { fail, ok, type IpcResult } from '@shared/result.js';
  *  2. the *resolved* absolute path must still sit under the project root after
  *     `realpath`, which defeats symlinks pointing outside the project.
  *
- * Failing either one is reported as `PATH_OUTSIDE_PROJECT` — never as a silent
+ * Failing either one is reported as `PATH_OUTSIDE_PROJECT` - never as a silent
  * clamp to the root, because silently writing to the wrong file is worse than
  * refusing.
  */
@@ -45,7 +45,7 @@ export class PathGuard {
     }
 
     // Resolve symlinks on the deepest existing ancestor. A file that does not
-    // exist yet is fine — what matters is that its parent chain stays inside.
+    // exist yet is fine - what matters is that its parent chain stays inside.
     const realTarget = await realpathOfNearestExisting(absolute);
     if (!isInside(this.realRoot, realTarget)) {
       return fail('PATH_OUTSIDE_PROJECT', `Ścieżka prowadzi przez dowiązanie poza projekt: ${relPath}`);

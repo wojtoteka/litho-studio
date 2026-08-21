@@ -2,15 +2,15 @@ import { expect, test } from '@playwright/test';
 import { launchApp, openProject, writeProject, type LaunchedApp } from './helpers.js';
 
 /**
- * "The preview renders the page bigger than the editor — they should be
+ * "The preview renders the page bigger than the editor - they should be
  * symmetrical."
  *
  * Side by side, the two halves are meant to be the same page at the same size:
  * that is the entire value of having them side by side. Two things pulled them
  * apart. The canvas loses a slice of its work area to the page's own scrollbar
  * (`clientWidth` excludes it) while the preview pane does not, so the previewed
- * page was laid out a scrollbar wider. And the bars above the canvas — the
- * breakpoint switcher, the warnings — sat inside the editor column only, so the
+ * page was laid out a scrollbar wider. And the bars above the canvas - the
+ * breakpoint switcher, the warnings - sat inside the editor column only, so the
  * editor's half also started lower and showed a shorter slice of the page.
  *
  * Both are measured here rather than eyeballed, because "a bit bigger" is
@@ -27,7 +27,7 @@ test.afterEach(async () => {
   await harness?.close();
 });
 
-/** Tall enough to give the canvas a vertical scrollbar — the width thief. */
+/** Tall enough to give the canvas a vertical scrollbar - the width thief. */
 const PROJECT = {
   'index.html': `<!DOCTYPE html>
 <html lang="pl">

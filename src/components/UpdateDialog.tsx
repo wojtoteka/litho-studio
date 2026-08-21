@@ -5,12 +5,12 @@ import { logger } from '@/lib/logger.js';
 import { Icon } from './Icon.js';
 
 /**
- * "A newer Litho exists" — said once, at launch, in front of everything else.
+ * "A newer Litho exists" - said once, at launch, in front of everything else.
  *
  * The banner along the top (`UpdateBanner`) is easy to walk past: it is one
  * strip of chrome among several, and an update that ships a fix the user is
  * currently working around is worth one deliberate look. So the notice starts
- * as a modal — new version, running version, where it comes from — and *only*
+ * as a modal - new version, running version, where it comes from - and *only*
  * then falls back to the banner.
  *
  * Two ways out, both leaving the app usable:
@@ -21,11 +21,11 @@ import { Icon } from './Icon.js';
  *    different way, so the file to fetch is the user's choice to make on a page
  *    that lists all of them. The editor stays open behind it.
  *  - **Później** just closes it. Nothing is blocked, nothing is postponed to a
- *    place the user cannot find again — the banner stays behind with the same
+ *    place the user cannot find again - the banner stays behind with the same
  *    button.
  *
  * Escape counts as "Później". Nothing here is ever shown when the check failed
- * (offline) or when the running build is already current — see
+ * (offline) or when the running build is already current - see
  * `updateService.ts`.
  */
 export function UpdateDialog(): JSX.Element | null {
@@ -67,7 +67,7 @@ export function UpdateDialog(): JSX.Element | null {
           Dostępna jest nowa wersja
         </h2>
         <p className="dialog__hint">
-          Litho Studio <strong>{update.latest}</strong> jest już do pobrania. Aktualizacja jest ręczna —
+          Litho Studio <strong>{update.latest}</strong> jest już do pobrania. Aktualizacja jest ręczna -
           „Pobierz” otwiera stronę z plikami w Twojej przeglądarce, a instalujesz ją tak samo jak poprzednią
           wersję.
         </p>

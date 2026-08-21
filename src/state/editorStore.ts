@@ -92,7 +92,7 @@ import { useHistoryStore, type HistorySnapshot } from './historyStore.js';
 import { logger } from '@/lib/logger.js';
 
 /**
- * The editor's single source of truth *in memory* — which is itself derived
+ * The editor's single source of truth *in memory* - which is itself derived
  * from, and continuously written back to, the files on disk.
  *
  * The save pipeline is deliberately one-way and debounced:
@@ -112,7 +112,7 @@ export type EditorStatus = 'empty' | 'loading' | 'ready' | 'error';
  * One markup change small enough to apply to the live canvas iframe.
  *
  * Every op has to be *equivalent* to what a full `srcDoc` rebuild would have
- * produced for the same edit — that equivalence is the whole contract, and it
+ * produced for the same edit - that equivalence is the whole contract, and it
  * is why the set is closed: replacing an element's text and writing one
  * attribute are the only two things the editor does often enough to matter and
  * can express on a DOM node without knowing anything about its surroundings.
@@ -130,7 +130,7 @@ export interface CanvasPatch {
 /**
  * What dropping a palette entry or a component actually inserts: the subtree,
  * the CSS its classes need, and any behaviour it ships with (see
- * `TemplateScript` in elementFactory.ts — today only the footer's self-updating
+ * `TemplateScript` in elementFactory.ts - today only the footer's self-updating
  * year uses it).
  */
 export interface TemplatePayload {
@@ -151,7 +151,7 @@ export interface StyleSheetInfo {
   writable: boolean;
   /** A CDN/absolute URL: it renders, but Litho must never touch it. */
   remote: boolean;
-  /** How many class names this sheet defines — what the class picker gains. */
+  /** How many class names this sheet defines - what the class picker gains. */
   classCount: number;
   /** True for the sheet new rules are written into (the last writable one). */
   isTarget: boolean;
@@ -166,8 +166,8 @@ export interface StyleClassUsage extends StyleClassInfo {
 /** Where generated JavaScript for the open page lands. */
 export interface ScriptTargetInfo {
   /**
-   * `external` — an existing `.js` file of the page; `embedded` — a `<script>`
-   * block written inside the HTML; `new` — the page has no script Litho may
+   * `external` - an existing `.js` file of the page; `embedded` - a `<script>`
+   * block written inside the HTML; `new` - the page has no script Litho may
    * write to, so one would be created.
    */
   kind: 'external' | 'embedded' | 'new';
@@ -181,7 +181,7 @@ export interface ElementScriptState {
   binding: ElementScriptBinding | null;
   /**
    * The element has a generated snippet whose configuration could not be read
-   * back — hand-edited, or written by a newer version of the app. Applying a
+   * back - hand-edited, or written by a newer version of the app. Applying a
    * function from the panel would replace it, so the panel says so first.
    */
   unrecognized: boolean;
@@ -203,7 +203,7 @@ interface EditorState {
   styleModels: StyleSheetModel[];
   scriptSources: ScriptSource[];
   /**
-   * Managed-script state, keyed by relative path — only for scripts an edit has
+   * Managed-script state, keyed by relative path - only for scripts an edit has
    * actually touched. Untouched script files are deliberately absent so a save
    * can never rewrite (and reformat) JavaScript the user wrote.
    */
@@ -220,7 +220,7 @@ interface EditorState {
 
   /**
    * Elements the user has explicitly dismissed from the "poza układem"
-   * warning — a false positive (an intentionally fixed header, a badge
+   * warning - a false positive (an intentionally fixed header, a badge
    * absolutely placed inside a relatively positioned parent) shouldn't keep
    * nagging every time it's selected. Scoped to the open page, not saved to
    * disk or undo history: it's a UI dismissal, not a document edit.
@@ -233,7 +233,7 @@ interface EditorState {
   breakpoints: Breakpoint[];
   breakpointId: string;
   /**
-   * The element state style edits are written for — the pseudo-class axis that
+   * The element state style edits are written for - the pseudo-class axis that
    * runs alongside the breakpoint axis. See `StyleState` in shared/project.ts.
    */
   styleState: StyleState;
@@ -248,12 +248,12 @@ interface EditorState {
   /**
    * Bumped on every change to the document or stylesheets. The tree is mutated
    * in place (which keeps history snapshots cheap), so the `document` reference
-   * does not change on an edit — this counter is what tells the canvas and the
+   * does not change on an edit - this counter is what tells the canvas and the
    * panels to re-render. It is the single "the model changed" signal.
    */
   revision: number;
   /**
-   * Bumped only when the DOM tree or an element's attributes change — never on
+   * Bumped only when the DOM tree or an element's attributes change - never on
    * a pure CSS declaration edit. The canvas keys its iframe's `srcDoc` off this
    * instead of `revision`, so typing in the properties panel patches the live
    * stylesheet in place rather than reloading the whole page (which used to
@@ -267,7 +267,7 @@ interface EditorState {
    * This is the markup counterpart of the CSS hot-patch above, and it exists
    * for the same reason. Changing one element's text or one attribute *is*
    * structurally a change to the tree, so it used to bump `structureRevision`
-   * — which reloads the whole document. On a page with web fonts and remote
+   * - which reloads the whole document. On a page with web fonts and remote
    * images that reload is a white flash plus a second or two of re-layout, and
    * it happened on **every keystroke** in the properties panel: the reported
    * "the editor freezes, goes white and refreshes, I can't edit anything for a
@@ -304,7 +304,7 @@ interface EditorState {
   ): void;
 
   /**
-   * Every element the page has taken *out of its layout* — `position: absolute`
+   * Every element the page has taken *out of its layout* - `position: absolute`
    * or `fixed` declared at the base breakpoint, which is what free placement
    * writes.
    *
@@ -313,7 +313,7 @@ interface EditorState {
    * against a 1440 px canvas, so on a 390 px one it lands off-screen or on top
    * of something else. The editor used to say nothing about that at all.
    *
-   * Excludes anything dismissed via `ignoreOutOfLayout` — not every fixed or
+   * Excludes anything dismissed via `ignoreOutOfLayout` - not every fixed or
    * absolute element is actually broken (a sticky header, a badge placed
    * inside a relatively positioned parent), and a warning that can't be told
    * "you're wrong about this one" just gets tuned out.
@@ -328,7 +328,7 @@ interface EditorState {
 
   /** Whether `id` has been dismissed from the "poza układem" warning. */
   isOutOfLayoutIgnored(id: NodeId): boolean;
-  /** Dismisses `id` from the warning — it stops counting and stops appearing in the list. */
+  /** Dismisses `id` from the warning - it stops counting and stops appearing in the list. */
   ignoreOutOfLayout(id: NodeId): void;
   /** Un-dismisses `id`, so the warning shows for it again if it still qualifies. */
   unignoreOutOfLayout(id: NodeId): void;
@@ -367,7 +367,7 @@ interface EditorState {
    * Marks the element's block as shared across subpages, or removes that mark.
    *
    * A shared block is delimited by plain HTML comments, and from the next save
-   * onwards it is copied into every other subpage carrying the same marker —
+   * onwards it is copied into every other subpage carrying the same marker -
    * so a menu entry added once appears on all of them. See
    * `src/engine/sharedSections.ts`.
    */
@@ -377,7 +377,7 @@ interface EditorState {
   sharedSectionOf(id: NodeId): string | null;
 
   /**
-   * The page's own `<head>` metadata — title, description, language, social
+   * The page's own `<head>` metadata - title, description, language, social
    * image, favicon. See `src/engine/headMeta.ts` for why each one matters.
    */
   pageMeta(): PageMeta;
@@ -387,14 +387,14 @@ interface EditorState {
   renameStyleClass(from: string, to: string): IpcResult<string>;
   /**
    * Turns an element's private, generated `#id` hook into a named, reusable
-   * class — carrying every rule that hung off it, at every breakpoint and in
+   * class - carrying every rule that hung off it, at every breakpoint and in
    * every pseudo-state.
    *
    * Styling an element that has no class of its own makes the editor invent an
    * `id` to hang the rules on. That is correct but private: after an hour the
    * stylesheet is a list of one-off `#naglowek-3 { … }` blocks that no human
    * would choose to maintain, which undercuts the product's central promise
-   * that the files stay yours. This is the escape hatch — one action turns the
+   * that the files stay yours. This is the escape hatch - one action turns the
    * throwaway hook into `.karta-oferty`, reusable from the Styles panel.
    */
   promoteToStyleClass(id: NodeId, name: string): IpcResult<string>;
@@ -427,7 +427,7 @@ interface EditorState {
   ensureHeadLink(attrs: Record<string, string>, label?: string): boolean;
 
   /**
-   * Where generated JavaScript would go for the open page — the script the page
+   * Where generated JavaScript would go for the open page - the script the page
    * already has, or the file that would be created. Read-only: asking does not
    * create anything.
    */
@@ -441,7 +441,7 @@ interface EditorState {
   setStyle(id: NodeId, patch: DeclarationPatch, options?: { label?: string; mergeKey?: string }): void;
   setAttribute(id: NodeId, name: string, value: string | null, label?: string): void;
   /**
-   * Points an existing `<img>` at a different file — the properties-panel
+   * Points an existing `<img>` at a different file - the properties-panel
    * picker, and dropping a photo straight onto a gallery tile.
    *
    * `src` and the intrinsic `width`/`height` have to move together: the old
@@ -468,8 +468,8 @@ interface EditorState {
    * Places a palette/component/asset element *freely* at a pixel position: it
    * is added to the container and given `position: absolute` with the supplied
    * `left`/`top`, all in one undo step. The element gets a unique `id` so its
-   * position lands on a per-element selector — never on the shared template
-   * class other instances reuse — and the container is given a positioning
+   * position lands on a per-element selector - never on the shared template
+   * class other instances reuse - and the container is given a positioning
    * context when it lacks one, so the element anchors where it was dropped.
    */
   placeFreeElement(
@@ -482,7 +482,7 @@ interface EditorState {
    * `position: relative` with the supplied `left`/`top`, measured from where the
    * layout already puts it.
    *
-   * Relative — not absolute — is what makes dragging feel safe. A relatively
+   * Relative - not absolute - is what makes dragging feel safe. A relatively
    * offset box still occupies its original slot in the flow, so moving a heading
    * leaves the paragraph under it exactly where it was; taking the box *out* of
    * flow (`position: absolute`) collapses everything below it upwards, which is
@@ -500,14 +500,14 @@ interface EditorState {
    * Keeps a free-layout container tall enough for its out-of-flow children.
    *
    * `position: absolute`/`relative`-offset children never contribute to their
-   * parent's auto height — that's the whole point of taking them out of flow —
+   * parent's auto height - that's the whole point of taking them out of flow -
    * so a free element dropped or dragged near the bottom of the page would
    * otherwise hang past the visible/scrollable page edge. Called by the canvas
    * after every measurement pass with the tallest bottom edge among a
    * container's free children; write a `min-height` floor that grows to fit
    * them and shrinks back (or is removed entirely) once none remain.
    *
-   * Not an undoable step on its own — it is a derived consequence of whatever
+   * Not an undoable step on its own - it is a derived consequence of whatever
    * add/move/remove action triggered the remeasure, and undoing that action
    * naturally triggers a re-sync that puts this back where it belongs.
    */
@@ -840,7 +840,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       return fail('IO_ERROR', 'Ta strona nie ma arkusza stylów, do którego Litho może pisać.');
     }
 
-    // A named style is a *base* style — the rule is created outside every media
+    // A named style is a *base* style - the rule is created outside every media
     // query, and breakpoint-specific overrides are added later by editing it
     // with another breakpoint active.
     ensureRule(ensured.target.model, `.${slug}`, baseBreakpointOf(state));
@@ -913,7 +913,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     const patch = diffDeclarations(current, next);
     if (Object.keys(patch).length === 0) return ok(undefined);
 
-    // Reuse the same write path as the field-by-field editor — same target
+    // Reuse the same write path as the field-by-field editor - same target
     // selection, same keep-empty rule, same single undo step.
     get().setClassStyle(slug, patch, {
       label: `Edycja CSS .${slug}`,
@@ -1071,7 +1071,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     }
 
     // Renaming only the rule would leave every element pointing at a class that
-    // no longer exists — the style would silently stop applying.
+    // no longer exists - the style would silently stop applying.
     let markupChanged = false;
     for (const node of walk(document.root)) {
       if (!isElement(node)) continue;
@@ -1326,7 +1326,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     // the stylesheet: the new CSS rule targets a class/id the canvas copy does
     // not carry yet, so without telling the canvas about it the rule would be
     // correctly specific and invisible anyway. The attribute change is the
-    // entire markup difference, though, so it goes out as a patch op — the
+    // entire markup difference, though, so it goes out as a patch op - the
     // first style edit on an element that had no selector of its own used to
     // cost a full page reload for two characters of `class`.
     const hookOps: CanvasPatchOp[] = [];
@@ -1412,7 +1412,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     element.children = [{ kind: 'text', id: createRuntimeNodeId(), value: text }];
     set({ dirty: true });
     // Setting `textContent` on the live node replaces its children with one
-    // text node — exactly the mutation just made to the model — so the canvas
+    // text node - exactly the mutation just made to the model - so the canvas
     // can keep the document it has instead of reloading it per keystroke.
     commit(get, before, 'Zmiana tekstu', `text:${id}`, 'structure', [{ kind: 'text', id, value: text }]);
     scheduleSave(get);
@@ -1451,7 +1451,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     let styleModels = state.styleModels;
     const createdFiles = new Map(state.createdFiles);
 
-    // The template's classes are worthless without their rules — write the ones
+    // The template's classes are worthless without their rules - write the ones
     // the project does not have yet into the same sheet regular edits go to.
     if (template.css) {
       const ensured = ensureStyleSheet(
@@ -1509,7 +1509,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     const before = snapshot(get());
     const node = template.node;
 
-    // Append to the container — document order between absolutely-positioned
+    // Append to the container - document order between absolutely-positioned
     // siblings has no visual effect, so the pixel position is the whole story.
     parent.children.push(node);
     get().classAllocator?.observe(node);
@@ -1557,7 +1557,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
 
     const breakpoint = get().currentBreakpoint();
 
-    // Absolute positioning anchors to the nearest *positioned* ancestor — give
+    // Absolute positioning anchors to the nearest *positioned* ancestor - give
     // the container one when it has none, or the element jumps to the page's
     // own top-left corner instead of staying where it was dropped.
     if (!target.parentPositioned) {
@@ -1604,7 +1604,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
 
     const before = snapshot(get());
 
-    // Make sure the page has a stylesheet we may write to — same guarantee
+    // Make sure the page has a stylesheet we may write to - same guarantee
     // `setStyle`/`placeFreeElement` make before touching the cascade.
     const ensured = ensureStyleSheet(
       document,
@@ -1634,7 +1634,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     const breakpoint = get().currentBreakpoint();
 
     // `left`/`top` on a relatively positioned box are offsets from its own
-    // normal position, so — unlike absolute placement — there is no containing
+    // normal position, so - unlike absolute placement - there is no containing
     // block to establish and no ancestor to modify. The element keeps its slot
     // in the flow, which is exactly why its siblings do not move.
     const hookOps = writeSelfDeclarations(
@@ -1649,8 +1649,8 @@ export const useEditorStore = create<EditorState>((set, get) => ({
 
     set({ styleModels, classAllocator: allocator, createdFiles, dirty: true });
     // Nothing here needs a reload: the offset itself is a pure CSS write that
-    // gets patched into the live iframe's stylesheet, and the selector hook —
-    // when one had to be allocated — goes out as an attribute op. A drag
+    // gets patched into the live iframe's stylesheet, and the selector hook -
+    // when one had to be allocated - goes out as an attribute op. A drag
     // therefore never flashes the page. Same reasoning as `setStyle`.
     commit(
       get,
@@ -1685,7 +1685,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     );
 
     set({ styleModels: state.styleModels, classAllocator: allocator, dirty: true });
-    // Housekeeping, not a user gesture in its own right — see the interface
+    // Housekeeping, not a user gesture in its own right - see the interface
     // doc comment. Bumped by hand instead of going through `commit()` so it
     // does not add its own undo step between the action that triggered the
     // remeasure and whatever the user does next. A hook allocated here rides
@@ -1792,7 +1792,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     const { document } = get();
     if (!document || ids.length < 2) return;
 
-    // Grouping only makes sense for a set of siblings — wrapping elements from
+    // Grouping only makes sense for a set of siblings - wrapping elements from
     // different parents in one <div> would silently move them in the document.
     const parent = commonParent(document.root, ids);
     if (!parent) return;
@@ -1963,14 +1963,14 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     const element = findElement(state.document.root, id);
     if (!element) return empty;
 
-    // Handlers the page's author wrote by hand. They keep working — a generated
-    // snippet is a separate listener — but the user should know they are there.
+    // Handlers the page's author wrote by hand. They keep working - a generated
+    // snippet is a separate listener - but the user should know they are there.
     const inlineHandlers = element.attrs
       .map((attr) => attr.name.toLowerCase())
       .filter((name) => /^on[a-z]+$/u.test(name));
 
     // The generated code addresses its target with `getElementById`, so the
-    // element's `id` attribute *is* the binding key — an element without one
+    // element's `id` attribute *is* the binding key - an element without one
     // cannot have a generated script yet.
     const domId = getAttr(element, 'id');
     if (!domId) return { ...empty, inlineHandlers };
@@ -1998,7 +1998,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     }
 
     // Where generated JavaScript goes: an existing writable script file, an
-    // existing inline `<script>`, or a newly created `script.js` — the page's
+    // existing inline `<script>`, or a newly created `script.js` - the page's
     // own convention wins (see `ensureScript`).
     const ensured = ensureScript(document, state.scriptSources);
     const createdFiles = new Map(state.createdFiles);
@@ -2007,7 +2007,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     }
     const existingSource = ensured.initialContent ?? state.files[ensured.relPath] ?? '';
 
-    // Re-applying must replace the snippet, never append a second copy — even
+    // Re-applying must replace the snippet, never append a second copy - even
     // when an earlier version of it landed in a different script file.
     const snippetId = elementScriptSnippetId(domId);
     const scripts = applySnippets(
@@ -2019,7 +2019,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     );
 
     // The canvas never runs the page's own scripts, so without this the
-    // element keeps showing whatever static text it had before — usually a
+    // element keeps showing whatever static text it had before - usually a
     // placeholder like "Kliknij dwukrotnie, aby edytować ten tekst." Writing
     // the computed preview into the DOM makes the canvas (and any no-JS
     // visitor) show a sensible value; the real script still overwrites it at
@@ -2036,7 +2036,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
 
     set({ scripts, createdFiles, dirty: true });
     // Structural: the element may have just gained an `id`, the page may have
-    // gained a `<script>` tag, and its static text may have just changed —
+    // gained a `<script>` tag, and its static text may have just changed -
     // all have to reach the canvas markup.
     commit(get, before, 'Skrypt elementu', null);
     scheduleSave(get);
@@ -2104,7 +2104,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     if (!affectsCurrentPage || !state.pageRelPath) return;
 
     /*
-     * An external write to a file we have unsaved edits in — the AI assistant,
+     * An external write to a file we have unsaved edits in - the AI assistant,
      * VS Code or a script changing the page while the 180 ms debounce is still
      * counting down.
      *
@@ -2112,13 +2112,13 @@ export const useEditorStore = create<EditorState>((set, get) => ({
      * twice over: the editor kept showing the pre-change document until the
      * project was closed and reopened (the reported "AI edits the page and
      * Edycja shows nothing"), and worse, the pending save then wrote our stale
-     * copy straight over the change that had just arrived — silently undoing
+     * copy straight over the change that had just arrived - silently undoing
      * someone else's work on disk.
      *
      * The disk wins instead. The pending save is cancelled before it can run,
      * the file is re-parsed from what actually landed, and the user is told in
      * plain words. Losing an in-flight edit is a real cost, but it is bounded
-     * by the debounce — at most the last fraction of a second of typing — while
+     * by the debounce - at most the last fraction of a second of typing - while
      * the alternative discards a whole external change and hides the fact.
      */
     if (state.dirty) {
@@ -2127,7 +2127,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
         saveTimer = null;
       }
       logger.warn(
-        `Plik ${event.relPath} zmieniono poza edytorem — wczytano wersję z dysku. ` +
+        `Plik ${event.relPath} zmieniono poza edytorem - wczytano wersję z dysku. ` +
           'Jeśli w tej sekundzie coś zmieniałeś w Litho, ta zmiana została pominięta.',
       );
     }
@@ -2169,7 +2169,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
        *
        * Every entry holds a *snapshot* of the document and stylesheets as they
        * were before and after an edit this session made. The file has just been
-       * rewritten by something else — VS Code, a CLI in the terminal, git — and
+       * rewritten by something else - VS Code, a CLI in the terminal, git - and
        * re-parsed from scratch. Undoing now would not step back one edit: it
        * would overwrite the file with a whole document from before the external
        * change, silently discarding it. Losing the ability to undo is a small
@@ -2178,7 +2178,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       if (useHistoryStore.getState().entries.length > 0) {
         useHistoryStore.getState().clear();
         logger.warn(
-          `Plik ${event.relPath} zmieniono poza edytorem — historia cofania (Ctrl+Z) została zresetowana, żeby cofnięcie nie nadpisało tamtych zmian.`,
+          `Plik ${event.relPath} zmieniono poza edytorem - historia cofania (Ctrl+Z) została zresetowana, żeby cofnięcie nie nadpisało tamtych zmian.`,
         );
       }
       logger.info(`Wczytano zmiany z dysku: ${event.relPath}`);
@@ -2228,7 +2228,7 @@ async function performSave(
     });
 
     // Shared sections ride along with the save that is already happening, so
-    // the header edited here reaches the other subpages in the same write —
+    // the header edited here reaches the other subpages in the same write -
     // never as a second, separately-failing round trip.
     const propagated = propagateSharedSections(state);
     writes.push(...propagated.writes);
@@ -2278,7 +2278,7 @@ async function performSave(
  *
  * Deliberately text-in, text-out: each other page is parsed from the file cache,
  * patched and regenerated, and is never held as a live model. Only one page is
- * ever "open" — keeping four more parsed trees in memory would mean four more
+ * ever "open" - keeping four more parsed trees in memory would mean four more
  * things that can drift from disk, and the whole point of this architecture is
  * that the file is the truth.
  *
@@ -2318,7 +2318,7 @@ function propagateSharedSections(state: EditorState): { writes: FileWrite[]; pag
 }
 
 /**
- * A failed save leaves `dirty` set but nothing scheduled — without a retry the
+ * A failed save leaves `dirty` set but nothing scheduled - without a retry the
  * user's edits would sit in memory until they happen to edit again. Transient
  * failures (an antivirus briefly locking the file) heal on their own; after a
  * few consecutive failures the error stays visible and the next edit retries.
@@ -2360,8 +2360,8 @@ function commit(
    * Passing them is a promise, and the promise is what buys the speed: if the
    * ops really do describe the whole markup change, the canvas can apply them
    * to the document it already has instead of reloading a rebuilt one, so the
-   * commit deliberately does *not* count as structural. Pass `null` — the
-   * default — whenever the change cannot be expressed that way, and the canvas
+   * commit deliberately does *not* count as structural. Pass `null` - the
+   * default - whenever the change cannot be expressed that way, and the canvas
    * reloads as before. Getting this wrong shows up immediately as a canvas
    * rendering stale markup, which is why the ops are built next to the model
    * mutation they mirror rather than inferred afterwards.
@@ -2382,7 +2382,7 @@ function commit(
 
 /**
  * Attributes the canvas copy of the page rewrites rather than carrying through
- * verbatim — `annotateTree` in canvasDocument.ts strips inline handlers, drops
+ * verbatim - `annotateTree` in canvasDocument.ts strips inline handlers, drops
  * project-local stylesheet links and swaps `<iframe>`s for a placeholder box.
  * For those, "set this attribute on the live node" is *not* equivalent to a
  * rebuild, so the edit falls back to a full reload instead of quietly leaving
@@ -2422,7 +2422,7 @@ function restore(
     dirty: true,
     revision: state.revision + 1,
     // Undo/redo can revert structural edits too, and there is no cheap way to
-    // tell from a snapshot alone — always force the canvas to reload.
+    // tell from a snapshot alone - always force the canvas to reload.
     structureRevision: state.structureRevision + 1,
   });
   scheduleSave(get);
@@ -2439,8 +2439,8 @@ function restore(
  * Deliberately not a call to `setElementScript`: that would push its own
  * history entry, so dropping a footer would take two Ctrl+Z presses to undo and
  * the first one would leave a footer with a dead script binding behind. This
- * does the same work — allocate a DOM id, find the page's script file, add the
- * snippet — and hands the results back for the caller to fold into its single
+ * does the same work - allocate a DOM id, find the page's script file, add the
+ * snippet - and hands the results back for the caller to fold into its single
  * commit.
  *
  * The generated snippet is the ordinary kind: it shows up in the properties
@@ -2496,13 +2496,13 @@ function attachTemplateScripts(
 }
 
 /**
- * Writes a declaration patch to an element's *own* selector — allocating a
+ * Writes a declaration patch to an element's *own* selector - allocating a
  * unique class/id hook first when the element has none the rule could target,
  * exactly like `setStyle` does. Mutates both the given stylesheet models (via
  * `applyDeclarations`) and, when a hook is allocated, the element's attributes.
  * Shared by `placeFreeElement` for the dropped element and its container.
  *
- * Returns the canvas patch ops for the hook it had to allocate — empty when the
+ * Returns the canvas patch ops for the hook it had to allocate - empty when the
  * element already had a usable selector and only the stylesheet changed. Either
  * way the caller can commit without forcing a canvas reload: an empty list is a
  * pure CSS write, and a non-empty one describes the whole markup difference.
@@ -2544,7 +2544,7 @@ interface EnsuredStyleTarget {
   /** Possibly a new array, when a stylesheet had to be created for the page. */
   styleModels: StyleSheetModel[];
   createdFiles: Map<string, string>;
-  /** True when the page got a brand new `<link>` — a structural change. */
+  /** True when the page got a brand new `<link>` - a structural change. */
   created: boolean;
 }
 
@@ -2593,7 +2593,7 @@ function ensureWritableTarget(state: EditorState, selector?: string): EnsuredSty
   return { target, styleModels, createdFiles, created: ensured.created };
 }
 
-/** The breakpoint that emits no media query — where base rules belong. */
+/** The breakpoint that emits no media query - where base rules belong. */
 function baseBreakpointOf(state: EditorState): Breakpoint {
   return state.breakpoints.find((breakpoint) => breakpoint.maxWidth === null) ?? state.breakpoints[0]!;
 }
@@ -2650,7 +2650,7 @@ function clampWidth(value: number): number {
   return Math.max(200, Math.min(3840, Math.round(value)));
 }
 
-/** Tags that may hold arbitrary child elements — valid paste/group targets. */
+/** Tags that may hold arbitrary child elements - valid paste/group targets. */
 const CONTAINER_TAGS = new Set([
   'div',
   'section',
@@ -2781,7 +2781,7 @@ function scriptTextFor(state: EditorState, source: ScriptSource): string {
 
 /**
  * Finds a managed snippet by id anywhere in the page's JavaScript: first in the
- * scripts an edit has already touched, then — parsing on demand — in the ones
+ * scripts an edit has already touched, then - parsing on demand - in the ones
  * it has not. That second step is what makes a binding survive closing and
  * re-opening the project: the state lives in the generated file, not in the app.
  */
@@ -2808,7 +2808,7 @@ function findManagedSnippet(state: EditorState, snippetId: string): ManagedSnipp
  * or the original map when nothing carried it.
  *
  * An untouched script file is pulled into the map *only* when it genuinely
- * contains the snippet — adding it otherwise would make the next save rewrite
+ * contains the snippet - adding it otherwise would make the next save rewrite
  * (and reformat) JavaScript Litho never generated, which is exactly what the
  * lazy `scripts` map exists to prevent.
  */
@@ -2863,7 +2863,7 @@ const TRANSLITERATIONS: Record<string, string> = {
 };
 
 /**
- * A readable `id` for an element that has none, derived from its own text —
+ * A readable `id` for an element that has none, derived from its own text -
  * `#cena-promocyjna` rather than `#litho-7`, because this id ends up in the
  * user's HTML and in the generated `getElementById` call, where they will read
  * it back.

@@ -7,7 +7,7 @@ import { useFloatingLayer } from '@/lib/useFloatingLayer.js';
  * Parameter form for a text action.
  *
  * Each action supplies its own defaults through `defaultParams`, so the dialog
- * opens pre-filled — selecting `wojtoteka.ovh` and choosing "Zamień na link"
+ * opens pre-filled - selecting `wojtoteka.ovh` and choosing "Zamień na link"
  * needs zero typing. The form itself is keyed off the action id; a new action
  * that takes no parameters needs no case here and confirms immediately.
  */
@@ -30,7 +30,7 @@ export function TextActionDialog<Params>({
    * The other dialogs are opened from `uiStore` flags that `hasBlockingOverlay`
    * knows about; this one is opened by the canvas and was not covered by
    * anything, so with the preview on screen it was drawn behind the native
-   * view. Registering the backdrop — which covers the window — stands that view
+   * view. Registering the backdrop - which covers the window - stands that view
    * down for exactly as long as the form is up.
    */
   const backdropRef = useRef<HTMLDivElement>(null);
@@ -140,7 +140,7 @@ function LinkFields({
 
       {params.target === '_blank' ? (
         <p className="dialog__hint">
-          Do linku zostanie dodane <code>rel=&quot;noopener noreferrer&quot;</code> — bez tego otwierana
+          Do linku zostanie dodane <code>rel=&quot;noopener noreferrer&quot;</code> - bez tego otwierana
           strona może manipulować Twoją.
         </p>
       ) : null}
@@ -198,8 +198,8 @@ function DynamicYearFields({
             value={params.separator}
             onChange={(event) => setParams({ ...params, separator: event.target.value })}
           >
-            <option value="–">– (półpauza)</option>
-            <option value="—">— (pauza)</option>
+            <option value="-">- (półpauza)</option>
+            <option value="-">- (pauza)</option>
             <option value="-">- (łącznik)</option>
           </select>
         </label>

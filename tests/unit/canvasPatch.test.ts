@@ -10,7 +10,7 @@ import type { ProjectSnapshot } from '@shared/project.js';
  * per keystroke.
  *
  * `structureRevision` is what the canvas reloads on, so these tests assert the
- * *absence* of a reload — and, just as importantly, that the ops published in
+ * *absence* of a reload - and, just as importantly, that the ops published in
  * its place describe the same change the model just made. An op that lies would
  * leave the canvas rendering something the file does not say.
  */
@@ -66,7 +66,7 @@ describe('canvas patches instead of reloads', () => {
     const state = useEditorStore.getState();
     expect(state.structureRevision).toBe(before);
     expect(state.canvasPatch?.ops).toEqual([{ kind: 'text', id: heading.id, value: 'Nowy tytuł' }]);
-    // The op and the model agree — that equivalence is the whole contract.
+    // The op and the model agree - that equivalence is the whole contract.
     expect(textContent(findByTag('h1'))).toBe('Nowy tytuł');
   });
 
@@ -123,7 +123,7 @@ describe('canvas patches instead of reloads', () => {
 
   it('sends the selector hook it had to allocate, instead of reloading for it', async () => {
     await loadPage();
-    // The paragraph has neither id nor class, so styling it allocates a hook —
+    // The paragraph has neither id nor class, so styling it allocates a hook -
     // the one case where a style edit used to cost a full page reload.
     const paragraph = findByTag('p');
     const before = useEditorStore.getState().structureRevision;

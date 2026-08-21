@@ -19,7 +19,7 @@ test.afterEach(async () => {
   await harness?.close();
 });
 
-/** A page with everything inline — the layout the editor must not assume. */
+/** A page with everything inline - the layout the editor must not assume. */
 const INLINE_PROJECT = {
   'index.html': `<!DOCTYPE html>
 <html lang="pl">
@@ -73,7 +73,7 @@ test('startuje i pokazuje ekran powitalny', async () => {
 
   await expect(page.locator('.start__title')).toHaveText('Litho Studio');
   // Opening an existing folder is the primary action, and it is the tile that
-  // carries the brand gradient — see the note at the top of StartScreen.tsx.
+  // carries the brand gradient - see the note at the top of StartScreen.tsx.
   await expect(page.locator('.start-action--primary')).toContainText('Otwórz folder');
   // The product promise is stated on the first screen the user sees.
   await expect(page.locator('.start__subtitle')).toContainText('bez eksportu');
@@ -111,7 +111,7 @@ test('wstawienie elementu zapisuje się do pliku na dysku wraz ze stylami szablo
   // The user's own content and their inline script survive untouched.
   expect(html).toContain('Witaj świecie');
   expect(html).toContain('kod uzytkownika');
-  // The template's class arrives with its rules — into the page's own
+  // The template's class arrives with its rules - into the page's own
   // embedded stylesheet, because that is where this project keeps CSS.
   expect(html).toContain('class="naglowek"');
   expect(html).toContain('.naglowek');
@@ -197,7 +197,7 @@ test('zamiana na dynamiczny rok dopisuje JS w wydzielonej sekcji', async () => {
     if (!store) throw new Error('Brak hooków testowych');
     store.applyTextActionByText('Nagłówek', 'dynamic-year', {
       startYear: 2024,
-      separator: '–',
+      separator: '-',
       elementId: 'copyright-year',
     });
   });
@@ -345,7 +345,7 @@ test('przeciągnięcie nagłówka przesuwa go, ale nie rusza akapitu pod nim', a
   const paragraphBefore = await paragraph.boundingBox();
   if (!headingBefore || !paragraphBefore) throw new Error('Brak geometrii elementów strony');
 
-  // A real drag of the move handle — the gesture under test is the pointer
+  // A real drag of the move handle - the gesture under test is the pointer
   // path, not the store action it ends in. The delta is measured from the
   // handle's own centre (it sits above the *middle* of the selection box, not
   // its left edge), so the drag is exactly the 160×40 asserted below.

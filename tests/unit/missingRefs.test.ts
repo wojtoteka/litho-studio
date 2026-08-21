@@ -4,7 +4,7 @@ import { findReferenceCandidates, parseHtml } from '@/engine/htmlParser.js';
 /**
  * Broken local CSS/JS references: the page links a file that is not in the
  * project. The parser must report *what* is missing, *which element* carries
- * the reference, and *which existing files* plausibly are the intended target —
+ * the reference, and *which existing files* plausibly are the intended target -
  * that structure is what the repair banner renders. Nothing is ever fixed
  * automatically; these tests pin down the detection contract.
  */
@@ -24,7 +24,7 @@ const PAGE_WITH_BROKEN_REFS = `<!doctype html>
 </html>
 `;
 
-describe('parseHtml — missing reference detection', () => {
+describe('parseHtml - missing reference detection', () => {
   it('reports a missing stylesheet with the host element and ranked candidates', () => {
     const files = {
       'index.html': PAGE_WITH_BROKEN_REFS,
@@ -53,7 +53,7 @@ describe('parseHtml — missing reference detection', () => {
     expect(jsRef?.href).toBe('js/app.js');
     expect(jsRef?.candidates).toEqual(['scripts/app.js']);
 
-    // The CDN stylesheet resolves to null (not project-local) — not "missing".
+    // The CDN stylesheet resolves to null (not project-local) - not "missing".
     const remote = parsed.missingRefs.filter((ref) => ref.href.startsWith('https://'));
     expect(remote).toHaveLength(0);
   });

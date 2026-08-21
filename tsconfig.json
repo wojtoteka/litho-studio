@@ -6,7 +6,7 @@
     "types": ["vite/client", "node"],
     "noEmit": true,
     /* No `baseUrl`: it is deprecated as of TypeScript 6 and stops working in 7.
-       Since TS 5.0 `paths` no longer needs it — the patterns below resolve
+       Since TS 5.0 `paths` no longer needs it - the patterns below resolve
        against the directory of the config file they are written in, which is
        the repo root either way. */
     "paths": {

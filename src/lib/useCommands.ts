@@ -9,7 +9,7 @@ import { logger } from '@/lib/logger.js';
  * The command registry.
  *
  * Menu items and keyboard shortcuts both dispatch into this one map, so a
- * command can never behave differently depending on how it was invoked — the
+ * command can never behave differently depending on how it was invoked - the
  * classic source of "the menu works but the shortcut doesn't" bugs.
  *
  * The menu's accelerators are display-only (`registerAccelerator: false`);
@@ -129,7 +129,7 @@ export function executeMenuCommand(command: MenuCommand): void {
       break;
     /*
      * Full screen, the contact page and quitting are the only commands this
-     * registry cannot carry out itself — a web page can neither resize the OS
+     * registry cannot carry out itself - a web page can neither resize the OS
      * window nor end the process. They go back over the bridge to the main
      * process, which implements exactly these three and refuses anything else.
      */
@@ -287,8 +287,8 @@ async function openProject(): Promise<void> {
 }
 
 /**
- * "Open files" still loads the first pick's containing folder as the project —
- * CSS and JS referenced from the page live there and must be tracked too — but
+ * "Open files" still loads the first pick's containing folder as the project -
+ * CSS and JS referenced from the page live there and must be tracked too - but
  * it skips straight to the page the user actually picked instead of whatever
  * happens to be `index.html`. Every other HTML page already in that folder
  * shows up in the page switcher on its own, picked or not.
@@ -311,7 +311,7 @@ async function closeProject(): Promise<void> {
 
 /**
  * Ctrl+A selects the *siblings* of the current element rather than everything
- * in the document — selecting a whole page at once is never a useful editing
+ * in the document - selecting a whole page at once is never a useful editing
  * operation, whereas "all the cards in this grid" constantly is.
  */
 function selectAllSiblings(): void {

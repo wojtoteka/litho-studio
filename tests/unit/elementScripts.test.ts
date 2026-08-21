@@ -12,7 +12,7 @@ import { parseManagedScript, renderManagedScript, upsertSnippet } from '@/engine
 
 /**
  * The binding shown in the properties panel is *derived from the generated
- * file*, not stored anywhere else — so a full write/read round trip is the
+ * file*, not stored anywhere else - so a full write/read round trip is the
  * behaviour that actually has to hold.
  */
 function roundTrip(code: string, domId: string) {
@@ -36,7 +36,7 @@ describe('element script presets', () => {
   it('addresses the element by its id attribute', () => {
     const snippet = buildElementScriptSnippet('stopka-rok', {
       presetId: 'aktualny-rok',
-      params: { rokStartowy: '2020', separator: '–', przedrostek: '© ', przyrostek: '' },
+      params: { rokStartowy: '2020', separator: '-', przedrostek: '© ', przyrostek: '' },
     });
 
     expect(snippet.id).toBe('element-script:stopka-rok');
@@ -105,7 +105,7 @@ describe('element script presets', () => {
 
 /**
  * The in-panel preview is the only feedback the editor gives (the canvas runs
- * no scripts), so it must show *exactly* what the generated code produces —
+ * no scripts), so it must show *exactly* what the generated code produces -
  * these run the real generated body against a fake element and compare.
  */
 describe('element script live preview', () => {
@@ -119,7 +119,7 @@ describe('element script live preview', () => {
 
   it('year preview matches the code, and gives just the year when the prefix is cleared', () => {
     const preset = findPreset('aktualny-rok')!;
-    const params = { rokStartowy: '', separator: '–', przedrostek: '', przyrostek: '' };
+    const params = { rokStartowy: '', separator: '-', przedrostek: '', przyrostek: '' };
 
     const preview = preset.preview(params, '');
     expect(preview?.text).toBe(String(new Date().getFullYear()));
@@ -128,7 +128,7 @@ describe('element script live preview', () => {
 
   it('year preview builds a range from the start year', () => {
     const preset = findPreset('aktualny-rok')!;
-    const params = { rokStartowy: '2020', separator: '–', przedrostek: '© ', przyrostek: '' };
+    const params = { rokStartowy: '2020', separator: '-', przedrostek: '© ', przyrostek: '' };
     expect(preset.preview(params, '')?.text).toBe(runBody('aktualny-rok', params));
   });
 

@@ -5,9 +5,9 @@ import { findFirstTag, getAttr, textContent, type ElementNode } from '@shared/do
 import type { ProjectSnapshot } from '@shared/project.js';
 
 /**
- * The footer used to ship a hard-coded "© Moja Strona 2024–2026", which is
+ * The footer used to ship a hard-coded "© Moja Strona 2024-2026", which is
  * wrong the moment the year turns over. It now carries the `aktualny-rok`
- * element script, so the line keeps itself current — and, because the canvas
+ * element script, so the line keeps itself current - and, because the canvas
  * runs no page script, a matching static value so the editor and a no-JS
  * visitor see a real year rather than a placeholder.
  */
@@ -92,7 +92,7 @@ describe('inserting the footer', () => {
     expect(code).toContain('© Twoja firma ');
   });
 
-  it('stays a single undo step — the script rides along with the insertion', async () => {
+  it('stays a single undo step - the script rides along with the insertion', async () => {
     await loadPage();
     const template = getComponentTemplate('footer')!;
     const body = findFirstTag(useEditorStore.getState().document!.root, 'body')!;

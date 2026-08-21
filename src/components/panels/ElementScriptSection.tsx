@@ -11,14 +11,14 @@ import {
 import { Icon } from '../Icon.js';
 
 /**
- * "Skrypt / Funkcja dynamiczna" — the properties-panel section that attaches
+ * "Skrypt / Funkcja dynamiczna" - the properties-panel section that attaches
  * behaviour to one element.
  *
  * The user picks a ready-made function (current date, countdown, a name taken
  * from the URL) or writes a few lines of JavaScript, and Litho writes real code
  * into the page's own script file. Nothing is stored in a Litho-specific
  * format: the binding shown here is read back out of that generated code, so
- * closing and re-opening the project — or editing the file in VS Code — keeps
+ * closing and re-opening the project - or editing the file in VS Code - keeps
  * the panel and the page in agreement.
  *
  * Changes commit on an explicit button rather than per keystroke: every apply
@@ -62,7 +62,7 @@ export function ElementScriptSection({ nodeId }: { nodeId: NodeId }): JSX.Elemen
   const [justApplied, setJustApplied] = useState(false);
 
   const preset = findPreset(presetId) ?? ELEMENT_SCRIPT_PRESETS[0]!;
-  // Live output, recomputed on every keystroke — the only feedback the editor
+  // Live output, recomputed on every keystroke - the only feedback the editor
   // can give, since the canvas iframe runs no scripts (see `ScriptPreview`).
   const preview = useMemo(() => preset.preview(params, elementText), [preset, params, elementText]);
 
@@ -142,12 +142,12 @@ export function ElementScriptSection({ nodeId }: { nodeId: NodeId }): JSX.Elemen
       {preview ? (
         <div className="script-preview">
           <span className="script-preview__label">Podgląd wyniku</span>
-          <span className="script-preview__value">{preview.text || '—'}</span>
+          <span className="script-preview__value">{preview.text || '-'}</span>
           {preview.note ? <span className="script-preview__note">{preview.note}</span> : null}
         </div>
       ) : (
         <p className="dialog__hint">
-          Podglądu nie da się pokazać dla własnego kodu — uruchom stronę w <strong>Podglądzie</strong>, aby
+          Podglądu nie da się pokazać dla własnego kodu - uruchom stronę w <strong>Podglądzie</strong>, aby
           zobaczyć wynik.
         </p>
       )}
@@ -169,13 +169,13 @@ export function ElementScriptSection({ nodeId }: { nodeId: NodeId }): JSX.Elemen
 
       {target ? (
         <p className="dialog__hint">
-          {describeTarget(target)} Kod dopisywany jest w wydzielonej sekcji na końcu — nic, co już tam jest,
+          {describeTarget(target)} Kod dopisywany jest w wydzielonej sekcji na końcu - nic, co już tam jest,
           nie zostanie zmienione.
         </p>
       ) : null}
 
       <p className="dialog__hint">
-        Po zapisaniu tekst elementu w obszarze edycji zmieni się na powyższy podgląd — obszar edycji nie
+        Po zapisaniu tekst elementu w obszarze edycji zmieni się na powyższy podgląd - obszar edycji nie
         uruchamia skryptów strony, więc to statyczny zapis, nie żywy efekt. Pełny efekt (animacje,
         odświeżanie) zobaczysz w <strong>Podglądzie</strong> lub po otwarciu strony w przeglądarce. Element
         dostanie własny identyfikator (id).
@@ -187,7 +187,7 @@ export function ElementScriptSection({ nodeId }: { nodeId: NodeId }): JSX.Elemen
 /**
  * Confirms the save happened and offers the one place the effect is actually
  * visible. Shown briefly, because the effect is silent everywhere in the editor
- * except the live preview — without this, applying a script looks like a no-op.
+ * except the live preview - without this, applying a script looks like a no-op.
  */
 function ApplyConfirmation({ onOpenPreview }: { onOpenPreview: () => void }): JSX.Element {
   const previewVisible = useUiStore((state) => state.previewVisible);
@@ -205,7 +205,7 @@ function ApplyConfirmation({ onOpenPreview }: { onOpenPreview: () => void }): JS
     <div className="script-section__applied" role="status">
       <span>
         <Icon name="check_circle" size={16} />
-        Zapisano — efekt działa na stronie.
+        Zapisano - efekt działa na stronie.
       </span>
       <button type="button" className="button button--ghost" onClick={() => void open()}>
         <Icon name="visibility" size={15} />
@@ -217,14 +217,14 @@ function ApplyConfirmation({ onOpenPreview }: { onOpenPreview: () => void }): JS
 
 /**
  * Says out loud where the code will land. A page that already has a script
- * keeps it — the editor adapts to the project's layout instead of imposing a
- * `script.js` on every project — and showing which file that is spares the user
+ * keeps it - the editor adapts to the project's layout instead of imposing a
+ * `script.js` on every project - and showing which file that is spares the user
  * from hunting for the generated code afterwards.
  */
 function describeTarget(target: ScriptTargetInfo): string {
   if (target.kind === 'external') return `Kod trafi do istniejącego pliku strony: ${target.label}.`;
-  if (target.kind === 'embedded') return `Strona trzyma JavaScript wewnątrz ${target.label} — kod trafi tam.`;
-  return `Strona nie ma jeszcze pliku JavaScript — zostanie utworzony ${target.label}.`;
+  if (target.kind === 'embedded') return `Strona trzyma JavaScript wewnątrz ${target.label} - kod trafi tam.`;
+  return `Strona nie ma jeszcze pliku JavaScript - zostanie utworzony ${target.label}.`;
 }
 
 function ParamField({

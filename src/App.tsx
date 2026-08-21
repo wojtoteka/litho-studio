@@ -31,7 +31,7 @@ import type { LeftPanel } from './state/uiStore.js';
  * Loaded on demand, not at startup.
  *
  * These are the heaviest things in the app and none of them is needed to open a
- * page and start editing — which is the only thing the first screen has to be
+ * page and start editing - which is the only thing the first screen has to be
  * fast at. The terminal alone drags in xterm.js (~250 kB); the icon panel
  * carries the full Material Symbols catalogue. Splitting them moves that
  * weight from "every launch" to "the moment you actually ask for it".
@@ -50,7 +50,7 @@ const AuditPanel = lazy(async () => ({
   default: (await import('./components/panels/AuditPanel.js')).AuditPanel,
 }));
 
-/** Placeholder while a lazily-loaded panel's chunk arrives — local files, so
+/** Placeholder while a lazily-loaded panel's chunk arrives - local files, so
  *  this is on screen for a frame or two at most. */
 function PanelFallback(): JSX.Element {
   return (
@@ -101,7 +101,7 @@ export function App(): JSX.Element {
   const canvasMode = useUiStore((state) => state.canvasMode);
   const previewVisible = useUiStore((state) => state.previewVisible);
   // "Przeglądanie" already replaces the main work area with the same live
-  // preview the toolbar's own "Podgląd" toggle opens as a side panel — showing
+  // preview the toolbar's own "Podgląd" toggle opens as a side panel - showing
   // both at once would be two components fighting over one underlying native
   // view (previewService manages exactly one WebContentsView).
   const showSidePreview = previewVisible && canvasMode !== 'preview';
@@ -124,7 +124,7 @@ export function App(): JSX.Element {
     const offFileChange = window.litho.onFileChange((event) => {
       applyExternalChange(event);
       // A non-text file appearing, changing or vanishing means the asset list
-      // is stale — deletions included, or removed images would linger in the panel.
+      // is stale - deletions included, or removed images would linger in the panel.
       if (event.content === null) {
         void window.litho.assets.list().then((result) => {
           if (result.ok) setAssets(result.value);
@@ -171,7 +171,7 @@ export function App(): JSX.Element {
    *
    * Belt and braces, deliberately. The preview is a native `WebContentsView`
    * composited above this document, so when it fails to go away it is not
-   * merely a stale panel — it is a page drawn over the start screen that no
+   * merely a stale panel - it is a page drawn over the start screen that no
    * amount of DOM can cover, and the user has to click their way back into a
    * project to be rid of it. Two independent paths to "hidden" is a cheap price
    * for never landing in that state; both are idempotent (see `hide()` in
@@ -186,7 +186,7 @@ export function App(): JSX.Element {
    * One update check per launch, exactly as asked for: every time the app is
    * opened, provided there is a network to ask over.
    *
-   * Fire-and-forget on purpose — nothing in the editor waits on it, and the
+   * Fire-and-forget on purpose - nothing in the editor waits on it, and the
    * main process resolves an unreachable server to "nothing newer known"
    * rather than an error, so being offline costs the user no dialog, no toast
    * and no delay. See `updateService.ts`.
@@ -224,7 +224,7 @@ export function App(): JSX.Element {
     />
   ) : null;
 
-  /* Reachable with and without a project open — installing a CLI has nothing to
+  /* Reachable with and without a project open - installing a CLI has nothing to
      do with which page is being edited. */
   const aiToolsDialog = aiToolsDialogVisible ? <AiToolsDialog onClose={closeAiToolsDialog} /> : null;
 
@@ -284,8 +284,8 @@ export function App(): JSX.Element {
            * The bars span the work area *and* the preview beside it, rather than
            * sitting inside the editor column.
            *
-           * Everything they carry — the breakpoint, the browse/edit mode, the
-           * out-of-layout warning — describes both halves equally, and putting
+           * Everything they carry - the breakpoint, the browse/edit mode, the
+           * out-of-layout warning - describes both halves equally, and putting
            * them over only one half also made that half start ~40 px lower than
            * the other: side by side, the editor showed a visibly shorter slice of
            * the same page than the preview did.
@@ -306,18 +306,18 @@ export function App(): JSX.Element {
              * the preview pane carries a 36 px toolbar of its own, so without a
              * matching strip here the edited page started 36 px lower than the
              * previewed one and the two halves were visibly out of step. It
-             * doubles as the label the editing half never had — with both panes
+             * doubles as the label the editing half never had - with both panes
              * showing the same file, saying which is which is worth the row.
              */}
             {showSidePreview ? (
               <div className="canvas__titlebar">
                 <Icon name="edit" size={15} />
-                Edycja: {pageRelPath ?? '—'}
+                Edycja: {pageRelPath ?? '-'}
               </div>
             ) : null}
 
             {canvasMode === 'preview' ? (
-              // The real page, loaded and navigable exactly as a browser would —
+              // The real page, loaded and navigable exactly as a browser would -
               // internal links move between the project's own pages, external
               // ones open in the user's system browser, and anything pointing
               // outside the project folder is blocked with a visible error

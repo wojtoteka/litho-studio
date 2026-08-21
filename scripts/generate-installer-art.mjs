@@ -3,7 +3,7 @@
  * Generuje grafiki kreatora instalacji (NSIS) z `resources/logo.svg`.
  *
  * NSIS/MUI2 przyjmuje wyłącznie nieskompresowane BMP o z góry ustalonych
- * rozmiarach, a `sharp` nie umie zapisywać BMP — dlatego kontener 24-bitowy
+ * rozmiarach, a `sharp` nie umie zapisywać BMP - dlatego kontener 24-bitowy
  * składamy tu ręcznie, dokładnie tak jak `.icns` w `generate-icons.mjs`.
  *
  * Kolory pochodzą z ciemnego motywu aplikacji (`src/styles/app.css`); tło
@@ -11,9 +11,9 @@
  * bo bitmapa i tło paska nagłówka stykają się bez żadnej ramki.
  *
  * Wynik ląduje w `resources/installer/` (git-ignorowany, bo pochodny):
- *   header.bmp             150 × 57   — pasek nagłówka na stronach kreatora
- *   sidebar.bmp            164 × 314  — panel powitania/zakończenia instalatora
- *   sidebar-uninstall.bmp  164 × 314  — to samo dla dezinstalatora (znak mono)
+ *   header.bmp             150 × 57   - pasek nagłówka na stronach kreatora
+ *   sidebar.bmp            164 × 314  - panel powitania/zakończenia instalatora
+ *   sidebar-uninstall.bmp  164 × 314  - to samo dla dezinstalatora (znak mono)
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -25,7 +25,7 @@ const logoSvg = path.join(root, 'resources/logo.svg');
 const logoMonoSvg = path.join(root, 'resources/logo-mono.svg');
 const outputDirectory = path.join(root, 'resources/installer');
 
-/** Paleta ciemnego motywu — patrz `:root` w src/styles/app.css. */
+/** Paleta ciemnego motywu - patrz `:root` w src/styles/app.css. */
 const COLOR = {
   surface0: '#0e0f14',
   surface1: '#15161d',
@@ -86,7 +86,7 @@ function encodeBmp24(rgb, width, height) {
 async function writeBmp(name, image, { width, height }) {
   const rgb = await image.flatten({ background: COLOR.surface1 }).removeAlpha().raw().toBuffer();
   await fs.writeFile(path.join(outputDirectory, name), encodeBmp24(rgb, width, height));
-  log(`${name} — ${width} × ${height}`);
+  log(`${name} - ${width} × ${height}`);
 }
 
 /** Znak marki wyrenderowany z logo.svg do podanego boku (w pikselach). */
@@ -95,7 +95,7 @@ async function renderMark(size, { mono = false } = {}) {
     return sharp(logoSvg, { density: 512 }).resize(size, size, { fit: 'contain' }).png().toBuffer();
   }
 
-  // logo-mono.svg używa `currentColor`, którego renderer SVG nie ma skąd wziąć —
+  // logo-mono.svg używa `currentColor`, którego renderer SVG nie ma skąd wziąć -
   // podstawiamy konkretny kolor przed rasteryzacją.
   const source = await fs.readFile(logoMonoSvg, 'utf8');
   const colored = Buffer.from(source.replaceAll('currentColor', COLOR.ink3), 'utf8');
@@ -105,7 +105,7 @@ async function renderMark(size, { mono = false } = {}) {
 /**
  * Tło panelu bocznego: ciemna płyta, poświata w barwach marki i podpis.
  *
- * `variant` przełącza tylko temperaturę poświaty i podpis — układ zostaje ten
+ * `variant` przełącza tylko temperaturę poświaty i podpis - układ zostaje ten
  * sam, żeby instalator i dezinstalator czytały się jako jedna rodzina.
  */
 function sidebarBackgroundSvg(variant) {
@@ -151,7 +151,7 @@ function sidebarBackgroundSvg(variant) {
 /**
  * Tło paska nagłówka: płaskie `--surface-2` plus delikatna poświata pod znakiem.
  * Płaskie i dokładnie w tym kolorze, bo bitmapa styka się bez ramki z resztą
- * paska, którą rysuje MUI — kolor musi odpowiadać `MUI_BGCOLOR` z installer.nsh.
+ * paska, którą rysuje MUI - kolor musi odpowiadać `MUI_BGCOLOR` z installer.nsh.
  */
 function headerBackgroundSvg() {
   return Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg"
@@ -192,7 +192,7 @@ async function main() {
   await buildSidebar('install');
   await buildSidebar('uninstall');
 
-  log(`gotowe — ${outputDirectory}`);
+  log(`gotowe - ${outputDirectory}`);
 }
 
 main().catch((error) => {

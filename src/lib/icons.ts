@@ -1,14 +1,14 @@
 /**
  * Material Symbols (Outlined, 24 px) as raw SVG path data.
  *
- * The editor's own chrome must render identically with no network — Litho is an
+ * The editor's own chrome must render identically with no network - Litho is an
  * offline desktop app and `electron/main.ts` blocks outbound requests by
- * design — so the icons are inlined as geometry rather than pulled from Google's
+ * design - so the icons are inlined as geometry rather than pulled from Google's
  * webfont CDN. That is also why they are `<path>` data and not an icon font:
  * no FOUT, no ligature text flashing in the toolbar, no extra request.
  *
  * Generated from https://fonts.google.com/icons (Material Symbols Outlined).
- * Icons the *user's page* uses still come from the CDN — see `googleFonts.ts`;
+ * Icons the *user's page* uses still come from the CDN - see `googleFonts.ts`;
  * that is a property of the page being edited, not of the editor.
  */
 

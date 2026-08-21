@@ -4,7 +4,7 @@ import type { NodeId } from './document.js';
  * Where a stylesheet or script physically lives.
  *
  * Litho never assumes a layout. A project may keep CSS in `style.css`, in three
- * separate files, in a `<style>` block in `<head>`, or in all of those at once —
+ * separate files, in a `<style>` block in `<head>`, or in all of those at once -
  * every variant becomes a `SourceRef` and participates in the cascade in
  * document order.
  */
@@ -95,13 +95,13 @@ export interface Breakpoint {
   canvasWidth: number;
   /**
    * True to render at whatever the work area happens to be, ignoring
-   * `canvasWidth` — the way a real browser window behaves, and the honest
+   * `canvasWidth` - the way a real browser window behaves, and the honest
    * default for the base breakpoint since it emits no media query.
    *
    * It is a flag of its own rather than being inferred from `maxWidth === null`
    * because the two answer different questions: `maxWidth` decides *where the
    * CSS is written*, while this decides *how wide the page is drawn*. Conflating
-   * them left the desktop breakpoint with no editable width at all — the
+   * them left the desktop breakpoint with no editable width at all - the
    * reported "page size cannot be edited, there is nowhere to even type a
    * number".
    */
@@ -116,8 +116,8 @@ export interface Breakpoint {
  * The second axis of the same idea as `Breakpoint`: a breakpoint decides which
  * `@media` block a declaration lands in, a state decides which pseudo-class the
  * selector carries. `normal` writes `.przycisk`, `hover` writes
- * `.przycisk:hover`. Everything downstream — the cascade, the generator, the
- * declaration reader — needs no knowledge of the distinction.
+ * `.przycisk:hover`. Everything downstream - the cascade, the generator, the
+ * declaration reader - needs no knowledge of the distinction.
  *
  * Without this there was no way to give a button a hover colour except by
  * hand-writing CSS, which is precisely what the program exists to avoid.
@@ -168,7 +168,7 @@ export interface FileWrite {
 }
 
 export interface WriteReport {
-  /** Files actually written — unchanged files are skipped. */
+  /** Files actually written - unchanged files are skipped. */
   written: string[];
   /** Content hashes after the write, used to suppress watcher echo. */
   hashes: Record<string, string>;
@@ -243,7 +243,7 @@ export const IGNORED_DIRECTORIES: ReadonlySet<string> = new Set([
 
 /**
  * Above this many HTML files, a folder is more likely a code checkout, a
- * documentation dump or a home directory than "one website" — so the app asks
+ * documentation dump or a home directory than "one website" - so the app asks
  * before committing to it. See `confirmLargeProject` in electron/ipc/index.ts.
  */
 export const PLAUSIBLE_PAGE_COUNT = 50;

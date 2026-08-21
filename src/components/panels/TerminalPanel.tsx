@@ -10,15 +10,15 @@ import { Icon } from '../Icon.js';
 /**
  * Embedded terminal, VS Code-style: a real shell (node-pty in the main
  * process) rooted at the current project's folder, rendered here with
- * xterm.js. Any CLI the user runs in it — `git`, `npm run …`, `claude`,
- * `grok` — can freely rewrite files on disk; the existing project file
+ * xterm.js. Any CLI the user runs in it - `git`, `npm run …`, `claude`,
+ * `grok` - can freely rewrite files on disk; the existing project file
  * watcher (`ProjectWatcher`) picks those changes up exactly as it would an
  * edit made in VS Code, and `registerIpc`'s file-change handler now also
  * nudges the live preview to refresh for them (see electron/ipc/index.ts).
  *
  * The panel gates its own mount behind `hasOpenedRef`: nothing here (no pty,
  * no xterm instance) is created until the user opens the terminal for the
- * first time, but once created it stays alive — just visually hidden — while
+ * first time, but once created it stays alive - just visually hidden - while
  * the panel is toggled closed, so a long-running command or an interactive
  * `claude` session survives closing and reopening the panel.
  */
@@ -36,14 +36,14 @@ export function TerminalPanel(): JSX.Element | null {
  * `fit()` divides the container's measured box by the cell size, so a container
  * that is hidden or has not been laid out yet makes it read zero and throw from
  * inside xterm's own dimension maths. There is nothing useful to do about that
- * but wait for a real size — which the panel's ResizeObserver, and the refit on
+ * but wait for a real size - which the panel's ResizeObserver, and the refit on
  * becoming visible, both deliver.
  */
 function safeFit(fitAddon: FitAddon): void {
   try {
     fitAddon.fit();
   } catch {
-    /* see above — the next observed resize corrects it */
+    /* see above - the next observed resize corrects it */
   }
 }
 
@@ -53,8 +53,8 @@ const FALLBACK_MONO_STACK = 'Consolas, "Cascadia Code", ui-monospace, monospace'
 /**
  * The monospace stack, as a literal font list.
  *
- * xterm cannot be handed `var(--font-mono)`. It does its own text metrics —
- * measuring one character cell and laying the entire grid out on that number —
+ * xterm cannot be handed `var(--font-mono)`. It does its own text metrics -
+ * measuring one character cell and laying the entire grid out on that number -
  * and part of that path builds a canvas `ctx.font` string, where custom
  * properties do not exist and an unparseable value is discarded outright. The
  * font it then measures with is not the font it renders with, which is how a
@@ -63,7 +63,7 @@ const FALLBACK_MONO_STACK = 'Consolas, "Cascadia Code", ui-monospace, monospace'
  * the damage stayed invisible; on Windows it did not.
  *
  * Resolving the custom property here keeps app.css the single definition of what
- * the app's monospace font *is* — this reads that value rather than restating
+ * the app's monospace font *is* - this reads that value rather than restating
  * it, so the two cannot drift apart.
  */
 function resolveMonoStack(): string {
@@ -77,7 +77,7 @@ function resolveMonoStack(): string {
  * Only the background used to be set (to transparent, so the panel's surface
  * shows through), which left the *foreground* at xterm's default of near-white.
  * On the dark theme that happened to be right; on the light theme it was white
- * text on a white panel — the terminal was there, running, and unreadable.
+ * text on a white panel - the terminal was there, running, and unreadable.
  *
  * Reading the tokens rather than restating their values keeps one definition of
  * the palette, and means the terminal follows a future theme edit for free.
@@ -107,7 +107,7 @@ function resolveXtermTheme(): ITheme {
 }
 
 /**
- * A session on a degraded backend still works, but not identically — see
+ * A session on a degraded backend still works, but not identically - see
  * `TerminalBackendKind`. Saying so once, up front and in yellow, is the
  * difference between "resizing does nothing" reading as a bug and reading as a
  * documented limit of the platform build.
@@ -145,7 +145,7 @@ function TerminalSession({ hidden, onClose }: { hidden: boolean; onClose: () => 
      * Opening a terminal synchronously queues work *inside* xterm: the Viewport
      * constructor schedules its own `setTimeout(() => syncScrollArea())`, which
      * reads `renderService.dimensions`. In development React's StrictMode mounts
-     * every effect, tears it down and mounts it again within the same commit —
+     * every effect, tears it down and mounts it again within the same commit -
      * so `dispose()` ran before that timer fired, and the timer then read
      * `dimensions` off a disposed render service. That is the
      * "Cannot read properties of undefined (reading 'dimensions')" crash: not a
@@ -227,7 +227,7 @@ function TerminalSession({ hidden, onClose }: { hidden: boolean; onClose: () => 
   /*
    * Follow the app's theme. The tokens `resolveXtermTheme` reads are swapped by
    * `[data-theme]` on <html>, so they resolve to different values after a toggle
-   * — but xterm has already copied them into its own colour manager and repaints
+   * - but xterm has already copied them into its own colour manager and repaints
    * from that, not from CSS. Handing it the new set is what keeps the terminal
    * from staying dark-on-light (or light-on-dark) until it is next recreated.
    */
@@ -236,7 +236,7 @@ function TerminalSession({ hidden, onClose }: { hidden: boolean; onClose: () => 
     if (term) term.options.theme = resolveXtermTheme();
   }, [theme]);
 
-  /* Refit whenever the panel becomes visible again — a hidden xterm cannot
+  /* Refit whenever the panel becomes visible again - a hidden xterm cannot
      measure itself, so the fit while closed is stale. */
   useEffect(() => {
     if (hidden) return;
@@ -280,7 +280,7 @@ function TerminalSession({ hidden, onClose }: { hidden: boolean; onClose: () => 
         >
           <Icon name="terminal" size={15} />
           <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-            Terminal{cwd ? ` — ${cwd}` : ''}
+            Terminal{cwd ? ` - ${cwd}` : ''}
           </span>
         </span>
         <span style={{ display: 'flex', gap: 4 }}>

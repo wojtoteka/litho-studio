@@ -13,7 +13,7 @@ import {
 import { NON_VISUAL_ELEMENTS } from '@shared/document.js';
 import { Icon } from '../Icon.js';
 
-/** Tags able to hold children — the only valid "drop inside" targets. */
+/** Tags able to hold children - the only valid "drop inside" targets. */
 const CONTAINER_TAGS = new Set([
   'div',
   'section',
@@ -33,14 +33,14 @@ const CONTAINER_TAGS = new Set([
 /**
  * Layer tree.
  *
- * Rows are flattened before rendering so the list is a single flat array —
+ * Rows are flattened before rendering so the list is a single flat array -
  * that keeps the DOM shallow for deep pages and makes it straightforward to
  * virtualise: only rows inside the scroll window are mounted, so a page with
  * thousands of elements still scrolls at full speed.
  *
  * Visibility and locking are stored as real attributes (`hidden`, `inert`)
  * rather than editor metadata, so they mean the same thing when the page is
- * opened in a browser — consistent with the "no editor-only state" rule.
+ * opened in a browser - consistent with the "no editor-only state" rule.
  */
 
 const ROW_HEIGHT = 24;
@@ -73,7 +73,7 @@ export function LayersPanel(): JSX.Element {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   // A single selected element (from a canvas click, a fresh insert, or an undo)
-  // must be visible here without the user hunting for it — expand whichever of
+  // must be visible here without the user hunting for it - expand whichever of
   // its ancestors are currently collapsed.
   const selectedId = selection.length === 1 ? selection[0] : null;
   useEffect(() => {
@@ -95,7 +95,7 @@ export function LayersPanel(): JSX.Element {
     const body = getBody(document);
     if (!body) return [];
     return flatten(body, 0, collapsed);
-    // `revision` included because the tree mutates in place — see editorStore.
+    // `revision` included because the tree mutates in place - see editorStore.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [document, collapsed, revision]);
 
@@ -160,7 +160,7 @@ export function LayersPanel(): JSX.Element {
     const root = state.document?.root;
     if (!root) return;
 
-    // Never drop a node into its own subtree — that would detach the tree.
+    // Never drop a node into its own subtree - that would detach the tree.
     const source = findElement(root, sourceId);
     if (!source || findElement(source, target.id)) return;
 

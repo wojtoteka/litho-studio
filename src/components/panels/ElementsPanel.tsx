@@ -8,7 +8,7 @@ import { Icon } from '../Icon.js';
  * The element palette.
  *
  * Items are draggable onto the canvas and also insertable with a click, which
- * keeps the editor usable without a pointer — dragging is the only interaction
+ * keeps the editor usable without a pointer - dragging is the only interaction
  * in the app that a keyboard cannot reproduce, so every drag source needs a
  * click equivalent.
  */
@@ -51,7 +51,7 @@ export function ElementsPanel(): JSX.Element {
                 draggable
                 onDragStart={(event) => setDragPayload(event, { kind: 'element', templateId: template.id })}
                 onClick={() => insert(template)}
-                title={`${template.label} — przeciągnij na stronę lub kliknij, aby wstawić`}
+                title={`${template.label} - przeciągnij na stronę lub kliknij, aby wstawić`}
               >
                 <span className="palette__icon">
                   <Icon name={template.icon} size={17} />

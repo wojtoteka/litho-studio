@@ -36,7 +36,7 @@ function sheet(css: string, overrides: Partial<StyleSource> = {}): StyleSheetMod
   });
 }
 
-describe('applyDeclarations — base breakpoint', () => {
+describe('applyDeclarations - base breakpoint', () => {
   it('creates a rule when the selector has none', () => {
     const model = sheet('body { margin: 0; }\n');
     applyDeclarations(model, '.hero', desktop, { color: 'red', 'font-size': '32px' });
@@ -87,7 +87,7 @@ describe('applyDeclarations — base breakpoint', () => {
   });
 });
 
-describe('applyDeclarations — preserving what the editor does not understand', () => {
+describe('applyDeclarations - preserving what the editor does not understand', () => {
   it('keeps comments, custom properties and @supports intact', () => {
     const original = `/* Motyw */
 :root {
@@ -128,7 +128,7 @@ describe('applyDeclarations — preserving what the editor does not understand',
   });
 });
 
-describe('applyDeclarations — breakpoints and media queries', () => {
+describe('applyDeclarations - breakpoints and media queries', () => {
   it('creates a real @media block for a responsive value', () => {
     const model = sheet('.hero { font-size: 48px; }\n');
     applyDeclarations(model, '.hero', mobile, { 'font-size': '28px' });
@@ -179,7 +179,7 @@ describe('applyDeclarations — breakpoints and media queries', () => {
   });
 });
 
-describe('readDeclarations — cascade order', () => {
+describe('readDeclarations - cascade order', () => {
   it('lets a later sheet win over an earlier one', () => {
     const base = sheet('.a { color: red; }', { order: 1 });
     const theme = sheet('.a { color: blue; }', { order: 2, relPath: 'theme.css' });
@@ -309,7 +309,7 @@ describe('planSelector', () => {
       classCounts: countClasses(body),
       label: 'karta produktu',
     });
-    // Styling one of two `.card` elements must not restyle both — and an id
+    // Styling one of two `.card` elements must not restyle both - and an id
     // (not a fresh single class) guarantees the new rule wins the cascade
     // even if some other rule targets `.card` with a compound selector.
     expect(plan.addClass).toBeNull();

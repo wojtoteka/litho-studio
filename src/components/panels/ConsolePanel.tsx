@@ -98,7 +98,7 @@ export function ConsolePanel(): JSX.Element {
 
 async function openLogFile(): Promise<void> {
   // The log file lives in the OS app-data folder, outside any project, so a
-  // dedicated channel reveals it — the project-scoped file APIs would refuse.
+  // dedicated channel reveals it - the project-scoped file APIs would refuse.
   await window.litho.log.reveal().catch(() => undefined);
 }
 

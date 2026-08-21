@@ -14,13 +14,13 @@ registerTestHooks();
 
 const container = document.getElementById('root');
 if (!container) {
-  throw new Error('Brak elementu #root — dokument aplikacji jest uszkodzony.');
+  throw new Error('Brak elementu #root - dokument aplikacji jest uszkodzony.');
 }
 
 // Anything that escapes React still reaches the log file, so a bug report from
 // a user contains the failure even when the UI recovered silently.
 window.addEventListener('error', (event) => {
-  // Benign layout-settling notification, not an error — logging it as one
+  // Benign layout-settling notification, not an error - logging it as one
   // would bury real failures under noise on every canvas rebuild.
   if (event.message?.includes('ResizeObserver loop')) return;
   logger.error(`Nieobsłużony błąd: ${event.message}`, event.error);

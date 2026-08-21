@@ -1,7 +1,7 @@
 import { useId } from 'react';
 
 /**
- * The Litho Studio mark: a code bracket `< / >` whose slash is a mouse cursor —
+ * The Litho Studio mark: a code bracket `< / >` whose slash is a mouse cursor -
  * the round trip between writing code and editing visually, which is the whole
  * premise of the product.
  *
@@ -30,7 +30,7 @@ import { useId } from 'react';
  *   - the right edge, tip (15.6,10.1) → wing (32.5,27), runs at exactly 45°,
  *     so it rhymes with the brackets either side instead of nearly matching;
  *   - the bottom edge, (15.6,34.1) → notch (20.7,29), runs at exactly 45° too;
- *   - the tail is a parallelogram 4.4 units thick — a third wider than the
+ *   - the tail is a parallelogram 4.4 units thick - a third wider than the
  *     pointer it is traced from, which is what keeps it from vanishing when a
  *     512 px source is resampled down to a 16 px favicon;
  *   - the whole glyph's bounding box centres on (24,24), the brackets' own
@@ -41,7 +41,7 @@ const CURSOR_PATH =
 
 /**
  * Pulled in from x=5/x=43 and shortened by a unit at each end, so the gap to the
- * cursor is the same on both sides — it was 5.5 units on the left and 2.2 on the
+ * cursor is the same on both sides - it was 5.5 units on the left and 2.2 on the
  * right before, which is what made the mark look as though it had slipped.
  */
 const BRACKET_LEFT = 'M11 16 L5 24 L11 32';

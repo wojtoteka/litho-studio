@@ -6,8 +6,8 @@ import { defaultShell } from '../../electron/ipc/terminalService.js';
  * Regression guard for a terminal that was dead on Windows.
  *
  * `defaultShell()` had no Windows branch: it probed a list of `/bin/*` paths and
- * fell back to `/bin/sh`. None of those exist on Windows, so node-pty — which
- * loads and spawns there without trouble — threw `ENOENT` on the shell it was
+ * fell back to `/bin/sh`. None of those exist on Windows, so node-pty - which
+ * loads and spawns there without trouble - threw `ENOENT` on the shell it was
  * handed, the service read that as node-pty being unusable, and the pipe
  * fallback then tried the same missing `/bin/sh` again. The panel opened with a
  * warning blaming node-pty, a red `spawn /bin/sh ENOENT`, and no shell.
@@ -22,7 +22,7 @@ describe('defaultShell', () => {
     expect(existsSync(shell.file)).toBe(true);
   });
 
-  it('resolves an absolute path — PATH is user-writable and this spawns a shell', () => {
+  it('resolves an absolute path - PATH is user-writable and this spawns a shell', () => {
     if (process.platform === 'win32') expect(shell.file).toMatch(/^[a-z]:\\/iu);
     else expect(shell.file.startsWith('/')).toBe(true);
   });

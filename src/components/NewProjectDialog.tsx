@@ -6,7 +6,7 @@ import { useEditorStore } from '@/state/editorStore.js';
  * New-project dialog.
  *
  * A new project is a folder with `index.html`, `style.css` and `script.js` in
- * it — nothing else, no manifest, no hidden state. That is deliberate: the
+ * it - nothing else, no manifest, no hidden state. That is deliberate: the
  * folder a user creates here is indistinguishable from one they wrote by hand,
  * which is exactly what makes it openable by anything else.
  */
@@ -80,7 +80,7 @@ export function NewProjectDialog({
           Nowy projekt
         </h2>
         <p className="dialog__hint">
-          Powstanie zwykły folder ze stroną — możesz go od razu otworzyć w VS Code albo wrzucić na hosting.
+          Powstanie zwykły folder ze stroną - możesz go od razu otworzyć w VS Code albo wrzucić na hosting.
         </p>
 
         <div className="dialog__fields">

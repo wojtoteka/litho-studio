@@ -18,7 +18,7 @@ import { Icon, type IconName } from './Icon.js';
  * edge, and the alignment is a property of the layout instead of a correction
  * applied to it.
  *
- * "Open a folder" is the primary action, not "New project" — the product's
+ * "Open a folder" is the primary action, not "New project" - the product's
  * distinguishing promise is that it edits websites that already exist, so the
  * first thing the user sees should invite them to point it at one. It is the
  * first tile and the only one carrying the brand.
@@ -134,7 +134,7 @@ export function StartScreen(): JSX.Element {
           <div>
             <h1 className="start__title">Litho Studio</h1>
             <p className="start__subtitle">
-              Wizualny edytor stron WWW. Zmiany zapisują się natychmiast w plikach HTML, CSS i JS — bez
+              Wizualny edytor stron WWW. Zmiany zapisują się natychmiast w plikach HTML, CSS i JS - bez
               formatu projektu i bez eksportu.
             </p>
           </div>
@@ -186,7 +186,7 @@ export function StartScreen(): JSX.Element {
             <a href="https://wojtoteka.ovh" target="_blank" rel="noreferrer">
               Wojtoteka
             </a>{' '}
-            2024–{new Date().getFullYear()}
+            2024-{new Date().getFullYear()}
           </span>
           <span className="start__version">v{window.litho.appVersion}</span>
         </footer>
@@ -199,8 +199,8 @@ export function StartScreen(): JSX.Element {
  * One entry in the recents list.
  *
  * Two lines, not one. Squeezing the folder name and its path onto a single row
- * meant the path began at a different x on every row — it started wherever the
- * name happened to end — so five entries read as five ragged fragments rather
+ * meant the path began at a different x on every row - it started wherever the
+ * name happened to end - so five entries read as five ragged fragments rather
  * than a list. Stacking them puts every path on the same left edge, and lets
  * the name keep the weight it needs to be the thing you actually scan for.
  */

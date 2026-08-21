@@ -88,7 +88,7 @@ describe('component library', () => {
 describe('new section templates', () => {
   const sections = COMPONENT_TEMPLATES.filter((template) => SECTION_IDS.includes(template.id));
 
-  it('styles only classes, never bare tags — a drop cannot restyle the page', () => {
+  it('styles only classes, never bare tags - a drop cannot restyle the page', () => {
     for (const template of sections) {
       postcss.parse(template.css).walkRules((rule) => {
         for (const part of rule.selector.split(',')) {
@@ -121,7 +121,7 @@ describe('new section templates', () => {
     }
   });
 
-  it('styles exactly the classes its markup uses — no dead rules, no unstyled nodes', () => {
+  it('styles exactly the classes its markup uses - no dead rules, no unstyled nodes', () => {
     for (const template of sections) {
       const used = classesOf(template.build());
       const styled = styledClasses(template.css);
@@ -148,7 +148,7 @@ describe('new section templates', () => {
 
   it('lands in a stylesheet that already holds every other template, without collisions', () => {
     // The realistic worst case: a page built from the whole library. Nothing may
-    // be skipped as "already defined" — that would mean two blocks fighting over
+    // be skipped as "already defined" - that would mean two blocks fighting over
     // one selector.
     const sheet = emptySheet('body { margin: 0; }');
     for (const template of COMPONENT_TEMPLATES) {

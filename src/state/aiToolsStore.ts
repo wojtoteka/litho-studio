@@ -8,7 +8,7 @@ import { logger } from '@/lib/logger.js';
  * A store rather than component state, for one reason that matters: an
  * `npm install -g` runs for tens of seconds, and the user is free to close the
  * dialog while it does. The install itself lives in the main process and carries
- * on regardless — so if the progress lived in the dialog, reopening it would show
+ * on regardless - so if the progress lived in the dialog, reopening it would show
  * "Zainstaluj" next to a tool that was in the middle of installing, and the
  * output would be gone. Holding it here means the dialog is a view onto work in
  * progress rather than the owner of it.
@@ -21,7 +21,7 @@ import { logger } from '@/lib/logger.js';
 type ToolMap<T> = Partial<Record<AiToolId, T>>;
 
 interface AiToolsState {
-  /** `null` until asked. False on any platform but Windows — see `AI_TOOLS_PLATFORM`. */
+  /** `null` until asked. False on any platform but Windows - see `AI_TOOLS_PLATFORM`. */
   supported: boolean | null;
   /** `null` until the first detection completes. */
   statuses: ToolMap<AiToolStatus> | null;
@@ -88,7 +88,7 @@ export const useAiToolsStore = create<AiToolsState>((set, get) => ({
     const result = await window.litho.aiTools.install(id);
     if (result.ok) return;
 
-    // Refused before anything started — no `done` event will arrive, so the
+    // Refused before anything started - no `done` event will arrive, so the
     // optimistic flag has to be taken back here.
     set((state) => ({
       installing: { ...state.installing, [id]: undefined },
@@ -138,7 +138,7 @@ function ensureSubscribed(): void {
     else logger.warn(`Instalacja ${name} nie powiodła się: ${message ?? 'nieznany błąd'}`);
 
     // The whole point of the operation was to change what is on PATH, so the
-    // row's status is stale the moment it finishes — successfully or not.
+    // row's status is stale the moment it finishes - successfully or not.
     void useAiToolsStore.getState().refresh();
   });
 }

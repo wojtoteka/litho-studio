@@ -10,7 +10,7 @@ import { writeAtomic } from './fileService.js';
  *
  * This is *application preference* state, not project state: it holds nothing
  * but folder paths and timestamps. Deleting it loses no user work, and a
- * project folder never gains a file because Litho opened it — which is the
+ * project folder never gains a file because Litho opened it - which is the
  * guarantee that a Litho project stays a plain website folder.
  */
 
@@ -38,7 +38,7 @@ async function read(): Promise<StoredEntry[]> {
     const parsed: unknown = JSON.parse(raw);
     cache = Array.isArray(parsed) ? parsed.filter(isStoredEntry).slice(0, MAX_RECENT) : [];
   } catch {
-    // Missing or corrupt file is not an error — the list simply starts empty.
+    // Missing or corrupt file is not an error - the list simply starts empty.
     cache = [];
   }
   return cache;

@@ -9,7 +9,7 @@ import { parseStyleSheets } from '@/engine/cssGenerator.js';
 
 /**
  * The "Stan" section writes `:hover`/`:focus`/`:active` rules correctly and used
- * to show nothing at all while doing it — the pointer is over the properties
+ * to show nothing at all while doing it - the pointer is over the properties
  * panel, and `:focus`/`:active` cannot be reached from the canvas by any gesture
  * whatsoever. These pin the preview that makes the section visible.
  */

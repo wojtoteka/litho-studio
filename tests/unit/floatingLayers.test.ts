@@ -49,7 +49,7 @@ describe('floating layer registry', () => {
     expect(isCoveredByLayer({}, surface)).toBe(false);
     // The ☰ panel on the far side of the window: open, but nowhere near.
     expect(isCoveredByLayer({ a: { left: 0, top: 40, right: 380, bottom: 500 } }, surface)).toBe(false);
-    // Edge-to-edge counts as clear — a menu ending exactly where the pane
+    // Edge-to-edge counts as clear - a menu ending exactly where the pane
     // starts hides nothing.
     expect(isCoveredByLayer({ a: { left: 0, top: 40, right: 400, bottom: 500 } }, surface)).toBe(false);
     // The out-of-layout list dropping out of the breakpoint bar into the pane.

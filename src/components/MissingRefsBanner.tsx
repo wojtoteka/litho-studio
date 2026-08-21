@@ -8,7 +8,7 @@ import { Icon } from './Icon.js';
  *
  * The page links a stylesheet or script that is not where the link says. The
  * parser has already ranked the project's files as candidates; this banner
- * shows them and lets the user pick the right one — the chosen path is written
+ * shows them and lets the user pick the right one - the chosen path is written
  * back into the HTML as a relative href/src. Never automatic: a wrong guess
  * would silently restyle the page with the wrong file.
  */
@@ -53,7 +53,7 @@ export function MissingRefsBanner(): JSX.Element | null {
             <Icon name="error" size={16} />
             <span>
               {ref.kind === 'css' ? 'Arkusz stylów' : 'Skrypt'} <code>{ref.href}</code> nie istnieje
-              {ref.candidates.length > 0 ? ' — wybierz właściwy plik:' : '.'}
+              {ref.candidates.length > 0 ? ' - wybierz właściwy plik:' : '.'}
             </span>
           </span>
 

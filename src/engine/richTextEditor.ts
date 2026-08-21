@@ -8,8 +8,8 @@ import { createRuntimeNodeId } from './idAllocator.js';
  *
  * The user selects a *fragment* inside a text element and transforms just that
  * fragment, leaving the rest of the element untouched. `© wojtoteka.ovh
- * 2024–2026` with `wojtoteka.ovh` selected becomes
- * `© <a href="…">wojtoteka.ovh</a> 2024–2026` — one new inline element, no
+ * 2024-2026` with `wojtoteka.ovh` selected becomes
+ * `© <a href="…">wojtoteka.ovh</a> 2024-2026` - one new inline element, no
  * other change to the paragraph.
  *
  * Everything is built on two primitives:
@@ -224,7 +224,7 @@ export const convertToLinkAction: TextAction<LinkParams> = {
 
   isAvailable(context) {
     if (context.selectedText.trim() === '') return false;
-    // Refuse when the selection already sits inside a link — the user should
+    // Refuse when the selection already sits inside a link - the user should
     // edit that link instead of nesting anchors, which is invalid HTML.
     return !selectionIsInsideTag(context, 'a');
   },
@@ -280,7 +280,7 @@ export interface DynamicYearParams {
 export const dynamicYearAction: TextAction<DynamicYearParams> = {
   id: 'dynamic-year',
   label: 'Zamień na dynamiczny skrypt (aktualny rok)',
-  hint: 'Wstawia <span> aktualizowany przez script.js — rok nigdy się nie zdezaktualizuje.',
+  hint: 'Wstawia <span> aktualizowany przez script.js - rok nigdy się nie zdezaktualizuje.',
 
   isAvailable(context) {
     return context.selectedText.trim() !== '';
@@ -337,8 +337,8 @@ function fallbackYearText(params: DynamicYearParams): string {
 /**
  * Works out whether the selection describes a *range* of years or a single one.
  *
- * Handles the shapes users actually type: `2024–2026`, `2024-2026`,
- * `2024-aktualna data`, `2024–obecnie`, and a bare `2026`.
+ * Handles the shapes users actually type: `2024-2026`, `2024-2026`,
+ * `2024-aktualna data`, `2024-obecnie`, and a bare `2026`.
  */
 export function parseYearSelection(text: string): { startYear: number | null; separator: string } {
   const years = [...text.matchAll(/\b(19|20)\d{2}\b/gu)].map((match) => Number(match[0]));
@@ -352,21 +352,21 @@ export function parseYearSelection(text: string): { startYear: number | null; se
     return { startYear: sorted[0] ?? first, separator };
   }
 
-  // One year plus other words ("2024–obecnie") is a range whose end is dynamic;
+  // One year plus other words ("2024-obecnie") is a range whose end is dynamic;
   // a bare year on its own is just the current year.
   const withoutYear = text.replace(/\b(19|20)\d{2}\b/u, '').trim();
-  const hasTrailingContent = withoutYear.replace(/^[\s–—-]+/u, '').trim() !== '';
-  const hasSeparatorOnly = /[–—-]/u.test(withoutYear);
+  const hasTrailingContent = withoutYear.replace(/^[\s---]+/u, '').trim() !== '';
+  const hasSeparatorOnly = /[---]/u.test(withoutYear);
 
   if (hasTrailingContent || hasSeparatorOnly) return { startYear: first, separator };
   return { startYear: null, separator };
 }
 
 function detectSeparator(text: string): string {
-  if (text.includes('—')) return '—';
-  if (text.includes('–')) return '–';
+  if (text.includes('-')) return '-';
+  if (text.includes('-')) return '-';
   if (/\d\s*-\s*/u.test(text)) return '-';
-  return '–';
+  return '-';
 }
 
 function suggestYearId(element: ElementNode): string {
@@ -422,8 +422,8 @@ function selectionIsInsideTag(context: TextActionContext, tag: string): boolean 
 }
 
 /**
- * Turns a selected fragment into a plausible default URL, so the common case —
- * selecting a domain name — needs no typing.
+ * Turns a selected fragment into a plausible default URL, so the common case -
+ * selecting a domain name - needs no typing.
  */
 export function guessHref(selectedText: string): string {
   const trimmed = selectedText.trim();

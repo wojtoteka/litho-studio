@@ -8,7 +8,7 @@ import { log } from '../logger.js';
 /**
  * Owns every embedded terminal session.
  *
- * node-pty is a native module and can only run in the main process — the
+ * node-pty is a native module and can only run in the main process - the
  * renderer stays sandboxed (`sandbox: true`, `nodeIntegration: false`), so it
  * only ever sees `id`-keyed data over IPC, the same shape every other
  * subsystem in this app uses. This is what lets an interactive CLI (a shell
@@ -50,7 +50,7 @@ interface ShellCommand {
  * `__filename`, not `import.meta.url`: this file is TypeScript with ESM syntax,
  * but scripts/build-electron.mjs emits the main process as CommonJS (`.cjs`),
  * where `import.meta` is compiled away to nothing. `createRequire(undefined)`
- * then throws at module load — i.e. the app would fail to start, not merely
+ * then throws at module load - i.e. the app would fail to start, not merely
  * lose the terminal. `__filename` is the CJS-native equivalent and is what the
  * bundle actually runs with.
  */
@@ -66,7 +66,7 @@ function loadNodePty(): NodePtyModule | null {
   } catch (error) {
     ptyModule = null;
     log.warn(
-      `[terminal] node-pty is not loadable (${error instanceof Error ? error.message : String(error)}) — falling back to a pty-less backend`,
+      `[terminal] node-pty is not loadable (${error instanceof Error ? error.message : String(error)}) - falling back to a pty-less backend`,
     );
   }
   return ptyModule;
@@ -158,7 +158,7 @@ function createBackend(
   if (scriptOverride) return createScriptBackend(scriptOverride, shell, cwd, cols, rows, onData, onExit);
   if (forced === 'script') {
     log.warn(
-      '[terminal] LITHO_TERMINAL_BACKEND=script, but no `script` binary was found — ignoring the override',
+      '[terminal] LITHO_TERMINAL_BACKEND=script, but no `script` binary was found - ignoring the override',
     );
   }
 
@@ -168,7 +168,7 @@ function createBackend(
       return createPtyBackend(pty, shell, cwd, cols, rows, onData, onExit);
     } catch (error) {
       // A loadable module that still refuses to spawn (a stale binary, a
-      // missing conpty helper) is no better than a missing one — degrade
+      // missing conpty helper) is no better than a missing one - degrade
       // rather than surface an unusable terminal.
       log.warn(
         `[terminal] node-pty failed to spawn: ${error instanceof Error ? error.message : String(error)}`,
@@ -234,7 +234,7 @@ function createPtyBackend(
  * The one thing it cannot do is follow a later resize: the window size is set
  * once, from inside the pty, by the `stty` prefixed to the command. There is no
  * channel to push a new size down afterwards (that would need the `TIOCSWINSZ`
- * ioctl — precisely the native call node-pty exists to provide), so `resize()`
+ * ioctl - precisely the native call node-pty exists to provide), so `resize()`
  * is a no-op here and the panel warns about it.
  */
 function createScriptBackend(
@@ -252,7 +252,7 @@ function createScriptBackend(
   const child = spawn(scriptBinary, ['-q', '-e', '-c', command, '/dev/null'], {
     cwd,
     env: terminalEnv(cols, rows, 'xterm-256color'),
-    // Own process group, so `kill()` can take the whole session down — killing
+    // Own process group, so `kill()` can take the whole session down - killing
     // `script` alone would orphan the shell it started behind the pty.
     detached: true,
   }) as ChildProcessWithoutNullStreams;
@@ -320,7 +320,7 @@ function wrapChildProcess(
       }
     },
     resize: () => {
-      /* see createScriptBackend — there is no ioctl to push a new size through */
+      /* see createScriptBackend - there is no ioctl to push a new size through */
     },
     kill: () => {
       try {
@@ -330,7 +330,7 @@ function wrapChildProcess(
           // No process groups here, and killing the shell alone would orphan
           // whatever it launched. `taskkill /T` walks the tree instead.
           execFile('taskkill.exe', ['/pid', String(child.pid), '/T', '/F'], { windowsHide: true }, () => {
-            /* already gone, or refused — the exit event reports the outcome either way */
+            /* already gone, or refused - the exit event reports the outcome either way */
           });
         } else {
           // Negative pid = the whole process group, which is why `detached` is set.
@@ -376,8 +376,8 @@ function findScriptBinary(): string | null {
 /**
  * The shell to run, per platform.
  *
- * This used to be POSIX-only — a list of `/bin/*` candidates ending in a
- * `/bin/sh` fallback — with no Windows branch at all. The consequence was not a
+ * This used to be POSIX-only - a list of `/bin/*` candidates ending in a
+ * `/bin/sh` fallback - with no Windows branch at all. The consequence was not a
  * degraded terminal on Windows but a dead one, and it misreported its own cause:
  * `defaultShell()` handed back `/bin/sh`, node-pty (which loads and spawns
  * perfectly well on Windows) threw `ENOENT` trying to start it, `createBackend`
@@ -385,7 +385,7 @@ function findScriptBinary(): string | null {
  * found no util-linux `script` either, and the pipe backend tried the same
  * missing `/bin/sh` one more time. The user saw a yellow warning blaming a
  * missing node-pty, a red `spawn /bin/sh ENOENT`, and an immediately dead
- * terminal — three symptoms, one absent branch.
+ * terminal - three symptoms, one absent branch.
  */
 export function defaultShell(): ShellCommand {
   return process.platform === 'win32' ? windowsShell() : posixShell();
@@ -412,7 +412,7 @@ function posixShell(): ShellCommand {
  * consulted only as the cmd fallback rather than first: it is essentially always
  * cmd.exe, so honouring it early would mean nobody ever got a PowerShell prompt.
  *
- * Absolute paths, not bare names on PATH — PATH is user-writable and this spawns
+ * Absolute paths, not bare names on PATH - PATH is user-writable and this spawns
  * a shell. `-NoLogo` suppresses the copyright banner that would otherwise be the
  * first thing in a fresh panel; there is deliberately no `-NoProfile`, because
  * this is the user's interactive shell and their profile (aliases, `oh-my-posh`,
@@ -445,11 +445,11 @@ function backendNotice(kind: TerminalBackendKind): string | undefined {
   /*
    * Two different facts, and the notice has to pick the true one. `script` is a
    * util-linux program that does not exist on Windows and never could, so
-   * blaming its absence there described the platform rather than the problem —
+   * blaming its absence there described the platform rather than the problem -
    * and put it next to a claim about node-pty that was itself wrong (node-pty
    * loads fine on Windows; what had failed was the shell it was asked to start).
    */
   return process.platform === 'win32'
-    ? 'Terminal działa w trybie potokowym (bez TTY): nie udało się uruchomić node-pty. Proste polecenia działają, programy pełnoekranowe mogą nie działać poprawnie — przyczyna jest w panelu logów.'
+    ? 'Terminal działa w trybie potokowym (bez TTY): nie udało się uruchomić node-pty. Proste polecenia działają, programy pełnoekranowe mogą nie działać poprawnie - przyczyna jest w panelu logów.'
     : 'Terminal działa w trybie potokowym (bez TTY): brak node-pty i polecenia „script”. Proste polecenia działają, programy pełnoekranowe mogą nie działać poprawnie.';
 }

@@ -90,7 +90,7 @@ export async function tailLog(lines: number): Promise<LogEntry[]> {
   for (const line of raw.split(/\r?\n/u)) {
     const match = pattern.exec(line);
     if (!match) {
-      // Continuation of a multi-line entry (stack traces) — append to previous.
+      // Continuation of a multi-line entry (stack traces) - append to previous.
       const previous = parsed[parsed.length - 1];
       if (previous && line.trim() !== '') previous.message += `\n${line}`;
       continue;

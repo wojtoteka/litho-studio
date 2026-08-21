@@ -7,14 +7,14 @@ import { Icon, type IconName } from './Icon.js';
  * Auto-Installer of AI tools.
  *
  * Four vendor CLIs, one row each, with the exact command shown before it runs.
- * Windows-only — the reasoning is on `AI_TOOLS_PLATFORM` in `shared/aiTools.ts`,
+ * Windows-only - the reasoning is on `AI_TOOLS_PLATFORM` in `shared/aiTools.ts`,
  * and the main process refuses the operation elsewhere regardless of what this
  * component draws.
  *
  * ## The alignment this replaces
  *
  * The previous version laid each row out as its own flex line, so every row
- * measured its own name, its own status text and its own button independently —
+ * measured its own name, its own status text and its own button independently -
  * and the buttons landed wherever the text to their left happened to end. Four
  * install buttons at four different x positions, on a list whose whole job is to
  * be scanned down one column.
@@ -77,13 +77,13 @@ export function AiToolsDialog({ onClose }: { onClose: () => void }): JSX.Element
         </h2>
         <p className="dialog__hint">
           Instaluje agenty AI działające w terminalu. Każde z nich pracuje potem na plikach otwartego projektu
-          — wbudowany terminal (Ctrl+`) podchwytuje zmiany na bieżąco.
+          - wbudowany terminal (Ctrl+`) podchwytuje zmiany na bieżąco.
         </p>
 
         {supported === false ? (
           <p className="dialog__hint" role="status" style={{ color: 'var(--warning)' }}>
             Auto-Installer działa tylko w wersji dla Windows. Na innych systemach zainstaluj te narzędzia z
-            wbudowanego terminala — polecenia widać przy każdej pozycji poniżej.
+            wbudowanego terminala - polecenia widać przy każdej pozycji poniżej.
           </p>
         ) : null}
 
@@ -172,7 +172,7 @@ function AiToolRow({
           </button>
         </span>
         <span className="ai-tools__desc">{tool.description}</span>
-        {/* Stated up front, always — an installer that does not show its command
+        {/* Stated up front, always - an installer that does not show its command
             is asking the user to trust a black box that writes outside the project. */}
         <code className="ai-tools__command">{describeInstallCommand(tool)}</code>
         {error ? (
@@ -236,7 +236,7 @@ function describeStatus({
   if (busy) return { text: 'Instalowanie…', icon: 'sync', tone: 'busy' };
   if (detecting) return { text: 'Sprawdzanie…', icon: 'pending', tone: 'unknown' };
   // An error is worth showing next to the row, but not at the cost of the fact
-  // that the tool *is* on the machine — a failed update of a working install
+  // that the tool *is* on the machine - a failed update of a working install
   // must not read as "not installed".
   if (installed) return { text: version ?? 'Zainstalowane', icon: 'check_circle', tone: 'installed' };
   if (error) return { text: 'Nie udało się', icon: 'error', tone: 'error' };

@@ -4,7 +4,7 @@ import { auditPage, type AuditFinding } from '@/engine/pageAudit.js';
 import { Icon } from '../Icon.js';
 
 /**
- * "Sprawdź stronę" — the checklist a developer runs before publishing, for
+ * "Sprawdź stronę" - the checklist a developer runs before publishing, for
  * someone who does not know it exists.
  *
  * Everything listed here is invisible on the canvas by definition: the page
@@ -31,7 +31,7 @@ export function AuditPanel(): JSX.Element {
       pages: project?.pages.map((page) => page.relPath) ?? [],
       files: Object.keys(files),
     });
-    // The tree mutates in place, so the revisions — not the object identity —
+    // The tree mutates in place, so the revisions - not the object identity -
     // are what say "re-check". See the same pattern in Canvas.tsx.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [document, project, files, revision, structureRevision]);

@@ -6,7 +6,7 @@ import { launchApp, openProject, waitForFile, writeProject, type LaunchedApp } f
  * an element from the properties panel.
  *
  * The assertions read the project folder, because that is the only thing that
- * matters — the feature is worth nothing if the rule and the `class` attribute
+ * matters - the feature is worth nothing if the rule and the `class` attribute
  * do not land in the user's own CSS and HTML.
  */
 
@@ -52,12 +52,12 @@ test('własna klasa CSS: utworzenie, właściwości i przypisanie do elementu', 
   // The rule exists in the project's own stylesheet from the moment it is named.
   await waitForFile(projectPath, 'css/base.css', (content) => content.includes('.page-intro'));
 
-  /* 2. Click its properties — creating a style opens it for editing straight away. */
+  /* 2. Click its properties - creating a style opens it for editing straight away. */
   const editor = page.locator('.styles__editor');
   await expect(editor).toBeVisible();
-  // "Wygląd" is open from the start — colour and background are what people
+  // "Wygląd" is open from the start - colour and background are what people
   // reach for first. "Typografia" is still a collapsed `<details>`.
-  await editor.getByLabel('Kolor tekstu — wartość CSS').fill('#666666');
+  await editor.getByLabel('Kolor tekstu - wartość CSS').fill('#666666');
   await editor.getByText('Typografia', { exact: true }).click();
   await editor.getByRole('textbox', { name: 'Rozmiar tekstu' }).fill('18px');
 

@@ -24,7 +24,7 @@ import type { PathGuard } from './pathGuard.js';
  *     around our own save. This handles the common case cheaply.
  *  2. **Content hashing.** Every event's content is hashed and compared against
  *     the hash of what we last wrote. If they match, the event is our own echo
- *     and is dropped — this is the authoritative check and it stays correct even
+ *     and is dropped - this is the authoritative check and it stays correct even
  *     when the OS delivers events late, out of order, or twice.
  *
  * Only hash equality can *confirm* an echo, so layer 2 is what the correctness
@@ -156,7 +156,7 @@ export class ProjectWatcher {
     }
 
     if (muted) {
-      // Muted but the content differs — someone edited the file while we were
+      // Muted but the content differs - someone edited the file while we were
       // saving. That is a real external change and must not be swallowed.
       log.info(`[watcher] external edit during own write: ${relPath}`);
     }

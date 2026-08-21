@@ -13,7 +13,7 @@ import { Icon } from '../Icon.js';
  *
  * They are one module on purpose. A reusable style has to be able to express
  * everything an element's own style can, or "move this into a class" would
- * quietly lose properties — so both editors render the *same* `DeclarationEditor`
+ * quietly lose properties - so both editors render the *same* `DeclarationEditor`
  * and differ only in which selector the patch is written to.
  */
 
@@ -22,7 +22,7 @@ import { Icon } from '../Icon.js';
  *
  * Open state is tracked internally so the section can be *opened* in response to
  * `defaultOpen` becoming true (a script just got attached, or a scripted element
- * was selected) without ever being yanked *closed* against the user — driving a
+ * was selected) without ever being yanked *closed* against the user - driving a
  * bare `<details open={prop}>` off changing props does exactly that, collapsing
  * the section the moment an unrelated edit re-renders the panel.
  */
@@ -36,7 +36,7 @@ export function Section({
   children: React.ReactNode;
   defaultOpen?: boolean;
   /**
-   * Marks a collapsed section that already holds something — currently only
+   * Marks a collapsed section that already holds something - currently only
    * "this element has a script attached". A dot rendered next to the heading,
    * never appended *to* it: the title is the section's identity, and gluing a
    * bullet onto the string made the same section read as two different ones
@@ -74,7 +74,7 @@ export function Field({
   placeholder?: string;
   /**
    * CSS length properties silently ignore a bare number (`font-size: 20` does
-   * nothing — the declaration is invalid) — which is exactly what someone
+   * nothing - the declaration is invalid) - which is exactly what someone
    * used to typing "20" for a size in most other software would type here.
    * Appending `px` to a value that is *only* digits turns that into the
    * valid declaration they meant, without touching anything that already has
@@ -84,7 +84,7 @@ export function Field({
    * input's value while the user is still typing moves the browser's own
    * caret to the end of the field (React does not reliably preserve it
    * across a value the app itself rewrote), so typing "40" one digit at a
-   * time turned into "4px" then "4px0" — normalizing mid-input actively
+   * time turned into "4px" then "4px0" - normalizing mid-input actively
    * corrupted the value instead of fixing it.
    */
   autoPx?: boolean;
@@ -112,7 +112,7 @@ export function Field({
 }
 
 /** Appends `px` to a value that is nothing but a (possibly negative,
- * possibly decimal) number — see `Field`'s `autoPx` prop. */
+ * possibly decimal) number - see `Field`'s `autoPx` prop. */
 export function withPxFallback(value: string): string {
   const trimmed = value.trim();
   if (trimmed === '') return value;
@@ -122,7 +122,7 @@ export function withPxFallback(value: string): string {
 /**
  * The font-size field pairs the usual text input with -/+ steppers: typing a
  * bare number already works (see `withPxFallback`), but a one-click nudge is
- * the faster way to answer "make this text bigger" — the most common
+ * the faster way to answer "make this text bigger" - the most common
  * typography request there is.
  */
 export function FontSizeField({
@@ -155,7 +155,7 @@ export function FontSizeField({
           className="input"
           type="text"
           // The wrapping <label> holds the two steppers as well, so the implicit
-          // label gives the input no usable name — a screen reader would read it
+          // label gives the input no usable name - a screen reader would read it
           // as "− Rozmiar +". Naming it explicitly keeps it addressable.
           aria-label="Rozmiar tekstu"
           value={value ?? ''}
@@ -197,7 +197,7 @@ export function SelectField({
       <select className="select" value={value ?? ''} onChange={(event) => onChange(event.target.value)}>
         {options.map((option) => (
           <option key={option} value={option}>
-            {option === '' ? '— nie ustawiono —' : option}
+            {option === '' ? '- nie ustawiono -' : option}
           </option>
         ))}
       </select>
@@ -211,7 +211,7 @@ export function SelectField({
  * font the project already ships, …).
  *
  * Picking a family from the list also links its stylesheet from Google's CDN
- * into the open page's `<head>` (via `ensureHeadLink`, deduped by `href`) —
+ * into the open page's `<head>` (via `ensureHeadLink`, deduped by `href`) -
  * without it the declaration would name a font the page never loads, and
  * every element using it would silently fall back to the generic family.
  */
@@ -244,7 +244,7 @@ export function FontPicker({
     <div className="field">
       <span className="field__label">{label}</span>
       <select className="select" value={selected?.name ?? ''} onChange={(event) => pick(event.target.value)}>
-        <option value="">— wybierz z Google Fonts —</option>
+        <option value="">- wybierz z Google Fonts -</option>
         {GOOGLE_FONTS.map((font) => (
           <option key={font.name} value={font.name}>
             {font.name}
@@ -267,7 +267,7 @@ export function FontPicker({
  * One-click colours, offered next to every primary colour field.
  *
  * The `<input type="color">` swatch opens a picker drawn by the operating
- * system — a GTK dialog on Linux, and one more thing between "I want this
+ * system - a GTK dialog on Linux, and one more thing between "I want this
  * white" and a white element. These cover the answers people actually reach
  * for: the page's own neutrals at both ends, a mid grey, and the brand accents
  * the built-in templates already use, so a colour set here matches what the
@@ -288,7 +288,7 @@ const COLOR_PRESETS: readonly { value: string; label: string }[] = [
 
 /**
  * A colour field pairs a native picker with a text input, because CSS colours
- * the picker cannot express — `currentColor`, `var(--brand)`, `transparent` —
+ * the picker cannot express - `currentColor`, `var(--brand)`, `transparent` -
  * are common in real stylesheets and must remain editable.
  *
  * Under both sits the preset row, which is the fastest path for the common case
@@ -306,7 +306,7 @@ export function ColorField({
   value: string | undefined;
   onChange: (value: string) => void;
   /**
-   * Off for colours that are one component of a compound value — the two ends
+   * Off for colours that are one component of a compound value - the two ends
    * of a gradient, the tint over a background image. Those sit two to a row
    * inside an already-deep section, and a preset strip under each turns a
    * dense group of controls into a wall of squares.
@@ -323,21 +323,21 @@ export function ColorField({
         <input
           className="color-field__swatch"
           type="color"
-          aria-label={`${label} — wybierz kolor`}
+          aria-label={`${label} - wybierz kolor`}
           value={hex ?? '#000000'}
           onChange={(event) => onChange(event.target.value)}
         />
         <input
           className="input"
           type="text"
-          aria-label={`${label} — wartość CSS`}
+          aria-label={`${label} - wartość CSS`}
           value={value ?? ''}
           placeholder="np. #6e56cf lub var(--brand)"
           onChange={(event) => onChange(event.target.value)}
         />
       </div>
       {presets ? (
-        <div className="color-presets" role="group" aria-label={`${label} — gotowe kolory`}>
+        <div className="color-presets" role="group" aria-label={`${label} - gotowe kolory`}>
           {COLOR_PRESETS.map((preset) => (
             <button
               key={preset.value}
@@ -378,7 +378,7 @@ function toHexOrNull(value: string | undefined): string | null {
 const GRADIENT_PATTERN = /^linear-gradient\(\s*(-?\d+(?:\.\d+)?)deg\s*,\s*([^,]+?)\s*,\s*([^)]+?)\s*\)$/iu;
 const URL_PATTERN = /^url\(\s*["']?(.*?)["']?\s*\)$/iu;
 /** An image with a flat colour tint on top, e.g. a dark overlay behind hero
- * text — CSS itself has no dedicated "tint" property, so this is the
+ * text - CSS itself has no dedicated "tint" property, so this is the
  * conventional way to fake one: a same-colour-twice gradient layered above
  * the actual picture via the multi-background-image syntax. */
 const OVERLAY_PATTERN =
@@ -408,7 +408,7 @@ function rgbToHex(r: number, g: number, b: number): string {
 /**
  * Background editing shared by an element's own style and a reusable class:
  * a solid colour (bottom layer) plus an optional gradient or picked image (top
- * layer) — the same two-layer model CSS itself uses, so switching between them
+ * layer) - the same two-layer model CSS itself uses, so switching between them
  * never has to guess what to throw away.
  *
  * Image paths are resolved the same way a dropped asset becomes an `<img src>`
@@ -434,7 +434,7 @@ export function BackgroundSection({
   // *computed from the declarations* would immediately fall back to "Brak" and
   // the image controls would vanish the instant they appeared. This override
   // wins over the computed value until the user picks a different tab or an
-  // ancestor remounts the section (selection change — see the `key` props at
+  // ancestor remounts the section (selection change - see the `key` props at
   // the call sites), so the empty "Obraz" panel stays put and is actually
   // usable.
   const [layerOverride, setLayerOverride] = useState<BackgroundLayer | null>(null);
@@ -495,7 +495,7 @@ export function BackgroundSection({
       return;
     }
     // Switching to "Obraz" from a real gradient leaves stale CSS behind
-    // otherwise — the canvas would keep showing the old gradient until the
+    // otherwise - the canvas would keep showing the old gradient until the
     // user happened to pick an image, which reads as "the button did nothing".
     if (computedLayer === 'gradient') set('background-image', '');
   };
@@ -604,7 +604,7 @@ export function BackgroundSection({
             </div>
           ) : (
             <p className="dialog__hint" style={{ margin: 0 }}>
-              Brak obrazów w zasobach — dodaj je w panelu „Zasoby”.
+              Brak obrazów w zasobach - dodaj je w panelu „Zasoby”.
             </p>
           )}
           <Field
@@ -695,7 +695,7 @@ export function BackgroundSection({
   );
 }
 
-/** A live swatch of the composed background — the panel edits several
+/** A live swatch of the composed background - the panel edits several
  * properties that only make sense together (colour under image, size with
  * position, …), so a small always-visible preview answers "what does this
  * actually look like" without round-tripping through the canvas. */
@@ -718,7 +718,7 @@ function BackgroundPreview({ declarations }: { declarations: Declarations }): JS
  * Every CSS property the editor exposes, grouped into sections.
  *
  * `set` receives the property and the raw field value; an empty string means
- * "remove this declaration" — the panel never writes an explicit default, so a
+ * "remove this declaration" - the panel never writes an explicit default, so a
  * property the user did not set leaves no trace in their stylesheet.
  */
 export function DeclarationEditor({
@@ -731,7 +731,7 @@ export function DeclarationEditor({
   set: (property: string, value: string) => void;
   /**
    * Typography has nothing to act on for an `<img>`, an `<svg>` icon or a
-   * checkbox — a control that visibly does nothing is worse than no control.
+   * checkbox - a control that visibly does nothing is worse than no control.
    * Always on for a reusable class, which may well be applied to text later.
    */
   showTypography?: boolean;
@@ -850,8 +850,8 @@ export function DeclarationEditor({
         />
         {/*
          * The border's colour on its own, because for some elements it is the
-         * only colour there is. A horizontal rule drawn the conventional way —
-         * `border: none; border-top: 1px solid …` — has a content box 0 px tall,
+         * only colour there is. A horizontal rule drawn the conventional way -
+         * `border: none; border-top: 1px solid …` - has a content box 0 px tall,
          * so "Kolor tła" above paints nothing and the line's colour was
          * reachable only by retyping the whole `border` shorthand by hand. This
          * writes `border-color`, which lands after the shorthand in the rule and

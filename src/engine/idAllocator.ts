@@ -47,8 +47,8 @@ export function createRuntimeNodeId(): string {
 /**
  * Generates CSS class names for elements that need a styling hook.
  *
- * The allocator is seeded with every class and id already present in the page —
- * including ones the page never styles — so a generated name can never collide
+ * The allocator is seeded with every class and id already present in the page -
+ * including ones the page never styles - so a generated name can never collide
  * with something the author wrote.
  */
 export class ClassNameAllocator {
@@ -104,7 +104,7 @@ export class ClassNameAllocator {
  * Converts arbitrary text into a valid, readable CSS identifier.
  *
  * CSS identifiers may not start with a digit or a lone hyphen-digit, so those
- * cases are prefixed rather than rejected — the caller always gets a usable
+ * cases are prefixed rather than rejected - the caller always gets a usable
  * name back.
  */
 export function slugify(input: string, fallback = 'element'): string {

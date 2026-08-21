@@ -5,7 +5,7 @@ import { DeclarationEditor } from './StyleFields.js';
 import { Icon } from '../Icon.js';
 
 /**
- * Reusable styles — the page's named CSS classes.
+ * Reusable styles - the page's named CSS classes.
  *
  * The whole point is that a style exists *independently of any element*: the
  * user names it (`page-intro`), sets its properties here, and only then decides
@@ -13,7 +13,7 @@ import { Icon } from '../Icon.js';
  * styles one selected element through a hook the editor generates for it.
  *
  * There is no separate storage behind this list. A style is exactly a rule in
- * the project's stylesheet — creating one writes `.page-intro { }`, editing it
+ * the project's stylesheet - creating one writes `.page-intro { }`, editing it
  * adds declarations to that rule, deleting it removes the rule and strips the
  * class from every element. Which means a class the user (or whoever wrote the
  * page) defined by hand in the CSS file shows up here as an ordinary style,
@@ -32,7 +32,7 @@ export function StylesPanel(): JSX.Element {
   const setClassOnSelection = useEditorStore((state) => state.setClassOnSelection);
   const breakpoint = useEditorStore((state) => state.currentBreakpoint());
   // The stylesheets are mutated in place, so the models array reference does not
-  // change on an edit — `revision` is the "something changed" signal. See the
+  // change on an edit - `revision` is the "something changed" signal. See the
   // note at the top of editorStore.
   const revision = useEditorStore((state) => state.revision);
 
@@ -228,7 +228,7 @@ export function StylesPanel(): JSX.Element {
 
           <RawCssField
             // Re-seed the box whenever the rule the fields wrote changes, or the
-            // style/breakpoint switches — otherwise it would show stale text.
+            // style/breakpoint switches - otherwise it would show stale text.
             key={`${active.name}:${breakpoint.id}:${revision}`}
             name={active.name}
             declarations={declarations}
@@ -254,7 +254,7 @@ export function StylesPanel(): JSX.Element {
 
 /**
  * The style's name, renamed in place. Committing on blur would fire while the
- * user is still deciding, so the rename is explicit — and the field reverts
+ * user is still deciding, so the rename is explicit - and the field reverts
  * when it is rejected (a duplicate name), rather than leaving the input showing
  * a name nothing in the project actually has.
  */
@@ -312,7 +312,7 @@ function describeStyle(entry: { declarations: Record<string, string>; usage: num
  * The style's rule as raw, hand-editable CSS.
  *
  * The fields above are the quick path; this is the escape hatch for anything
- * they do not cover — a `transition`, a `grid-template`, a custom property. It
+ * they do not cover - a `transition`, a `grid-template`, a custom property. It
  * shows the exact rule that is written to the file and writes back whatever the
  * user types, so the two editors are two views of one rule, never two sources of
  * truth. Committing on blur (or Ctrl+Enter) rather than per keystroke keeps a
@@ -340,7 +340,7 @@ function RawCssField({
   return (
     <div className="styles__preview">
       <label className="field" style={{ gap: 4 }}>
-        <span className="field__label">Zapis w arkuszu CSS — możesz edytować ręcznie</span>
+        <span className="field__label">Zapis w arkuszu CSS - możesz edytować ręcznie</span>
         <textarea
           className="textarea styles__preview-code"
           spellCheck={false}
@@ -363,7 +363,7 @@ function RawCssField({
   );
 }
 
-/** The rule as it is written to the stylesheet — the honest answer to "what did
+/** The rule as it is written to the stylesheet - the honest answer to "what did
  * clicking these fields actually produce". */
 function previewRule(name: string, declarations: Record<string, string>): string {
   const entries = Object.entries(declarations);

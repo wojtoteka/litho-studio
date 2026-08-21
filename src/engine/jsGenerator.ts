@@ -5,7 +5,7 @@
  * generates lives inside one clearly delimited region at the end of the file:
  *
  * ```js
- * // === Litho Studio — kod generowany automatycznie ===
+ * // === Litho Studio - kod generowany automatycznie ===
  * …snippets…
  * // === koniec sekcji Litho Studio ===
  * ```
@@ -13,17 +13,17 @@
  * Regenerating the file means: take everything before the marker verbatim, take
  * everything after the closing marker verbatim, and rebuild only the middle.
  * Each snippet carries a stable id, so applying the same action twice updates
- * the existing snippet instead of appending a duplicate — which is the specific
+ * the existing snippet instead of appending a duplicate - which is the specific
  * failure mode the "no duplicated code" requirement is about.
  *
  * The generated code has no dependencies, uses no build step and is written to
  * be read: a user who opens `script.js` in VS Code sees ordinary JavaScript.
  */
 
-export const REGION_START = '// === Litho Studio — kod generowany automatycznie ===';
+export const REGION_START = '// === Litho Studio - kod generowany automatycznie ===';
 export const REGION_END = '// === koniec sekcji Litho Studio ===';
 const REGION_NOTE =
-  '// Nie edytuj tej sekcji ręcznie — Litho Studio nadpisuje ją przy każdej zmianie.\n// Kod powyżej tej sekcji nigdy nie jest modyfikowany.';
+  '// Nie edytuj tej sekcji ręcznie - Litho Studio nadpisuje ją przy każdej zmianie.\n// Kod powyżej tej sekcji nigdy nie jest modyfikowany.';
 
 export interface ManagedSnippet {
   /** Stable identifier, e.g. `dynamic-year:copyright-year`. */
@@ -142,7 +142,7 @@ export interface DynamicYearOptions {
   /** `id` of the element whose text is replaced at runtime. */
   elementId: string;
   /**
-   * Start year for a range such as `2024–2026`. When `null`, only the current
+   * Start year for a range such as `2024-2026`. When `null`, only the current
    * year is written, which is the `© 2026` case.
    */
   startYear: number | null;
@@ -159,7 +159,7 @@ export interface DynamicYearOptions {
  */
 export function buildDynamicYearSnippet(options: DynamicYearOptions): ManagedSnippet {
   const { elementId, startYear } = options;
-  const separator = options.separator ?? '–';
+  const separator = options.separator ?? '-';
 
   const assignment =
     startYear === null

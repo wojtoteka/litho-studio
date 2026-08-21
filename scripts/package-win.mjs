@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Packages the Windows build — NSIS installer plus the portable .exe.
+ * Packages the Windows build - NSIS installer plus the portable .exe.
  *
  * This script exists because the npm script it replaces could not run on
  * Windows. It was:
@@ -8,7 +8,7 @@
  *   USE_SYSTEM_SIGNCODE=true CSC_LINK=${CSC_LINK:-certs/...} electron-builder --win
  *
  * which is POSIX shell syntax. `npm run` hands that to cmd.exe on Windows, where
- * `VAR=value command` is not an assignment but a command name — so building the
+ * `VAR=value command` is not an assignment but a command name - so building the
  * Windows package *on Windows* failed on the first token, and the only machine
  * the script worked on was the Linux box it was written for.
  *
@@ -17,8 +17,8 @@
  *
  *   USE_SYSTEM_SIGNCODE tells electron-builder to sign with the system
  *   `osslsigncode` instead of the copy it downloads. That is required when
- *   cross-building from Linux — the bundled winCodeSign-2.6.0 is linked against
- *   OpenSSL 1.1 and dies on a modern Debian — and is wrong on Windows, which has
+ *   cross-building from Linux - the bundled winCodeSign-2.6.0 is linked against
+ *   OpenSSL 1.1 and dies on a modern Debian - and is wrong on Windows, which has
  *   the real signtool.exe and no osslsigncode at all.
  *
  * Signing is skipped, with a warning, when no certificate is present. An
@@ -42,7 +42,7 @@ const certificate = process.env.CSC_LINK ?? (fs.existsSync(defaultCertificate) ?
 if (certificate) {
   process.env.CSC_LINK = certificate;
   process.env.CSC_KEY_PASSWORD = process.env.CSC_KEY_PASSWORD ?? 'litho';
-  // Only outside Windows — see the header.
+  // Only outside Windows - see the header.
   if (!isWindowsHost) process.env.USE_SYSTEM_SIGNCODE = 'true';
   note(`podpisywanie certyfikatem: ${certificate}`);
 } else {
@@ -51,11 +51,11 @@ if (certificate) {
   delete process.env.CSC_LINK;
   delete process.env.CSC_KEY_PASSWORD;
   process.env.CSC_IDENTITY_AUTO_DISCOVERY = 'false';
-  note('brak certyfikatu (CSC_LINK ani certs/litho-selfsigned.pfx) — buduję BEZ podpisu.');
+  note('brak certyfikatu (CSC_LINK ani certs/litho-selfsigned.pfx) - buduję BEZ podpisu.');
 }
 
 if (!isWindowsHost) {
-  note(`host to ${process.platform}, nie Windows — build krzyżowy, podpis przez osslsigncode.`);
+  note(`host to ${process.platform}, nie Windows - build krzyżowy, podpis przez osslsigncode.`);
 }
 
 try {
@@ -70,7 +70,7 @@ try {
 
 /*
  * Every NSIS installer carries a CRC32 of its own bytes and refuses to start
- * with "Installer integrity check has failed" when it does not match — before
+ * with "Installer integrity check has failed" when it does not match - before
  * any window is drawn, so there is nothing to log and nothing to see. The build
  * stays green either way, which is exactly why this runs here: a dead installer
  * is otherwise indistinguishable from a good one until someone reports the red
@@ -82,7 +82,7 @@ const verify = spawnSync(process.execPath, [path.join(repoRoot, 'scripts/verify-
   stdio: 'inherit',
 });
 if (verify.status !== 0) {
-  fail('gotowe pliki nie przechodzą własnej kontroli spójności — patrz komunikat powyżej.');
+  fail('gotowe pliki nie przechodzą własnej kontroli spójności - patrz komunikat powyżej.');
 }
 
 /* ------------------------------------------------------------------ */

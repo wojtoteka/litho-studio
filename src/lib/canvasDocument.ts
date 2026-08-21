@@ -9,7 +9,7 @@ import { dirname, resolveHref, toPosix } from '@shared/paths.js';
 /**
  * Builds the document rendered inside the canvas iframe.
  *
- * The canvas shows the *real* page — same markup, same CSS, so what the user
+ * The canvas shows the *real* page - same markup, same CSS, so what the user
  * sees is what a browser will show. The deliberate differences:
  *
  *  1. **`data-litho-id` on every element.** Added to this copy only, never to
@@ -21,9 +21,9 @@ import { dirname, resolveHref, toPosix } from '@shared/paths.js';
  *  3. **A `<base>` element.** The iframe's document has the app's own URL, so
  *     without it every relative `src`/`href` in the project would fail to load.
  *  4. **`<iframe>`s become a placeholder box.** Third-party embeds (maps, video
- *     players, …) can't load in the canvas — the editor's CSP blocks all
+ *     players, …) can't load in the canvas - the editor's CSP blocks all
  *     framing (`frame-src 'none'`) as part of its offline-by-default network
- *     policy — so a live embed would just sit blank. The placeholder carries
+ *     policy - so a live embed would just sit blank. The placeholder carries
  *     the real node's `id`/`class` (so it's sized and selected exactly like
  *     the element it stands in for) and swaps back to the genuine `<iframe>`
  *     in Preview and in the saved/exported HTML.
@@ -49,7 +49,7 @@ export const CANVAS_IFRAME_PLACEHOLDER_ATTRIBUTE = 'data-litho-iframe-placeholde
 export const CANVAS_CSS_ELEMENT_ID = 'litho-canvas-css';
 /**
  * Id of the `<style>` that shows the selected element as it looks in the
- * pseudo-state the properties panel is currently editing — see
+ * pseudo-state the properties panel is currently editing - see
  * `buildStatePreviewCss`.
  */
 export const CANVAS_STATE_PREVIEW_ELEMENT_ID = 'litho-canvas-state-preview';
@@ -89,7 +89,7 @@ export function buildCanvasDocument(options: CanvasDocumentOptions): string {
  * which is correct CSS and completely invisible while editing: the pointer is
  * over the properties panel, not over the element, so the rule never applies
  * and the whole Stan section looked like a control that did nothing. Two of the
- * four states are worse than that — `:focus` and `:active` cannot be reached by
+ * four states are worse than that - `:focus` and `:active` cannot be reached by
  * hovering at all, because clicking in the canvas selects an element rather than
  * focusing it.
  *
@@ -97,8 +97,8 @@ export function buildCanvasDocument(options: CanvasDocumentOptions): string {
  * for as long as that state is being edited. The selector is the element's
  * canvas id written twice (`[data-litho-id="n7"][data-litho-id="n7"]`), which is
  * a legitimate way to reach specificity 0-2-0 without `!important`: it beats the
- * page's own class rules, ties with `.foo:hover`, and — being last in the
- * document — wins that tie. `!important` would have been simpler and wrong, as
+ * page's own class rules, ties with `.foo:hover`, and - being last in the
+ * document - wins that tie. `!important` would have been simpler and wrong, as
  * it would also override the user's own `!important` declarations and so show
  * them a state their page will never actually render.
  *
@@ -182,7 +182,7 @@ function annotateTree(root: ElementNode, pageRelPath: string): ElementNode {
  *
  * `<script>` elements are already removed above, but `onclick="…"` and friends
  * are script too, and they survived into the `srcdoc` document. They could
- * never actually run — the frame is sandboxed without `allow-scripts` — but
+ * never actually run - the frame is sandboxed without `allow-scripts` - but
  * Chromium logs "Blocked script execution in 'about:srcdoc'…" once per attempt,
  * which filled the console with warnings about a defence working correctly and
  * buried real diagnostics underneath them. Removing them makes the canvas copy
@@ -203,10 +203,10 @@ function neutralizeAttribute(attr: { name: string; value: string }): { name: str
   return { ...attr };
 }
 
-const IFRAME_PLACEHOLDER_TEXT = 'Osadzona treść (iframe) — pełny podgląd dostępny w trybie Podgląd';
+const IFRAME_PLACEHOLDER_TEXT = 'Osadzona treść (iframe) - pełny podgląd dostępny w trybie Podgląd';
 
 /**
- * Stands in for a real `<iframe>` in the canvas — see difference 4 in the
+ * Stands in for a real `<iframe>` in the canvas - see difference 4 in the
  * module doc comment above. Keeps `id`/`class`/`style` so the box picks up
  * whatever sizing the real element's CSS declares, and keeps the original
  * node id on `CANVAS_ID_ATTRIBUTE` so clicking it selects and edits the real
@@ -258,12 +258,12 @@ export function isSelectableTag(tag: string): boolean {
 
 /**
  * Node ids of every selectable element *fully* enclosed by `rect` (both in
- * `frameDocument`'s own coordinate space), for the Ctrl-drag marquee select —
+ * `frameDocument`'s own coordinate space), for the Ctrl-drag marquee select -
  * "draw a box on the desktop" multi-select.
  *
  * Containment rather than mere intersection: a marquee that merely brushes an
  * element's edge is rarely what the user meant to include. An element whose
- * own ancestor is also fully enclosed is dropped — dragging a box around an
+ * own ancestor is also fully enclosed is dropped - dragging a box around an
  * entire list should select the list, not the list and every one of its
  * items at once.
  */
@@ -311,7 +311,7 @@ function injectIntoHead(html: string, injection: string): string {
  * Converts a page's project-relative path into the `<base href>` a browser
  * would load it from, expressed via the app's own `litho-asset:` scheme
  * rather than `file:`. Every relative `src`/`href` still resolves exactly as
- * a real browser would (against the page's own directory) — but unlike
+ * a real browser would (against the page's own directory) - but unlike
  * `file:`, this scheme loads correctly regardless of whether the app window
  * itself is `file://` (packaged build) or `http://localhost` (dev server),
  * since Chromium blocks `http:` → `file:` subresource loads outright. See
@@ -342,12 +342,12 @@ function escapeAttributeValue(value: string): string {
  * JavaScript to add a class once the element scrolls into view. With the
  * scripts gone that class never arrives, so everything below the first screen
  * stays invisible in the editor even though it renders perfectly in the live
- * preview — reported as "empty space when scrolling" and "cut-off layout".
+ * preview - reported as "empty space when scrolling" and "cut-off layout".
  *
  * These overrides force the *revealed* end-state for the well-known animation
  * hooks, so the editor shows the same content the browser eventually would.
- * They are deliberately scoped to those hooks — an `opacity: 0` on a dropdown
- * or modal is meant to stay hidden and carries none of these markers — and
+ * They are deliberately scoped to those hooks - an `opacity: 0` on a dropdown
+ * or modal is meant to stay hidden and carries none of these markers - and
  * live only in the canvas overlay, never in the user's files.
  */
 const REVEAL_ON_SCROLL_OVERRIDES = `
@@ -362,19 +362,19 @@ const REVEAL_ON_SCROLL_OVERRIDES = `
 `;
 
 /**
- * Motion is switched off on the editing canvas — the page keeps every animation
+ * Motion is switched off on the editing canvas - the page keeps every animation
  * it has, and the live preview is where they play.
  *
  * An editor is a workbench, not a showreel. A CSS animation runs again from the
  * top each time the canvas document is (re)built, so a page with entrance
  * animations spent its first second fading and sliding its own content around
- * every time — under a pointer trying to click that content, and under
+ * every time - under a pointer trying to click that content, and under
  * selection outlines measured against boxes that were still moving. Infinite
  * animations (gradient sweeps, pulsing badges, marquees) never stop repainting
  * at all, which is what a page that "keeps refreshing itself" looks like.
  *
- * Rather than `animation: none` — which would strand any element whose visible
- * state *is* the animation's last keyframe — every animation is run out
+ * Rather than `animation: none` - which would strand any element whose visible
+ * state *is* the animation's last keyframe - every animation is run out
  * instantly and held at its end (`forwards`), so the canvas shows the frame the
  * page settles on. `!important` author declarations still win over animated
  * values, which is what keeps `REVEAL_ON_SCROLL_OVERRIDES` above authoritative.
@@ -394,8 +394,8 @@ const MOTIONLESS_CANVAS_CSS = `
 
 /**
  * Styling applied only inside the canvas. It suppresses interactions that would
- * make direct manipulation feel wrong — following a link, submitting a form,
- * text selection during a drag — without altering the page's own appearance,
+ * make direct manipulation feel wrong - following a link, submitting a form,
+ * text selection during a drag - without altering the page's own appearance,
  * force-reveals scroll-animation content the missing scripts would leave hidden
  * (see `REVEAL_ON_SCROLL_OVERRIDES`) and holds every animation at its end state
  * (see `MOTIONLESS_CANVAS_CSS`).

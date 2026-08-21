@@ -8,8 +8,8 @@ import { applyDeclarations, parseStyleSheet, readDeclarations, stringifyStyleShe
 import type { Breakpoint } from '@shared/project.js';
 
 /**
- * The reported bug in one sentence: on the "Licznik / Statystyki" block — whose
- * rule is `background: linear-gradient(…)` — the panel could set neither a
+ * The reported bug in one sentence: on the "Licznik / Statystyki" block - whose
+ * rule is `background: linear-gradient(…)` - the panel could set neither a
  * transparent background nor a flat colour, because it only ever reads and
  * writes the longhands.
  */

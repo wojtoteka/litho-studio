@@ -5,7 +5,7 @@ import { Icon } from './Icon.js';
 /**
  * Parser warnings for the open page, shown where they cannot be missed.
  *
- * These already existed, but only inside the console panel — which is collapsed
+ * These already existed, but only inside the console panel - which is collapsed
  * by default, so a page that opened with problems looked identical to one that
  * opened cleanly. "It just didn't work and said nothing" is the worst failure
  * an editor can have, so anything the parser flagged is stated up front. The
@@ -34,7 +34,7 @@ export function PageNoticesBanner(): JSX.Element | null {
       ))}
       <div className="page-notices__item">
         <span className="page-notices__text">
-          Strona jest edytowalna mimo tych ostrzeżeń — pełne szczegóły są w panelu Logi.
+          Strona jest edytowalna mimo tych ostrzeżeń - pełne szczegóły są w panelu Logi.
         </span>
         <button type="button" className="button button--ghost" onClick={() => setDismissed(true)}>
           Ukryj

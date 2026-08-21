@@ -11,8 +11,8 @@ import { createRuntimeNodeId } from './idAllocator.js';
 /**
  * Reading and writing the page's `<head>` metadata.
  *
- * Everything a page needs in order to look right *away from the page itself* —
- * in a search result, in a shared link, on a browser tab — lives here, and none
+ * Everything a page needs in order to look right *away from the page itself* -
+ * in a search result, in a shared link, on a browser tab - lives here, and none
  * of it was reachable from the UI: the only way to set a description or an
  * Open Graph image was to open the HTML in a text editor, which is the exact
  * thing the product exists to avoid.
@@ -20,19 +20,19 @@ import { createRuntimeNodeId } from './idAllocator.js';
  * Pure functions over the document tree, so the rules are unit-testable without
  * a store, a renderer or a file on disk. Every write is idempotent: setting the
  * same description twice produces one `<meta>` tag, and clearing a value
- * removes its tag rather than leaving `content=""` behind — an empty
+ * removes its tag rather than leaving `content=""` behind - an empty
  * `description` is worse than none, because search engines treat it as a
  * deliberate empty summary.
  */
 
 export interface PageMeta {
-  /** `<title>` — the browser tab and the search-result headline. */
+  /** `<title>` - the browser tab and the search-result headline. */
   title: string;
-  /** `<meta name="description">` — the grey text under that headline. */
+  /** `<meta name="description">` - the grey text under that headline. */
   description: string;
-  /** `<html lang>` — screen readers and translation tools both read it. */
+  /** `<html lang>` - screen readers and translation tools both read it. */
   lang: string;
-  /** `og:image` — the picture shown when the link is pasted into a chat. */
+  /** `og:image` - the picture shown when the link is pasted into a chat. */
   ogImage: string;
   /** `<link rel="icon">`. */
   favicon: string;
@@ -71,7 +71,7 @@ export function readPageMeta(root: ElementNode): PageMeta {
 
 /**
  * Applies a partial update, mutating the tree in place (the same convention the
- * rest of the editor's document mutations use — see `editorStore`). Returns
+ * rest of the editor's document mutations use - see `editorStore`). Returns
  * true when anything actually changed, so the caller can skip a no-op commit.
  */
 export function applyPageMeta(root: ElementNode, patch: Partial<PageMeta>): boolean {
@@ -123,7 +123,7 @@ function readIconHref(head: ElementNode | null): string {
   return icon ? (getAttr(icon, 'href') ?? '') : '';
 }
 
-/** Any `rel` containing the `icon` token — covers `icon`, `shortcut icon`, `apple-touch-icon`. */
+/** Any `rel` containing the `icon` token - covers `icon`, `shortcut icon`, `apple-touch-icon`. */
 function findIconLink(head: ElementNode | null): ElementNode | null {
   if (!head) return null;
   for (const child of head.children) {

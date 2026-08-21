@@ -9,7 +9,7 @@ import { Icon, type IconName } from '../Icon.js';
  *
  * `TextActionMenu` already owns the right-click gesture when the user has a
  * partial *text* selection inside an element (bold/link/dynamic-year style
- * transforms); this menu owns the other, far more common case — right-
+ * transforms); this menu owns the other, far more common case - right-
  * clicking an element itself to delete/duplicate/copy/paste/group it,
  * without hunting for the equivalent toolbar buttons or keyboard shortcuts.
  */
@@ -66,7 +66,7 @@ export function ElementContextMenu({
   // never what "the same on every subpage" means.
   const isShareable =
     sharedName !== null || ['header', 'footer', 'nav', 'section', 'aside', 'div'].includes(element.tag);
-  // A name the user will usually just accept — the tag already says what the
+  // A name the user will usually just accept - the tag already says what the
   // block is for in the overwhelming majority of cases.
   const suggestedName =
     element.tag === 'footer'
@@ -103,7 +103,7 @@ export function ElementContextMenu({
         <p className="context-menu__title">Wspólna sekcja</p>
         <p className="context-menu__note">
           Ten blok będzie od teraz kopiowany do każdej podstrony, która go zawiera. W plikach zapisze się jako
-          zwykły komentarz HTML — strona nadal otwiera się bez żadnych dodatków.
+          zwykły komentarz HTML - strona nadal otwiera się bez żadnych dodatków.
         </p>
         <input
           className="input"
@@ -184,8 +184,8 @@ export function ElementContextMenu({
           onClick={run(() => ungroupNode(nodeId))}
         />
       ) : null}
-      {/* Sharing acts on a whole block, so it is offered for containers — a
-          header, a footer, a section — and not for the text inside one. */}
+      {/* Sharing acts on a whole block, so it is offered for containers - a
+          header, a footer, a section - and not for the text inside one. */}
       {isShareable ? (
         sharedName ? (
           <MenuItem

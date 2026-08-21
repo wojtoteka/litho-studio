@@ -1,9 +1,9 @@
 ; ============================================================================
-; Litho Studio — wygląd kreatora instalacji i dezinstalacji (NSIS / MUI2)
+; Litho Studio - wygląd kreatora instalacji i dezinstalacji (NSIS / MUI2)
 ; ============================================================================
 ;
 ; Domyślny kreator NSIS jest szary i systemowy, a Litho jest ciemne i fioletowe.
-; Pierwsze, co użytkownik widzi po pobraniu, to instalator — więc ubieramy go
+; Pierwsze, co użytkownik widzi po pobraniu, to instalator - więc ubieramy go
 ; w tę samą paletę co aplikację (`src/styles/app.css`).
 ;
 ; Trzy rzeczy warto wiedzieć, zanim się tu coś zmieni:
@@ -11,37 +11,37 @@
 ;  1. **Ten plik trafia PRZED szablon electron-buildera.** `NsisTarget` skleja
 ;     skrypt jako `wygenerowane definicje + ten plik + installer.nsi`, więc
 ;     `!define MUI_*` na górze zdąży zadziałać, zanim MUI wstawi strony. Makra
-;     `custom*` są tylko definiowane — szablon wstawia je później, już po
+;     `custom*` są tylko definiowane - szablon wstawia je później, już po
 ;     `!include MUI2.nsh`.
 ;
 ;  2. **MUI koloruje tylko nagłówek oraz strony powitania i zakończenia**
 ;     (`MUI_BGCOLOR`/`MUI_TEXTCOLOR`). Wnętrza pozostałych stron to zwykłe
-;     dialogi Windows — trzeba je pomalować ręcznie, kontrolka po kontrolce,
+;     dialogi Windows - trzeba je pomalować ręcznie, kontrolka po kontrolce,
 ;     w callbacku `MUI_PAGE_CUSTOMFUNCTION_SHOW`. Ten callback jest jeden na
 ;     stronę i MUI kasuje go zaraz po wstawieniu strony, dlatego definiujemy go
 ;     na nowo w każdym miejscu, w które szablon pozwala się wpiąć
 ;     (`customWelcomePage`, `customPageAfterChangeDir`).
 ;
-;  3. **`SetCtlColors` nie wystarcza — kolor kontrolki bierze się z motywu.**
+;  3. **`SetCtlColors` nie wystarcza - kolor kontrolki bierze się z motywu.**
 ;     Sam kolor tła i tekstu ustawiamy przez `SetCtlColors`, ale przycisk czy
 ;     przełącznik rysuje się w całości motywem i te ustawienia zignoruje. Dlatego
 ;     najpierw włączamy w procesie systemowy tryb ciemny (`lithoEnableDarkMode`)
 ;     i przełączamy każdą kontrolkę na ciemny wariant klasy motywu
-;     (`lithoThemeControl`) — dopiero wtedy przyciski, pola i przełączniki są
+;     (`lithoThemeControl`) - dopiero wtedy przyciski, pola i przełączniki są
 ;     ciemne. Dwa wyjątki opisane przy kodzie: pasek postępu musi zostać *bez*
 ;     motywu (inaczej ignoruje nasze kolory), a podpisy przełączników trzeba
 ;     przenieść do własnych etykiet (`lithoRelabelToggle`), bo motyw maluje je
 ;     na czarno. Nie do przemalowania zostaje trójwymiarowa oprawa rysowana
 ;     kolorami systemowymi: rowki linii rozdzielających, wklęsłe ramki pól
-;     i wytłoczona ramka grupy — tej nie kolorujemy, tylko ją zdejmujemy
+;     i wytłoczona ramka grupy - tej nie kolorujemy, tylko ją zdejmujemy
 ;     (`lithoFlattenChrome`).
 ;
 ; Strona wyboru katalogu jest wstawiana tutaj, a nie przez szablon
-; (`allowToChangeInstallationDirectory: false` w electron-builder.yml) —
+; (`allowToChangeInstallationDirectory: false` w electron-builder.yml) -
 ; tylko wtedy da się jej podpiąć malowanie. Wraz z nią przejmujemy jedyną
 ; rzecz, którą szablon przy tej stronie robił: dopisanie nazwy aplikacji do
 ; wybranego katalogu (`lithoInstFilesPre`). Z tego samego powodu przejmujemy
-; kasowanie plików przy deinstalacji (`customRemoveFiles`) — to jedyne miejsce,
+; kasowanie plików przy deinstalacji (`customRemoveFiles`) - to jedyne miejsce,
 ; z którego da się sięgnąć do strony postępu dezinstalatora.
 ;
 ; Poza kolorami poprawiamy jeszcze rozkład dwóch stron, na których po zdjęciu
@@ -61,12 +61,12 @@
 !define LITHO_INK_DIM "A8ADC0" ; --ink-2
 
 ; Pasek postępu rysujemy sami (PBM_SET*COLOR pochodzi z WinMessages.nsh),
-; a te komunikaty przyjmują COLORREF, czyli 0x00BBGGRR — bajty odwrotnie niż w CSS.
+; a te komunikaty przyjmują COLORREF, czyli 0x00BBGGRR - bajty odwrotnie niż w CSS.
 !define LITHO_PROGRESS_BG 0x140F0E ; --surface-0 #0e0f14
 !define LITHO_PROGRESS_BAR 0xFF7B8F ; --accent #8f7bff
 
 ; MUI maluje pasek nagłówka oraz strony powitania i zakończenia. Dostają ton
-; chromu, tak jak pasek narzędzi w aplikacji — wnętrza pozostałych stron
+; chromu, tak jak pasek narzędzi w aplikacji - wnętrza pozostałych stron
 ; malujemy niżej na ciemniejsze `--surface-1`, żeby treść była wyraźnie wpuszczona
 ; między nagłówek a pasek przycisków. Tło header.bmp musi trzymać się tej wartości.
 !define MUI_BGCOLOR "${LITHO_CHROME}"
@@ -84,7 +84,7 @@
 ;
 ; electron-builder tłumaczy własne komunikaty przez messages.yml; nasze wpisujemy
 ; wprost. Identyfikatory to LCID: 1045 = polski, 1033 = angielski. Lista języków
-; instalatora jest zawężona do tych dwóch w electron-builder.yml — gdyby doszedł
+; instalatora jest zawężona do tych dwóch w electron-builder.yml - gdyby doszedł
 ; trzeci, trzeba go tu dopisać, inaczej NSIS pokaże pusty napis.
 ; ----------------------------------------------------------------------------
 
@@ -93,14 +93,14 @@
   LangString lithoWelcomeTitle 1045 "Dezinstalacja $(^NameDA)"
   LangString lithoWelcomeTitle 1033 "Uninstall $(^NameDA)"
 
-  LangString lithoWelcomeText 1045 "Kreator usunie $(^NameDA) z tego komputera.$\r$\n$\r$\nTwoje strony zostaną nietknięte — Litho edytuje pliki HTML, CSS i JS w miejscu i nigdy nie trzyma ich u siebie. Usuwamy wyłącznie samą aplikację.$\r$\n$\r$\nKliknij Dalej, aby kontynuować."
-  LangString lithoWelcomeText 1033 "This wizard will remove $(^NameDA) from your computer.$\r$\n$\r$\nYour sites are left untouched — Litho edits HTML, CSS and JS files in place and never keeps a copy of its own. Only the application itself is removed.$\r$\n$\r$\nClick Next to continue."
+  LangString lithoWelcomeText 1045 "Kreator usunie $(^NameDA) z tego komputera.$\r$\n$\r$\nTwoje strony zostaną nietknięte - Litho edytuje pliki HTML, CSS i JS w miejscu i nigdy nie trzyma ich u siebie. Usuwamy wyłącznie samą aplikację.$\r$\n$\r$\nKliknij Dalej, aby kontynuować."
+  LangString lithoWelcomeText 1033 "This wizard will remove $(^NameDA) from your computer.$\r$\n$\r$\nYour sites are left untouched - Litho edits HTML, CSS and JS files in place and never keeps a copy of its own. Only the application itself is removed.$\r$\n$\r$\nClick Next to continue."
 
   LangString lithoFinishTitle 1045 "$(^NameDA) zostało usunięte"
   LangString lithoFinishTitle 1033 "$(^NameDA) has been removed"
 
-  LangString lithoFinishText 1045 "Aplikacja zniknęła z tego komputera. Pliki Twoich stron zostały na swoim miejscu — otworzysz je dowolnym edytorem albo ponownie w Litho, jeśli kiedyś wrócisz."
-  LangString lithoFinishText 1033 "The application is gone from this computer. Your site files stayed where they were — open them in any editor, or in Litho again if you ever come back."
+  LangString lithoFinishText 1045 "Aplikacja zniknęła z tego komputera. Pliki Twoich stron zostały na swoim miejscu - otworzysz je dowolnym edytorem albo ponownie w Litho, jeśli kiedyś wrócisz."
+  LangString lithoFinishText 1033 "The application is gone from this computer. Your site files stayed where they were - open them in any editor, or in Litho again if you ever come back."
 
   !define MUI_WELCOMEPAGE_TITLE "$(lithoWelcomeTitle)"
   !define MUI_WELCOMEPAGE_TEXT "$(lithoWelcomeText)"
@@ -112,8 +112,8 @@
   LangString lithoWelcomeTitle 1045 "Instalacja $(^NameDA)"
   LangString lithoWelcomeTitle 1033 "Install $(^NameDA)"
 
-  LangString lithoWelcomeText 1045 "$(^NameDA) to wizualny edytor stron WWW, który pracuje bezpośrednio na plikach HTML, CSS i JS — bez formatu projektu i bez eksportowania czegokolwiek.$\r$\n$\r$\nInstalacja zajmuje kilkanaście sekund i nie wymaga uprawnień administratora, jeśli wybierzesz instalację tylko dla siebie.$\r$\n$\r$\nKliknij Dalej, aby kontynuować."
-  LangString lithoWelcomeText 1033 "$(^NameDA) is a visual website editor that works straight on your HTML, CSS and JS files — no project format, no export step.$\r$\n$\r$\nSetup takes a few seconds and needs no administrator rights if you install it just for yourself.$\r$\n$\r$\nClick Next to continue."
+  LangString lithoWelcomeText 1045 "$(^NameDA) to wizualny edytor stron WWW, który pracuje bezpośrednio na plikach HTML, CSS i JS - bez formatu projektu i bez eksportowania czegokolwiek.$\r$\n$\r$\nInstalacja zajmuje kilkanaście sekund i nie wymaga uprawnień administratora, jeśli wybierzesz instalację tylko dla siebie.$\r$\n$\r$\nKliknij Dalej, aby kontynuować."
+  LangString lithoWelcomeText 1033 "$(^NameDA) is a visual website editor that works straight on your HTML, CSS and JS files - no project format, no export step.$\r$\n$\r$\nSetup takes a few seconds and needs no administrator rights if you install it just for yourself.$\r$\n$\r$\nClick Next to continue."
 
   LangString lithoDirectoryText 1045 "$(^NameDA) zostanie zainstalowane w poniższym folderze. Aby wybrać inny, kliknij Przeglądaj."
   LangString lithoDirectoryText 1033 "$(^NameDA) will be installed in the folder below. To pick another one, click Browse."
@@ -121,8 +121,8 @@
   LangString lithoFinishTitle 1045 "$(^NameDA) jest gotowe"
   LangString lithoFinishTitle 1033 "$(^NameDA) is ready"
 
-  LangString lithoFinishText 1045 "Wszystko zainstalowane. Otwórz folder ze stroną — Litho pokaże ją tak, jak zobaczy ją przeglądarka, a każda zmiana trafi prosto do plików na dysku."
-  LangString lithoFinishText 1033 "Everything is installed. Open a folder with a site — Litho shows it the way a browser will, and every change goes straight into the files on disk."
+  LangString lithoFinishText 1045 "Wszystko zainstalowane. Otwórz folder ze stroną - Litho pokaże ją tak, jak zobaczy ją przeglądarka, a każda zmiana trafi prosto do plików na dysku."
+  LangString lithoFinishText 1033 "Everything is installed. Open a folder with a site - Litho shows it the way a browser will, and every change goes straight into the files on disk."
 
   LangString lithoRunText 1045 "Uruchom $(^NameDA)"
   LangString lithoRunText 1033 "Launch $(^NameDA)"
@@ -141,17 +141,17 @@
 ;
 ; Instalator i dezinstalator to dwa osobne przebiegi kompilacji tego samego
 ; skryptu (`BUILD_UNINSTALLER`), a funkcje dezinstalatora muszą mieć przedrostek
-; `un.` — stąd jedno makro i dwa warianty tych samych funkcji.
+; `un.` - stąd jedno makro i dwa warianty tych samych funkcji.
 ; ----------------------------------------------------------------------------
 
 !macro LITHO_STYLE_FUNCTIONS UN
 
   ; Włącza w procesie tryb ciemny powłoki. Te trzy funkcje uxtheme nie mają nazw
-  ; w tablicy eksportów ani nagłówka w SDK — woła się je po numerach porządkowych
+  ; w tablicy eksportów ani nagłówka w SDK - woła się je po numerach porządkowych
   ; i tylko dzięki nim standardowe przyciski, pola wyboru i suwaki dostają ciemny
   ; wariant motywu zamiast szarego (patrz lithoThemeControl).
   ;   135 = SetPreferredAppMode (Windows 10 1903+; w 1809 AllowDarkModeForApp,
-  ;         które przyjmuje BOOL — 2 jest różne od zera, więc też włącza)
+  ;         które przyjmuje BOOL - 2 jest różne od zera, więc też włącza)
   ;   104 = RefreshImmersiveColorPolicyState
   ; Na starszym Windowsie GetProcAddress zwróci zero i System::Call nic nie zrobi.
   Function ${UN}lithoEnableDarkMode
@@ -160,11 +160,11 @@
   FunctionEnd
 
   ; Przełącza pojedynczą kontrolkę (uchwyt w $1) na ciemny wariant motywu.
-  ; 133 = AllowDarkModeForWindow — bez niego uxtheme dalej wyda jasną klasę.
+  ; 133 = AllowDarkModeForWindow - bez niego uxtheme dalej wyda jasną klasę.
   ;
   ; Etykiet (klasa „Static”) NIE motywujemy. Umotywowana etykieta przestaje
   ; rysować napis zwykłym DrawText na tle z SetCtlColors i przechodzi na
-  ; DrawThemeText — a ten pisze w trybie przezroczystym, zakładając, że tło pod
+  ; DrawThemeText - a ten pisze w trybie przezroczystym, zakładając, że tło pod
   ; napisem odświeży rodzic. Rodzic z WS_CLIPCHILDREN (niżej) obszaru dziecka nie
   ; rusza, więc każde kolejne malowanie kładło litery na poprzednich: przy ruchu
   ; myszą tekst „gęstniał” i rozmazywał się w nieczytelną plamę. Etykiety i tak
@@ -180,13 +180,13 @@
   FunctionEnd
 
   ; Ciemny motyw daje przełącznikom ładny znacznik (ciemne kółko z akcentem),
-  ; ale ich podpis rysuje dalej prawie czarnym atramentem — kolor bierze z klasy
+  ; ale ich podpis rysuje dalej prawie czarnym atramentem - kolor bierze z klasy
   ; „Button”, do której SetCtlColors nie sięga. Zdejmujemy więc przyciskowi tekst
   ; (zostaje sam znacznik) i kładziemy obok zwykłą etykietę, którą malujemy sami.
   ; Etykieta bez SS_NOTIFY jest przezroczysta dla myszy, więc kliknięcie w napis
   ; nadal trafia w przełącznik pod spodem.
   ;
-  ; Uchwyt kontrolki w $1, dialog strony w $0 — jak w lithoStyleInnerPage.
+  ; Uchwyt kontrolki w $1, dialog strony w $0 - jak w lithoStyleInnerPage.
   Function ${UN}lithoRelabelToggle
     Push $R0 ; podpis, potem uchwyt czcionki
     Push $R1 ; struktura RECT, potem DPI i uchwyt etykiety
@@ -208,7 +208,7 @@
 
     ; Znacznik ma 13 pikseli przy 96 DPI plus kilka na odstęp; przy innym
     ; powiększeniu rośnie proporcjonalnie. GetDpiForWindow jest od Windows 10
-    ; 1607 — starszy system zostawi $R1 zerem i wtedy liczymy jak dla 96.
+    ; 1607 - starszy system zostawi $R1 zerem i wtedy liczymy jak dla 96.
     StrCpy $R1 0
     System::Call 'user32::GetDpiForWindow(p $0) i .R1'
     ${If} $R1 < 48
@@ -246,7 +246,7 @@
     SendMessage $1 ${WM_SETTEXT} 0 "STR:"
 
     ; Etykieta leży na przycisku, a kontrolki w dialogu domyślnie nie wycinają
-    ; rodzeństwa — przełącznik przemalowywałby ją przy każdym najechaniu myszą
+    ; rodzeństwa - przełącznik przemalowywałby ją przy każdym najechaniu myszą
     ; i podpis znikałby do następnego odświeżenia. WS_CLIPSIBLINGS (0x04000000)
     ; na przycisku każe mu omijać to, co leży nad nim.
     System::Call 'user32::GetWindowLong(p $1, i -16) i .s'
@@ -258,7 +258,7 @@
     ; rodzeństwo stojące WYŻEJ w kolejności Z, a świeżo utworzone dziecko dialogu
     ; ląduje na jej końcu, czyli POD przyciskiem. Dlatego sam styl nic nie dawał
     ; i to jest źródło zgłaszanego glitcha: przy najeździe myszą motyw odrysowywał
-    ; przycisk razem z obszarem podpisu, a podpis — nieświadomy, że go zamazano —
+    ; przycisk razem z obszarem podpisu, a podpis - nieświadomy, że go zamazano -
     ; nie dostawał WM_PAINT i znikał albo zostawał w połowie. Wynosimy więc
     ; etykietę na wierzch (HWND_TOP = 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE
     ; = 0x13); dopiero wtedy wycinanie działa i napis stoi w miejscu.
@@ -274,7 +274,7 @@
   FunctionEnd
 
   ; Okno zewnętrzne: pasek tytułu, tło pod przyciskami i stopka z nazwą wersji.
-  ; Wołane raz, z .onGUIInit — te kontrolki żyją tak długo jak kreator.
+  ; Wołane raz, z .onGUIInit - te kontrolki żyją tak długo jak kreator.
   Function ${UN}lithoStyleWindow
     Push $0
     Push $1
@@ -293,11 +293,11 @@
 
     ; Uwaga: oknu zewnętrznemu NIE nadajemy WS_CLIPCHILDREN, choć dialogi stron
     ; go dostają (patrz lithoStyleDialog). Nagłówek jest tu tłem, po którym MUI
-    ; przy każdej zmianie strony przesuwa i przepisuje etykiety tytułu — bez
+    ; przy każdej zmianie strony przesuwa i przepisuje etykiety tytułu - bez
     ; malowania obszaru pod nimi zostają na ekranie napisy z poprzedniej strony,
     ; a razem z nimi znika grafika nagłówka i stopka z wersją.
 
-    ; Kontrolki bez własnych kolorów NSIS maluje na biało — a paski rozdzielające
+    ; Kontrolki bez własnych kolorów NSIS maluje na biało - a paski rozdzielające
     ; to właśnie takie puste, dwupikselowe etykiety, które bez tego zostają jasną
     ; kreską pod nagłówkiem i nad przyciskami. Zamiast je chować (MUI i tak
     ; pokazuje je z powrotem na każdej stronie pełnoekranowej) po prostu
@@ -323,11 +323,11 @@
   ;
   ; NSIS trzyma ją w dwóch nałożonych na siebie etykietach o tym samym napisie:
   ; 1028 jest wyłączona, więc Windows maluje ją systemową szarością „tekstu
-  ; nieaktywnego”, do której SetCtlColors nie sięga — i to ona daje ten przygaszony,
+  ; nieaktywnego”, do której SetCtlColors nie sięga - i to ona daje ten przygaszony,
   ; ledwo czytelny napis. Czyścimy jej tekst i zostawiamy samą 1256.
   ;
   ; Domyślnie napis wisi tuż nad kreską rozdzielającą, wcięty inaczej niż treść
-  ; strony i inaczej niż przyciski — czyli w niczyim pasie. Przenosimy go do paska
+  ; strony i inaczej niż przyciski - czyli w niczyim pasie. Przenosimy go do paska
   ; przycisków: lewa krawędź równo z treścią, wysokość równa przyciskom, a pion
   ; wyrównuje SS_CENTERIMAGE.
   Function ${UN}lithoStyleFooter
@@ -353,7 +353,7 @@
     System::Call '*$R0(i .R1)'
 
     ; Pion i wysokość bierzemy z przycisku „Dalej” (1), prawą granicę napisu
-    ; z lewej krawędzi „Wstecz” (3) — tak napis nigdy nie wejdzie pod przyciski.
+    ; z lewej krawędzi „Wstecz” (3) - tak napis nigdy nie wejdzie pod przyciski.
     GetDlgItem $0 $HWNDPARENT 1
     Call ${UN}lithoClientRect
     System::Call '*$R0(i, i .R2, i, i .R3)'
@@ -397,7 +397,7 @@
   ; jasną, wklęsłą ramkę. Strukturę i tak niesie u nas kolor tła, nie krawędzie.
   ;
   ; Wytłoczenie siedzi w SS_TYPEMASK zwykłego stylu, ale sam rowek bierze się
-  ; z WS_EX_STATICEDGE w stylu rozszerzonym — trzeba zdjąć jedno i drugie.
+  ; z WS_EX_STATICEDGE w stylu rozszerzonym - trzeba zdjąć jedno i drugie.
   ; Odejmowanie zamiast maski `& 0xFFFFFFE0`, bo taka stała nie mieści się
   ; w zakresie IntOp i po cichu przestaje cokolwiek maskować.
   Function ${UN}lithoFlattenChrome
@@ -418,7 +418,7 @@
     IntOp $3 $2 & 0x200 ; WS_EX_CLIENTEDGE
     IntOp $2 $2 - $3
     System::Call 'user32::SetWindowLong(p $1, i -20, i r2)'
-    ; SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED — sama zmiana
+    ; SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED - sama zmiana
     ; stylu nie przelicza obszaru nieklienckiego, dopóki okno o to nie poprosi.
     System::Call 'user32::SetWindowPos(p $1, p 0, i 0, i 0, i 0, i 0, i 39)'
 
@@ -431,7 +431,7 @@
   ;
   ; Malujemy WSZYSTKIE dialogi stron, jakie w tej chwili wiszą pod oknem, a nie
   ; „ten pierwszy z brzegu”: przy powrocie na stronę dialog poprzedniej jeszcze
-  ; żyje przez moment i potrafi trafić się jako pierwszy — wtedy pomalowaliśmy
+  ; żyje przez moment i potrafi trafić się jako pierwszy - wtedy pomalowaliśmy
   ; jego, a nowa strona zostawała biała (widać to było po kliknięciu Wstecz).
   ; Pomalowanie dialogu, który zaraz zniknie, nic nie kosztuje.
   Function ${UN}lithoStyleInnerPage
@@ -448,7 +448,7 @@
   FunctionEnd
 
   ; To samo dla konkretnego dialogu (uchwyt w $0), gdy strony nie szukamy „tej
-  ; pierwszej z brzegu” — patrz lithoStyleProgressPage.
+  ; pierwszej z brzegu” - patrz lithoStyleProgressPage.
   Function ${UN}lithoStyleDialog
     Push $1
     Push $2
@@ -458,14 +458,14 @@
     StrCmp $0 0 abort
     ; Uwaga: dialogu strony NIE zgłaszamy do trybu ciemnego (uxtheme #133).
     ; Etykiety pytają rodzica o kolor tekstu i po takim zgłoszeniu dostają
-    ; ciemny atrament, którego nasze SetCtlColors już nie nadpisze — cała treść
+    ; ciemny atrament, którego nasze SetCtlColors już nie nadpisze - cała treść
     ; strony robi się wtedy czarna na czarnym. Kontrolkom flagę nadajemy
     ; pojedynczo, w pętli niżej.
     SetCtlColors $0 "${LITHO_INK}" "${LITHO_SURFACE}"
 
     ; Bez WS_CLIPCHILDREN najazd myszą na przycisk/przełącznik/radiobutton każe
     ; motywowi odświeżyć tło przez rodzica (DrawThemeParentBackground), a ten
-    ; maluje całym obszarem klienckim strony — łącznie z miejscem pod sąsiednimi
+    ; maluje całym obszarem klienckim strony - łącznie z miejscem pod sąsiednimi
     ; etykietami, które nie odświeżają się same i znikają aż do następnego
     ; przemalowania. Styl każe rodzicowi omijać przy malowaniu obszar zajęty
     ; przez dzieci, więc hover przestaje zamazywać tekst obok.
@@ -488,7 +488,7 @@
         SendMessage $1 ${PBM_SETBKCOLOR} 0 ${LITHO_PROGRESS_BG}
         SendMessage $1 ${PBM_SETBARCOLOR} 0 ${LITHO_PROGRESS_BAR}
       ${ElseIf} $2 == "Edit"
-        ; Ścieżka instalacji to pole edycyjne — w aplikacji inputy są wpuszczone
+        ; Ścieżka instalacji to pole edycyjne - w aplikacji inputy są wpuszczone
         ; o ton głębiej niż tło panelu, więc tutaj też. DarkMode_CFD to wariant
         ; klasy z okna „Otwórz plik”: cienka ramka zamiast jasnego wgłębienia.
         System::Call 'uxtheme::#133(p $1, i 1)'
@@ -520,7 +520,7 @@
 
     ; Nowe kolory obowiązują dopiero przy kolejnym malowaniu. Z callbacku SHOW
     ; strona i tak jest jeszcze niewidoczna, ale stronę postępu dezinstalatora
-    ; malujemy, gdy stoi już na ekranie — bez tego zostałaby jasna do pierwszego
+    ; malujemy, gdy stoi już na ekranie - bez tego zostałaby jasna do pierwszego
     ; odsłonięcia okna.
     repaint:
     System::Call 'user32::InvalidateRect(p $0, p 0, i 1)'
@@ -542,7 +542,7 @@
   ;
   ; Lista szczegółów jest schowana (`ShowInstDetails nevershow`), więc zostaje
   ; sam pasek tuż pod nagłówkiem i pod nim dwieście pikseli pustki. Zsuwamy pasek
-  ; razem z napisem o postępie na środek strony — wtedy pusty obszar czyta się
+  ; razem z napisem o postępie na środek strony - wtedy pusty obszar czyta się
   ; jak marginesy, a nie jak coś, co się nie dorysowało.
   Function ${UN}lithoStyleProgressPage
     Push $0
@@ -555,7 +555,7 @@
     Push $R5 ; górna krawędź paska
 
     ; Strony szukamy po pasku postępu (kontrolka 1004), a nie biorąc pierwszy
-    ; dialog z brzegu — przed nią potrafi jeszcze stać w kolejce dialog poprzedniej
+    ; dialog z brzegu - przed nią potrafi jeszcze stać w kolejce dialog poprzedniej
     ; strony. I czekamy, aż w ogóle powstanie: w dezinstalatorze wchodzimy tu
     ; z sekcji, a sekcje NSIS wykonuje w osobnym wątku, który startuje szybciej,
     ; niż wątek okna zdąży zbudować stronę postępu. Bez tego czekania malowanie
@@ -625,7 +625,7 @@
     ; Układ i kolory tła robi tu MUI (MUI_BGCOLOR), więc zostaje jedno: pole
     ; wyboru „Uruchom …”. Włączony w procesie tryb ciemny sprawia, że motyw rysuje
     ; jego podpis prawie czarnym atramentem. W przeciwieństwie do przełączników na
-    ; stronie trybu instalacji wystarczy tu zdjąć motyw — znacznik narysuje się
+    ; stronie trybu instalacji wystarczy tu zdjąć motyw - znacznik narysuje się
     ; klasycznie, ale napis weźmie kolor z SetCtlColors i będzie czytelny.
     Function lithoStyleFinishPage
       Push $0
@@ -657,7 +657,7 @@
     ; Strona wyboru katalogu.
     ;
     ; Układ z NSIS-a zakłada ramkę grupy „Folder docelowy”, która u nas znika
-    ; (rysuje się kolorami systemowymi) — a wraz z nią sens odstępu, jaki po niej
+    ; (rysuje się kolorami systemowymi) - a wraz z nią sens odstępu, jaki po niej
     ; zostaje: opis u góry, potem sto pikseli niczego, a pole ze ścieżką dopiero
     ; przy dolnej krawędzi. Zsuwamy więc pole pod opis i wyrównujemy je z lewą
     ; krawędzią treści, tak jak resztę strony.
@@ -679,7 +679,7 @@
       Push $R6 ; wysokość pola ze ścieżką
       Push $R7 ; obliczenia pomocnicze
 
-      ; Stronę poznajemy po polu ze ścieżką (1019) — tak jak przy stronie postępu,
+      ; Stronę poznajemy po polu ze ścieżką (1019) - tak jak przy stronie postępu,
       ; bo przy powrocie na tę stronę dialog poprzedniej jeszcze przez chwilę żyje.
       StrCpy $0 0
       findPage:
@@ -786,7 +786,7 @@
 ; Strony
 ;
 ; Każde `!define MUI_PAGE_CUSTOMFUNCTION_SHOW` obowiązuje dla najbliższej
-; wstawianej strony i znika po niej — kolejność poniżej odwzorowuje kolejność
+; wstawianej strony i znika po niej - kolejność poniżej odwzorowuje kolejność
 ; z assistedInstaller.nsh i nie da się jej przestawić.
 ; ----------------------------------------------------------------------------
 
@@ -807,7 +807,7 @@
   !define MUI_PAGE_CUSTOMFUNCTION_SHOW lithoStyleProgressPage
 !macroend
 
-; Strona zakończenia. Przejmujemy ją tylko po to, żeby podpiąć malowanie — reszta
+; Strona zakończenia. Przejmujemy ją tylko po to, żeby podpiąć malowanie - reszta
 ; jest jeden do jednego tym, co robi szablon (assistedInstaller.nsh) w gałęzi bez
 ; tego makra: uruchomieniem aplikacji po instalacji zajmuje się StartApp.
 !macro customFinishPage
@@ -838,7 +838,7 @@
 ;
 ; Jako jedyna nie ma wolnego callbacku SHOW: ten sprzed niej zjada strona wyboru
 ; trybu deinstalacji, a szablon nie zostawia między nimi miejsca na wpięcie się.
-; Zostaje jedyne wejście, jakie tam sięga — makro kasujące pliki, wstawiane na
+; Zostaje jedyne wejście, jakie tam sięga - makro kasujące pliki, wstawiane na
 ; początku sekcji `un.install`, czyli już przy widocznej stronie postępu.
 ; Malujemy ją i oddajemy sterowanie: poniżej jest dokładnie to, co robi szablon
 ; (uninstaller.nsh) w gałęzi bez tego makra, i tylko tyle.

@@ -4,7 +4,7 @@
     "lib": ["ES2022"],
     "types": ["node"],
     "noEmit": true,
-    /* See the note in `tsconfig.json` — `baseUrl` is deprecated, and `paths`
+    /* See the note in `tsconfig.json` - `baseUrl` is deprecated, and `paths`
        resolves relative to this file without it. */
     "paths": {
       "@shared/*": ["./shared/*"]

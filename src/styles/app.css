@@ -1,14 +1,14 @@
 /*
  * ============================================================================
- * Litho Studio — design system
+ * Litho Studio - design system
  * ============================================================================
  *
  * A desktop editor is not a website. Three rules follow from that and explain
  * most of the choices below:
  *
  *  1. **Density with air.** Every panel competes for the same pixels the user
- *     actually came for — the page they are editing. Controls are compact
- *     (28 px rows, 12–13 px type) but never touching: an 8 px rhythm runs
+ *     actually came for - the page they are editing. Controls are compact
+ *     (28 px rows, 12-13 px type) but never touching: an 8 px rhythm runs
  *     through every gap, pad and margin so unrelated things never read as one
  *     block. Nothing here is sized by eye; everything comes off the scales in
  *     `:root`.
@@ -16,7 +16,7 @@
  *  2. **Elevation carries meaning, not decoration.** Surfaces step 0→3 from
  *     recessed (inputs, the canvas backdrop, log output) to raised (menus,
  *     dialogs). A control's surface level tells you whether it holds content,
- *     accepts input, or floats above everything — before you read a word.
+ *     accepts input, or floats above everything - before you read a word.
  *
  *  3. **The brand appears where the user acts.** The violet→azure gradient is
  *     reserved for the primary action, the selection, and the logo. Spending it
@@ -24,7 +24,7 @@
  *
  * Two themes come from one set of tokens: `[data-theme]` on <html> swaps the
  * surface/ink scales while the brand stays put, so the product reads the same
- * in both. Every interactive element carries a visible focus ring — the editor
+ * in both. Every interactive element carries a visible focus ring - the editor
  * has to be operable from the keyboard alone (WCAG 2.4.7), and a canvas app
  * that hides focus is unusable without a mouse.
  */
@@ -35,16 +35,16 @@
 
 /*
  * The editor chrome used to lean on 'Segoe UI' being present, which it only
- * is on Windows — everywhere else it fell through to the OS default
+ * is on Windows - everywhere else it fell through to the OS default
  * (Cantarell, DejaVu Sans, whatever a given Linux desktop ships), which reads
  * noticeably plainer than the intended UI. Inter is bundled instead of
  * assumed: it was designed as an open alternative to exactly this kind of
  * system UI font (comparable metrics/proportions to Segoe UI Variable and San
  * Francisco), and self-hosting it means the look is identical on every
- * machine regardless of what fonts happen to be installed — consistent with
+ * machine regardless of what fonts happen to be installed - consistent with
  * this app never fetching anything over the network (see `blockRemoteRequests`
  * in electron/main.ts). One variable-weight file per subset covers every
- * `font-weight` this stylesheet uses (400–700, including the in-between 650)
+ * `font-weight` this stylesheet uses (400-700, including the in-between 650)
  * without shipping a separate file per weight.
  */
 @font-face {
@@ -80,7 +80,7 @@
   --brand-blue: #3d9bff;
   --brand-gradient: linear-gradient(135deg, var(--brand-violet) 0%, var(--brand-blue) 100%);
 
-  /* Spacing — one 4 px rhythm; nothing in this file uses a raw pixel gap. */
+  /* Spacing - one 4 px rhythm; nothing in this file uses a raw pixel gap. */
   --space-1: 2px;
   --space-2: 4px;
   --space-3: 6px;
@@ -90,7 +90,7 @@
   --space-7: 24px;
   --space-8: 32px;
 
-  /* Radii — corners get rounder as elements get larger, so a 26 px input and a
+  /* Radii - corners get rounder as elements get larger, so a 26 px input and a
      440 px dialog read as the same family instead of the same stamp. */
   --radius-xs: 4px;
   --radius-sm: 6px;
@@ -105,7 +105,7 @@
   --font-mono: 'Cascadia Code', 'JetBrains Mono', Consolas, 'SF Mono', ui-monospace, monospace;
 
   /*
-   * One notch larger than this file used to run — the *Linux* default, and
+   * One notch larger than this file used to run - the *Linux* default, and
    * `:root[data-platform='win32']` below takes that notch back off. Read both
    * together; neither half makes sense alone.
    *
@@ -113,7 +113,7 @@
    * own 100 % is roughly 96 dpi. A typical Linux desktop is not that: GNOME and
    * KDE both ship 1.0 scaling on displays that are physically denser than the
    * ones that convention was set for, so 13 px chrome next to 11 px labels came
-   * out genuinely small — legible, but reading as a thin sketch of an application
+   * out genuinely small - legible, but reading as a thin sketch of an application
    * rather than an application, with far more empty surface than content. Every
    * step moved up by one, keeping the same ratios between them.
    */
@@ -125,7 +125,7 @@
   --text-xl: 22px;
   --text-2xl: 34px;
 
-  /* Control metrics — one height per control class keeps rows aligned across
+  /* Control metrics - one height per control class keeps rows aligned across
      panels that were built at different times. Sized so a 13 px label still
      has its full line box plus 8 px of breathing room. */
   --control-h: 30px;
@@ -144,7 +144,7 @@
      restore-from-maximised: the panels give ground before anything overlaps. */
   /* The breathing room around the rendered page. Shared by the edit canvas and
      the live preview so that, side by side, the same page is drawn at the same
-     size in both — see `.preview__stage`. `CANVAS_PADDING` in Canvas.tsx must
+     size in both - see `.preview__stage`. `CANVAS_PADDING` in Canvas.tsx must
      match this number; it subtracts it when measuring the work area. */
   --canvas-padding: 24px;
 
@@ -165,13 +165,13 @@
  * platform that scales the whole UI *underneath* CSS: Chromium honours the
  * shell's display scaling, so the 125 % or 150 % that ships on essentially every
  * current Windows laptop multiplies these numbers again. A scale tuned one notch
- * up for an unscaled 1.0 desktop therefore lands two notches up here — panels
+ * up for an unscaled 1.0 desktop therefore lands two notches up here - panels
  * that no longer fit their labels, a toolbar that starts fighting itself for
  * room, and rows too tall for the amount of canvas left over.
  *
  * These are the values from before the bump, restored: the small end steps down
  * by 1 px and the display sizes follow the same 13/14 ratio, so the proportions
- * the design system is built on are unchanged — only the base changes. Linux and
+ * the design system is built on are unchanged - only the base changes. Linux and
  * macOS never enter this block and keep exactly what they render today.
  *
  * Deliberately expressed as literal px rather than a `calc()` multiplier on the
@@ -199,8 +199,8 @@
 :root,
 [data-theme='dark'] {
   /*
-   * The steps between these used to be 2–3 points of lightness apart, which on
-   * a dark UI is below the threshold at which an edge reads as an edge — the
+   * The steps between these used to be 2-3 points of lightness apart, which on
+   * a dark UI is below the threshold at which an edge reads as an edge - the
    * whole shell resolved into one grey field with faint lines drawn on it. They
    * are spread further now: a panel is visibly not the toolbar, and a recessed
    * input is visibly a hole rather than a slightly different rectangle.
@@ -244,7 +244,7 @@
   --shadow-sm: 0 1px 2px rgb(0 0 0 / 40%);
   --shadow-md: 0 4px 12px -2px rgb(0 0 0 / 45%);
   --shadow-lg: 0 16px 40px -8px rgb(0 0 0 / 60%), 0 4px 12px -4px rgb(0 0 0 / 40%);
-  /* Deliberately a tight blur — see `.canvas__stage`. */
+  /* Deliberately a tight blur - see `.canvas__stage`. */
   --shadow-stage: 0 6px 20px rgb(0 0 0 / 55%);
 
   --scrollbar-thumb: #33374a;
@@ -288,7 +288,7 @@
   --shadow-sm: 0 1px 2px rgb(20 25 45 / 8%);
   --shadow-md: 0 4px 12px -2px rgb(20 25 45 / 12%);
   --shadow-lg: 0 16px 40px -8px rgb(20 25 45 / 20%), 0 4px 12px -4px rgb(20 25 45 / 10%);
-  /* Deliberately a tight blur — see `.canvas__stage`. */
+  /* Deliberately a tight blur - see `.canvas__stage`. */
   --shadow-stage: 0 6px 20px rgb(20 25 45 / 22%);
 
   --scrollbar-thumb: #c3c8d8;
@@ -334,7 +334,7 @@ body {
    *    replaces the whole set, it does not merge).
    *
    * `font-synthesis: none` bans the browser from faking a weight this variable
-   * font can produce for real — faux bold on a 12 px label is the smeared,
+   * font can produce for real - faux bold on a 12 px label is the smeared,
    * slightly-too-wide text that made the chrome look unfinished.
    */
   font-feature-settings:
@@ -352,10 +352,10 @@ body {
  *
  * On macOS it does what it was invented for: Apple's default glyph rasterisation
  * is heavier than Inter's metrics expect, and this thins it back down. That is
- * why the declaration existed — but it was set on `body` for every platform, and
+ * why the declaration existed - but it was set on `body` for every platform, and
  * on Windows it means something entirely different. There Chromium honours it by
  * turning *ClearType off*, replacing subpixel antialiasing with greyscale. At
- * the 11–13 px this app's chrome is built from, that is the difference between
+ * the 11-13 px this app's chrome is built from, that is the difference between
  * crisp text and grey mush; it is a large part of why the editor looked broken on
  * Windows and fine on Linux, where subpixel AA is usually off to begin with.
  *
@@ -363,7 +363,7 @@ body {
  * requests ligatures/kerning that `font-feature-settings` above already enables,
  * so it bought nothing and cost a slower text-shaping path.
  *
- * `data-platform` is stamped on <html> at startup — see `applyPlatformClass` in
+ * `data-platform` is stamped on <html> at startup - see `applyPlatformClass` in
  * src/main.tsx.
  */
 :root[data-platform='darwin'] body {
@@ -402,7 +402,7 @@ body {
  * Scoped to the containers that actually scroll rather than hung off `*`. A
  * universal selector carrying `::-webkit-scrollbar` pseudo-elements makes
  * Chromium evaluate scrollbar styling for every element in the tree on every
- * style recalculation — and this app recalculates the whole panel tree on each
+ * style recalculation - and this app recalculates the whole panel tree on each
  * `revision` bump, which during a drag means once per pointer move.
  */
 .panel__body,
@@ -481,7 +481,7 @@ body {
 }
 
 /* ------------------------------------------------------------------ */
-/* Primitives — buttons                                                */
+/* Primitives - buttons                                                */
 /* ------------------------------------------------------------------ */
 
 .button {
@@ -516,7 +516,7 @@ body {
   border-color: var(--border-3);
 }
 
-/* A 1 px drop on press is the cheapest possible "the click registered" — worth
+/* A 1 px drop on press is the cheapest possible "the click registered" - worth
    more in an editor than any hover effect, because the result of most clicks
    here happens somewhere else on screen. */
 .button:active:not(:disabled) {
@@ -587,7 +587,7 @@ body {
 }
 
 /* ------------------------------------------------------------------ */
-/* Primitives — inputs                                                 */
+/* Primitives - inputs                                                 */
 /* ------------------------------------------------------------------ */
 
 .input,
@@ -688,7 +688,7 @@ body {
   cursor: pointer;
 }
 
-/* A search box with the magnifier inside it rather than beside it — the icon is
+/* A search box with the magnifier inside it rather than beside it - the icon is
    part of the control, not a label for it. */
 .search-field {
   position: relative;
@@ -738,7 +738,7 @@ input[type='checkbox'] {
  * above the app without touching the grid below it.
  *
  * The update banner is the only thing that ever occupies that slot, and it is
- * absent almost always — a flex column with a single child behaves exactly like
+ * absent almost always - a flex column with a single child behaves exactly like
  * the old markup, which is why this is a wrapper and not another grid row: an
  * extra row would have to be sized whether or not anything was in it, and a
  * mis-sized empty row is how the toolbar ends up half a strip too low.
@@ -759,7 +759,7 @@ input[type='checkbox'] {
 
 .app {
   display: grid;
-  /* `minmax(0, 1fr)` — not `1fr`. A grid track's implicit minimum is `auto`,
+  /* `minmax(0, 1fr)` - not `1fr`. A grid track's implicit minimum is `auto`,
      which is the *content's* min-size, so a wide toolbar row or a tall panel
      can push the track past the window instead of scrolling inside it. That is
      precisely what made panels ride over each other when the window was
@@ -923,7 +923,7 @@ input[type='checkbox'] {
  *
  * The grid was written for exactly six panels; the seventh ("Sprawdź") landed
  * alone on a third row and the two cells next to it read as a hole punched in
- * the dock — the eye takes an empty grid cell for a missing control, not for
+ * the dock - the eye takes an empty grid cell for a missing control, not for
  * spare room. `:last-child:nth-child(3n + 1)` is true only when the final tile
  * starts a row of its own, so the rule corrects itself if an eighth panel ever
  * fills the gap.
@@ -936,7 +936,7 @@ input[type='checkbox'] {
   gap: var(--space-3);
 }
 
-/* The label truncates rather than spilling over its neighbour — a hard floor
+/* The label truncates rather than spilling over its neighbour - a hard floor
    for a panel narrowed to its `clamp()` minimum. `title` repeats it in full. */
 .panel__tab-label {
   max-width: 100%;
@@ -986,7 +986,7 @@ input[type='checkbox'] {
  * The middle track is `minmax(0, 1fr)` and scrolls: the tool row is the only
  * part that can grow without bound (page picker + history + zoom + four
  * toggles), so it is the only part allowed to give. The brand and the status
- * are `auto` and therefore never squeezed under it — the previous
+ * are `auto` and therefore never squeezed under it - the previous
  * `1fr auto 1fr` layout put the tools in an `auto`-min track that simply
  * overflowed its neighbours once the window narrowed, which is what made the
  * wordmark and the save indicator collide on restore-down.
@@ -1107,7 +1107,7 @@ input[type='checkbox'] {
   font-weight: 600;
 }
 
-/* `rtl` keeps the *end* of the path — the file name — when it has to truncate;
+/* `rtl` keeps the *end* of the path - the file name - when it has to truncate;
    the leading folders are the throwaway half. */
 .page-switcher__path {
   overflow: hidden;
@@ -1208,10 +1208,10 @@ input[type='checkbox'] {
 
 /* -- Zoom readout + menu ------------------------------------------- */
 
-/* The readout has to keep one width across 20 %–500 %, or the buttons on either
+/* The readout has to keep one width across 20 %-500 %, or the buttons on either
    side of it shuffle sideways every time the number gains a digit. */
 /* `contents`: the wrapper exists only to own the popup menu, so it must not
-   become a box of its own inside the joined −/%/+ group — the readout has to sit
+   become a box of its own inside the joined −/%/+ group - the readout has to sit
    in that seam like any other button in the row. */
 .zoom {
   display: contents;
@@ -1338,7 +1338,7 @@ input[type='checkbox'] {
  * Not a stack of four nested menus but one panel showing the whole tree.
  *
  * A cascading menubar exists because a 1984 screen could not afford to show
- * more than one submenu at a time. This app has ~28 commands in total — they
+ * more than one submenu at a time. This app has ~28 commands in total - they
  * fit side by side, and seeing them at once turns "which of the four menus was
  * Siatka under" into a question nobody has to ask twice.
  */
@@ -1348,7 +1348,7 @@ input[type='checkbox'] {
   /*
    * 218 px, up from 190. The columns used to be exactly as wide as their
    * widest item, so "Zamknij projekt" and its Ctrl+Shift+W ended up touching
-   * while the Widok column had 40 px of slack — three columns of three
+   * while the Widok column had 40 px of slack - three columns of three
    * different widths, each ragged in its own way. A floor wide enough for the
    * longest label *plus* its accelerator makes them uniform.
    */
@@ -1464,7 +1464,7 @@ input[type='checkbox'] {
 
 /* The accelerator is a hint, not a control: it sits back in the dimmest ink the
    scale has and never competes with the command it belongs to.
-   `padding-left` is a *minimum* gap the label can never eat into — without it a
+   `padding-left` is a *minimum* gap the label can never eat into - without it a
    long label ran straight into its own shortcut, and the two read as one
    string. The label ellipsises first instead, which is the right trade. */
 .app-menu__keys {
@@ -1489,8 +1489,8 @@ input[type='checkbox'] {
 /*
  * The most important thing in this bar even though it is not a button: the
  * product has no "Save" and no "Export", so this is the user's only continuous
- * evidence that what is on screen is what is on disk. It gets a real chip —
- * icon, tinted background, its own colour per state — rather than the grey
+ * evidence that what is on screen is what is on disk. It gets a real chip -
+ * icon, tinted background, its own colour per state - rather than the grey
  * caption it used to be.
  */
 .toolbar__status {
@@ -1541,7 +1541,7 @@ input[type='checkbox'] {
  * No spinner here, deliberately.
  *
  * "Saving" is the state the editor is in for a fraction of a second after every
- * keystroke and every pointer move of a drag — i.e. continuously, while the user
+ * keystroke and every pointer move of a drag - i.e. continuously, while the user
  * is doing the most performance-sensitive thing in the app. An infinite CSS
  * animation on that state keeps a compositing/repaint cycle running for exactly
  * as long as the user is dragging, and on software rendering that competes with
@@ -1559,7 +1559,7 @@ input[type='checkbox'] {
  *
  * It closes the window. Without it the panel columns and the canvas ran
  * straight off the bottom edge of the screen, which is what made the app read
- * as a web page in a frame rather than as a desktop application — the toolbar
+ * as a web page in a frame rather than as a desktop application - the toolbar
  * gave the composition a top and nothing gave it a bottom. It earns the 26 px
  * besides: the project's path on disk and the size of the current selection are
  * both facts the editor previously kept to itself.
@@ -1598,7 +1598,7 @@ input[type='checkbox'] {
 }
 
 /* The folder path is the one thing here allowed to be long, and the first thing
-   allowed to be cut — it is reassurance ("yes, that project"), not a label. */
+   allowed to be cut - it is reassurance ("yes, that project"), not a label. */
 .statusbar__item--path {
   min-width: 0;
   overflow: hidden;
@@ -1641,7 +1641,7 @@ input[type='checkbox'] {
    * A flat fill, not a tiled dot grid.
    *
    * The workspace texture looked good but it is the backdrop *behind* the
-   * surface that repaints on every frame of a drag — the selection outline,
+   * surface that repaints on every frame of a drag - the selection outline,
    * the handles and the alignment guides all live over it. A tiled gradient
    * across ~1200 × 800 px has to be re-rastered for each invalidated region,
    * and on software rendering that measurably competed with the drag gesture
@@ -1650,7 +1650,7 @@ input[type='checkbox'] {
   background-color: var(--canvas-backdrop);
 }
 
-/* Mirrors `.preview__toolbar` exactly — same height, same treatment — because
+/* Mirrors `.preview__toolbar` exactly - same height, same treatment - because
    the reason it exists is to keep the two panes level. See App.tsx. */
 .canvas__titlebar {
   display: flex;
@@ -1678,7 +1678,7 @@ input[type='checkbox'] {
 /*
  * The scaler is sized to the stage's *scaled* dimensions, so the scroll range
  * always matches what is visible. Centring uses auto margins, not flex
- * justify-content — a centred flex child wider than its scroll container
+ * justify-content - a centred flex child wider than its scroll container
  * overflows to the left of the scroll origin, where no scrollbar can reach.
  */
 .canvas__scaler {
@@ -1692,18 +1692,18 @@ input[type='checkbox'] {
  * else in here (selection outlines, the element label, transform handles, the
  * marquee) is absolutely positioned from rects read *inside* the iframe. An
  * element taller or wider than the visible frame therefore produces an overlay
- * box that sticks out past the stage — and an unclipped abspos descendant still
+ * box that sticks out past the stage - and an unclipped abspos descendant still
  * counts towards `.canvas__viewport`'s scrollable overflow. That is where the
  * phantom second scrollbar came from: it appeared when a tall element was
  * selected or hovered and vanished on the next, smaller one, on top of the
  * page's own scrollbar inside the frame. Clipping to the stage leaves exactly
- * one scrollbar — the page's.
+ * one scrollbar - the page's.
  */
 /*
  * The stage's drop shadow is kept to a *tight* blur on purpose.
  *
- * Everything that moves during a drag — the selection outline, the transform
- * handles, the alignment guides — is painted inside this box, so every pointer
+ * Everything that moves during a drag - the selection outline, the transform
+ * handles, the alignment guides - is painted inside this box, so every pointer
  * move invalidates a region of it. A wide blur (60 px) makes Chromium re-blur a
  * correspondingly wider band of a stage that can be 1440 × 3000 px, on every
  * single frame of the drag. On software rendering that alone was enough to make
@@ -1737,7 +1737,7 @@ input[type='checkbox'] {
  * These boxes are repositioned on every pointer move of a drag. A fractional
  * border width (1.5 px) or a rounded corner takes Chromium off the fast
  * axis-aligned-rectangle paint path and onto one that re-rasterises with
- * anti-aliasing each frame — for the outline, eight handles and up to four
+ * anti-aliasing each frame - for the outline, eight handles and up to four
  * guides at once. It is invisible as decoration and expensive as geometry.
  */
 .canvas__outline {
@@ -1775,7 +1775,7 @@ input[type='checkbox'] {
   border-radius: 0 0 var(--radius-xs) var(--radius-xs);
 }
 
-/* Where a drop would land — centred on the (snapped) cursor, since a drop
+/* Where a drop would land - centred on the (snapped) cursor, since a drop
    places freely: a pixel, not a sibling slot. */
 .canvas__free-indicator {
   position: absolute;
@@ -1788,7 +1788,7 @@ input[type='checkbox'] {
   pointer-events: none;
 }
 
-/* Alignment guides — the pink lines that appear only when an edge/centre lines
+/* Alignment guides - the pink lines that appear only when an edge/centre lines
    up with another element, whether placing a new element or dragging one. A
    deliberately different colour from the blue selection so they read as a hint,
    not a boundary. */
@@ -1821,7 +1821,7 @@ input[type='checkbox'] {
 }
 
 /*
- * Deliberately NOT `inset: 0` — a full-body overlay would swallow every click
+ * Deliberately NOT `inset: 0` - a full-body overlay would swallow every click
  * and right-click meant for the selected element's own content or its nested
  * children (impossible to click into a selected list to edit an item, or to
  * right-click an already-selected element at all). A small handle above the
@@ -1852,7 +1852,7 @@ input[type='checkbox'] {
   top: 2px;
 }
 
-/* Takes an element out of the layout (`position: absolute`) without moving it —
+/* Takes an element out of the layout (`position: absolute`) without moving it -
    shown only while it still occupies space, since that is the whole point of
    the action. Moving is not what this button is for: `.transform__move` /
    `.transform__edge` above drag an element anywhere while it keeps its slot.
@@ -1888,8 +1888,8 @@ input[type='checkbox'] {
 
 /*
  * Thin bands along the selection's own border, each `pointer-events: auto`
- * so the box's perimeter is grabbable to move it — a far more forgiving
- * target than the tab alone — while the interior between them stays
+ * so the box's perimeter is grabbable to move it - a far more forgiving
+ * target than the tab alone - while the interior between them stays
  * click-through for nested content, same reasoning as the tab above.
  */
 .transform__edge {
@@ -2120,7 +2120,7 @@ input[type='checkbox'] {
   flex-shrink: 0;
 }
 
-/* Mode switch (Przeglądanie / Edycja) — a real segmented control, because the
+/* Mode switch (Przeglądanie / Edycja) - a real segmented control, because the
    two are mutually exclusive states of the same thing. */
 .breakpoints__modes {
   display: flex;
@@ -2169,7 +2169,7 @@ input[type='checkbox'] {
   color: var(--accent);
 }
 
-/* Amber, not red: an out-of-layout element is a risk to check, not an error —
+/* Amber, not red: an out-of-layout element is a risk to check, not an error -
    plenty of them are deliberate and perfectly fine. */
 .breakpoints__warning {
   border-color: color-mix(in srgb, var(--warning) 45%, transparent);
@@ -2354,7 +2354,7 @@ input[type='checkbox'] {
   line-height: 1.4;
 }
 
-/* Character counter under the SEO fields. Amber both ways — too short and too
+/* Character counter under the SEO fields. Amber both ways - too short and too
    long are both "worth a second look", never an error. */
 .meta-counter {
   font-size: var(--text-2xs);
@@ -2404,7 +2404,7 @@ input[type='checkbox'] {
   color: var(--accent);
 }
 
-/* A form with nowhere to post is not an error the user made — it is the normal
+/* A form with nowhere to post is not an error the user made - it is the normal
    state of a brand-new form, so it is stated in amber, not red. */
 .form-destination__warning {
   display: flex;
@@ -2523,7 +2523,7 @@ input[type='checkbox'] {
   gap: var(--space-3);
 }
 
-/* Dismissed for this element — still present so it can be un-ignored, but
+/* Dismissed for this element - still present so it can be un-ignored, but
    no longer shouting: neutral border/background instead of the warning
    colour, and the icon to match. */
 .layout-warning--ignored {
@@ -2681,7 +2681,7 @@ input[type='checkbox'] {
   color: var(--ink-1);
 }
 
-/* A locked or hidden layer is a *state of the page*, not a hover affordance —
+/* A locked or hidden layer is a *state of the page*, not a hover affordance -
    it stays lit and tinted whether the pointer is there or not. */
 .layer__action--on {
   color: var(--warning);
@@ -2769,7 +2769,7 @@ input[type='checkbox'] {
  *
  * The heading used to carry a top margin cancelled by
  * `.palette__group-title:first-child { margin-top: 0 }`. That reset was written
- * for a flat list of headings — but every panel wraps each group in its own
+ * for a flat list of headings - but every panel wraps each group in its own
  * `<section>`, so each heading *is* the first child of its own wrapper and the
  * reset applied to all of them. The margin was therefore never in effect
  * anywhere, which is why the last row of icons in one group sat almost against
@@ -2794,7 +2794,7 @@ input[type='checkbox'] {
   letter-spacing: 0.06em;
 }
 
-/* A rule that fills whatever space the label leaves — group headings inside a
+/* A rule that fills whatever space the label leaves - group headings inside a
    scrolling list need a horizon, not just smaller text. */
 .palette__group-title::after {
   content: '';
@@ -2813,7 +2813,7 @@ input[type='checkbox'] {
  * The block cancels `.panel__body`'s padding with negative margins and puts the
  * same amount back as its own padding, so its background spans the panel edge
  * to edge and icons scroll *under* it rather than beside it. Both numbers must
- * therefore track `.panel__body`'s padding exactly — they are `--space-5` on
+ * therefore track `.panel__body`'s padding exactly - they are `--space-5` on
  * the top and on both sides. They used to say `--space-4` sideways, left over
  * from an earlier panel padding, which let a column of icons show through the
  * gutter on each side of the bar.
@@ -2831,7 +2831,7 @@ input[type='checkbox'] {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  /* Mirrors `.panel__body`'s own padding — `--space-5`, top and sides. */
+  /* Mirrors `.panel__body`'s own padding - `--space-5`, top and sides. */
   margin: calc(var(--space-5) * -1) calc(var(--space-5) * -1) 0;
   padding: var(--space-5);
   background: var(--surface-1);
@@ -3027,7 +3027,7 @@ input[type='checkbox'] {
 }
 
 /* The disclosure chevron is drawn in CSS from the same Material geometry the
-   `Icon` component uses, so it matches every other chevron in the app — a
+   `Icon` component uses, so it matches every other chevron in the app - a
    `<summary>` cannot host a React child before its own text without breaking
    the native marker suppression. */
 .props__summary::before {
@@ -3051,7 +3051,7 @@ input[type='checkbox'] {
   color: var(--ink-1);
 }
 
-/* Marks a section whose contents are non-default — the "this element has a
+/* Marks a section whose contents are non-default - the "this element has a
    script" dot, previously a bullet glued onto the section title. */
 .props__badge {
   width: 6px;
@@ -3169,7 +3169,7 @@ input[type='checkbox'] {
   background: var(--surface-3);
 }
 
-/* A chevron between crumbs — drawn, not typed, so it cannot be selected or
+/* A chevron between crumbs - drawn, not typed, so it cannot be selected or
    read out by a screen reader as content. The current crumb carries both
    classes, so this one rule covers every gap in the trail. */
 .props__crumb + .props__crumb::before {
@@ -3328,7 +3328,7 @@ input[type='checkbox'] {
 }
 
 /* An element carrying a dozen utility classes must not push the input (and
-   everything below it) off the panel — the chips get their own scroll. */
+   everything below it) off the panel - the chips get their own scroll. */
 .class-picker__chips {
   display: flex;
   flex-wrap: wrap;
@@ -3489,7 +3489,7 @@ input[type='checkbox'] {
  *
  * A headline set larger than anything else in the product, in gradient text, on
  * a screen whose actual job is to open a folder, read as a splash screen rather
- * than as a window. At 22 px it sits beside the mark as a wordmark — the logo
+ * than as a window. At 22 px it sits beside the mark as a wordmark - the logo
  * carries the brand, and the gradient is spent on the primary action instead,
  * which is where the design system says it belongs.
  */
@@ -3528,7 +3528,7 @@ input[type='checkbox'] {
  * The third track is `1fr`, not `auto`.
  *
  * The tiles stretch to the tallest of the three, and with three `auto` rows the
- * leftover height is shared out between them — so the tile with the shortest
+ * leftover height is shared out between them - so the tile with the shortest
  * hint pushed its *label* down and the three headings no longer sat on one
  * line. Giving the hint row all the slack pins rows 1 and 2 at their natural
  * size regardless of how the hints wrap.
@@ -3589,7 +3589,7 @@ input[type='checkbox'] {
   line-height: 1.45;
 }
 
-/* The one place the gradient appears on this screen — see the note about the
+/* The one place the gradient appears on this screen - see the note about the
    brand in the header of this file. */
 .start-action--primary {
   border-color: transparent;
@@ -3662,7 +3662,7 @@ input[type='checkbox'] {
  * Explicit tracks are what put every path on the same left edge as the name
  * above it: the icon owns column 1 across both rows, so line 2 starts exactly
  * where line 1 does no matter how long the folder name is. `minmax(0, 1fr)` on
- * the text column — not `1fr` — is what lets the path actually ellipsise
+ * the text column - not `1fr` - is what lets the path actually ellipsise
  * instead of widening the grid.
  *
  * `padding-right` reserves the forget button's lane permanently, so the ✕
@@ -3754,7 +3754,7 @@ input[type='checkbox'] {
  *
  * Twelve ✕ glyphs down the right edge of a list whose purpose is to be clicked
  * is twelve invitations to do the one thing on this screen that destroys
- * something. It stays reachable by keyboard at all times — `:focus-within` is
+ * something. It stays reachable by keyboard at all times - `:focus-within` is
  * what keeps Tab from walking into an invisible control.
  */
 .recent__forget {
@@ -3821,7 +3821,7 @@ input[type='checkbox'] {
  *
  * Now it is inside the sheet, so it centres together with everything above it
  * and the gap is the sheet's own rhythm. The rule is what makes it a footer
- * instead of a caption stuck to the recents card — without it, at 24 px below a
+ * instead of a caption stuck to the recents card - without it, at 24 px below a
  * bordered list, it read as one more list row.
  */
 .start__credit {
@@ -3844,7 +3844,7 @@ input[type='checkbox'] {
 /*
  * `text-decoration`, not the `border-bottom` this used to use. A border draws a
  * full-width rule under the *box*, which at 12 px sat far enough below the
- * baseline to read as a stray line rather than as an underline — and it never
+ * baseline to read as a stray line rather than as an underline - and it never
  * skipped the descender in "Wojtoteka"'s j.
  */
 .start__credit a {
@@ -4019,15 +4019,15 @@ input[type='checkbox'] {
  *
  * This is the fix for the defect the old installer shipped with: four rows laid
  * out independently, each measuring its own name and status text, so each
- * "Zainstaluj" button came to rest at a different x — a column of buttons that
+ * "Zainstaluj" button came to rest at a different x - a column of buttons that
  * was not a column. `grid-template-columns: subgrid` makes every row adopt the
  * *parent's* three tracks instead of resolving its own, so the action column is a
  * single column across the whole list as a structural fact rather than as
  * something four rows have to agree on. (Chromium 117+; this app targets 128.)
  *
  * The action track is a fixed width and the button fills it, which is the other
- * half of the same problem: the label changes with state — "Zainstaluj",
- * "Aktualizuj", "Przerwij" — and a button sized to its text would resize under
+ * half of the same problem: the label changes with state - "Zainstaluj",
+ * "Aktualizuj", "Przerwij" - and a button sized to its text would resize under
  * the pointer at the exact moment the user has just clicked it.
  */
 .ai-tools {
@@ -4094,7 +4094,7 @@ input[type='checkbox'] {
   color: var(--ink-3);
   font-family: var(--font-mono);
   font-size: var(--text-2xs);
-  /* The command is the one string in the row that must never be abbreviated —
+  /* The command is the one string in the row that must never be abbreviated -
      it is what the user is being asked to approve. */
   overflow-wrap: anywhere;
 }
@@ -4135,7 +4135,7 @@ input[type='checkbox'] {
   color: var(--danger);
 }
 
-/* Only while a request is genuinely in flight — a static "sync" glyph reads as a
+/* Only while a request is genuinely in flight - a static "sync" glyph reads as a
    button, a turning one reads as work happening. */
 .ai-tools__status--busy .icon {
   animation: litho-spin 1.1s linear infinite;
@@ -4152,7 +4152,7 @@ input[type='checkbox'] {
 }
 
 /*
- * Install output. A log, not a terminal — see `OutputPane` in AiToolsDialog.tsx.
+ * Install output. A log, not a terminal - see `OutputPane` in AiToolsDialog.tsx.
  * Recessed surface for the same reason the console panel uses one: this is
  * output being read, not chrome being operated.
  */
@@ -4282,7 +4282,7 @@ input[type='checkbox'] {
   animation: litho-rise var(--dur-fast) var(--ease);
 }
 
-/* The same popup, in "ask me something" mode — naming a shared section. Wider,
+/* The same popup, in "ask me something" mode - naming a shared section. Wider,
    because it carries an explanation the menu items do not need. */
 .context-menu--form {
   display: flex;
@@ -4358,7 +4358,7 @@ input[type='checkbox'] {
 }
 
 /* Shortcut hints sit right-aligned in the same row as the label, the way every
-   desktop menu on every platform does it — stacking them under the label read
+   desktop menu on every platform does it - stacking them under the label read
    as a two-line description of the action. */
 .context-menu__hint {
   color: var(--ink-3);
@@ -4574,7 +4574,7 @@ input[type='checkbox'] {
   flex-shrink: 0;
 }
 
-/* The path is the identifying part and may be long — it gets the free space,
+/* The path is the identifying part and may be long - it gets the free space,
    the button keeps its intrinsic width. */
 .sheet-list__main {
   display: flex;
@@ -4635,7 +4635,7 @@ input[type='checkbox'] {
   margin: 0;
   padding: var(--space-3);
   list-style: none;
-  /* Long class lists must not push the editor below off the panel — the list
+  /* Long class lists must not push the editor below off the panel - the list
      scrolls, the editor under it stays reachable. */
   max-height: 232px;
   overflow-y: auto;
@@ -4767,7 +4767,7 @@ textarea.styles__preview-code:focus {
   gap: var(--space-3);
 }
 
-/* Something the user should read before clicking "apply" — an existing script
+/* Something the user should read before clicking "apply" - an existing script
    that would be replaced, or handlers the page already has. */
 .script-section__warning {
   display: flex;
@@ -4783,7 +4783,7 @@ textarea.styles__preview-code:focus {
   line-height: 1.5;
 }
 
-/* Live output — the panel's answer to "the canvas shows no effect". Shows what
+/* Live output - the panel's answer to "the canvas shows no effect". Shows what
    the element's text will become right now. */
 .script-preview {
   display: flex;
@@ -4890,7 +4890,7 @@ textarea.styles__preview-code:focus {
 /*
  * The same inset as `.canvas__viewport`, and that is the whole point.
  *
- * Side by side, the two panes get equal grid tracks — but the canvas inset its
+ * Side by side, the two panes get equal grid tracks - but the canvas inset its
  * page by `--canvas-padding` and the preview did not, so the previewed page was
  * laid out ~48 px wider than the edited one and rendered visibly larger next to
  * it. Since the previewed page's viewport *is* this element's box, matching the
@@ -4904,14 +4904,14 @@ textarea.styles__preview-code:focus {
   min-height: 0;
   min-width: 0;
   /* Zooming past 100 % makes the surface wider than the stage, exactly as it
-     does on the canvas — the page scrolls sideways rather than being clipped. */
+     does on the canvas - the page scrolls sideways rather than being clipped. */
   overflow: auto;
   padding: var(--canvas-padding);
   background: var(--canvas-backdrop);
 }
 
 /* The native WebContentsView is positioned over this element's box, so its
-   width is the viewport width the previewed page actually sees — divided by
+   width is the viewport width the previewed page actually sees - divided by
    the page zoom factor. `PreviewPane` pins that width to the canvas's own
    measurement when the two are side by side. */
 .preview__surface {
@@ -4966,7 +4966,7 @@ textarea.styles__preview-code:focus {
 /*
  * The window's `minWidth` is 1100 px (electron/main.ts). Between there and a
  * maximised 4K display the shell has to lose chrome gracefully rather than let
- * fixed-width regions collide — which is exactly what used to happen coming out
+ * fixed-width regions collide - which is exactly what used to happen coming out
  * of full screen. The order things are given up in is deliberate: decoration
  * first (the wordmark), then labels that a tooltip already repeats, then the
  * secondary panels' comfort padding. Nothing that is the only way to reach a
@@ -4998,7 +4998,7 @@ textarea.styles__preview-code:focus {
   }
 
   /* Restated for Windows because the platform block's selector outranks a bare
-     `:root` here — without this line the narrow-window bar would keep the
+     `:root` here - without this line the narrow-window bar would keep the
      full-width Windows height, which already happens to be 50 px, and this
      breakpoint would silently stop doing anything on that platform. */
   :root[data-platform='win32'] {
@@ -5023,7 +5023,7 @@ textarea.styles__preview-code:focus {
     --dock-height: clamp(130px, 20vh, 220px);
   }
 
-  /* On a short window the hero is the first thing to give ground — the actions
+  /* On a short window the hero is the first thing to give ground - the actions
      and the recents list are what the user came for. */
   .start__logo {
     width: 52px;
@@ -5059,7 +5059,7 @@ textarea.styles__preview-code:focus {
     grid-template-columns: repeat(2, minmax(200px, 1fr));
   }
 
-  /* Wrapped to two columns, the third section starts a new row — where a left
+  /* Wrapped to two columns, the third section starts a new row - where a left
      divider would be a rule hanging off the panel's own left edge. */
   .app-menu__column:nth-child(odd) {
     border-left: none;

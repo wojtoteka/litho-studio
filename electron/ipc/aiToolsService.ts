@@ -20,7 +20,7 @@ import { log } from '../logger.js';
  *    else. Everything executable is looked up in the static catalogue
  *    (`shared/aiTools.ts`), so no string that crossed the IPC bridge is ever
  *    interpolated into a shell. An unknown id is refused, not guessed at.
- *  - **Windows only**, enforced here and not merely hidden in the UI — see the
+ *  - **Windows only**, enforced here and not merely hidden in the UI - see the
  *    rationale on `AI_TOOLS_PLATFORM`. A renderer that asked anyway gets
  *    `UNSUPPORTED_PLATFORM` back.
  *  - **One process per tool**, tracked so it can be cancelled and so a second
@@ -73,7 +73,7 @@ export class AiToolsService {
   }
 
   /**
-   * Starts an install and returns as soon as the process is spawned — the result
+   * Starts an install and returns as soon as the process is spawned - the result
    * arrives later through `onDone`, with `onOutput` streaming in between. A
    * request that cannot even start (wrong platform, unknown tool, no bash for a
    * script installer, already running) fails synchronously with a sentence the
@@ -101,7 +101,7 @@ export class AiToolsService {
         windowsHide: true,
         // No `shell: true`: `file` is one of two fixed executables and the
         // arguments are built here from the catalogue, so there is nothing for a
-        // shell to re-parse — and one less layer that could re-interpret them.
+        // shell to re-parse - and one less layer that could re-interpret them.
         shell: false,
       });
     } catch (error) {
@@ -198,7 +198,7 @@ async function resolveCommand(tool: AiToolSpec): Promise<ResolvedCommand | { ok:
       /*
        * `exit $LASTEXITCODE` is load-bearing. `powershell -Command` exits 0 as
        * long as the *script* completed, regardless of what the native command
-       * inside it returned — without this line a failed `npm install` would be
+       * inside it returned - without this line a failed `npm install` would be
        * reported to the user as a success.
        *
        * The console encoding is forced to UTF-8 for the same reason npm's own
@@ -220,7 +220,7 @@ async function resolveCommand(tool: AiToolSpec): Promise<ResolvedCommand | { ok:
   /*
    * The vendor ships a POSIX shell script and no Windows equivalent. Git for
    * Windows puts a perfectly good `bash` on PATH and most machines with a web
-   * editor on them have it — but it is not part of Windows, so its absence is a
+   * editor on them have it - but it is not part of Windows, so its absence is a
    * normal outcome that has to be explained rather than crashed on.
    */
   const bash = await which('bash');
@@ -245,7 +245,7 @@ function powerShellPath(): string {
 /** Turns a non-zero exit into something a user can act on. */
 function explainExitCode(tool: AiToolSpec, exitCode: number): string {
   if (tool.install.kind === 'npm-global') {
-    return `Instalacja ${tool.name} nie powiodła się (kod ${exitCode}). Najczęstsza przyczyna to brak uprawnień do katalogu globalnego npm — sprawdź wyjście powyżej.`;
+    return `Instalacja ${tool.name} nie powiodła się (kod ${exitCode}). Najczęstsza przyczyna to brak uprawnień do katalogu globalnego npm - sprawdź wyjście powyżej.`;
   }
   return `Instalator ${tool.name} zakończył się kodem ${exitCode}. Szczegóły są w wyjściu powyżej.`;
 }
@@ -258,7 +258,7 @@ function explainExitCode(tool: AiToolSpec, exitCode: number): string {
  * First PATH match for an executable, or `null`.
  *
  * `where.exe` is used rather than walking PATH by hand because it applies
- * PATHEXT the same way the shell does — which is what makes it find `npm.cmd`
+ * PATHEXT the same way the shell does - which is what makes it find `npm.cmd`
  * and `claude.cmd`, the form an npm global install actually leaves behind.
  */
 function which(binary: string): Promise<string | null> {
@@ -314,7 +314,7 @@ function probeVersion(binary: string): Promise<string | null> {
 function killTree(child: ChildProcess): void {
   if (child.pid === undefined) return;
   execFile('taskkill.exe', ['/pid', String(child.pid), '/T', '/F'], { windowsHide: true }, (error) => {
-    // Already gone between the click and the call — nothing to do, and the
+    // Already gone between the click and the call - nothing to do, and the
     // `close` handler has already reported the outcome.
     if (error) child.kill();
   });

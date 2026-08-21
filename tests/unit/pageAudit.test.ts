@@ -6,7 +6,7 @@ import { auditPage, type AuditFinding } from '@/engine/pageAudit.js';
  * The pre-publish checks.
  *
  * Each case is a page that *looks* finished in the canvas and is broken for
- * someone who is not looking at the canvas — a screen-reader user, a search
+ * someone who is not looking at the canvas - a screen-reader user, a search
  * engine, or a visitor who clicks a link. The tests pin the rules that catch
  * them, and just as importantly pin the cases that must stay silent: a check
  * that cries wolf gets ignored, and then the real findings go with it.
@@ -26,7 +26,7 @@ const rules = (findings: AuditFinding[]): string[] => findings.map((finding) => 
 const GOOD = `<!doctype html>
 <html lang="pl">
   <head>
-    <title>Stolarnia Kowalski — meble na wymiar</title>
+    <title>Stolarnia Kowalski - meble na wymiar</title>
     <meta name="description" content="Robimy meble na wymiar w Krakowie od 1998 roku." />
   </head>
   <body>

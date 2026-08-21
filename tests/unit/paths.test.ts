@@ -40,7 +40,7 @@ describe('normalizeRelative', () => {
   });
 });
 
-describe('isContained — traversal defence', () => {
+describe('isContained - traversal defence', () => {
   it.each([
     '../secret.txt',
     '../../etc/passwd',
@@ -151,7 +151,7 @@ describe('resolveHref', () => {
     'tel:+48123',
     '#section',
     '',
-  ])('returns null for %s — not a project file', (href) => {
+  ])('returns null for %s - not a project file', (href) => {
     expect(resolveHref('index.html', href)).toBeNull();
   });
 

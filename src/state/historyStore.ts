@@ -3,7 +3,7 @@ import { create } from 'zustand';
 /**
  * Undo/redo.
  *
- * Implemented as a command stack whose commands carry *mementos* — an immutable
+ * Implemented as a command stack whose commands carry *mementos* - an immutable
  * snapshot of the affected state before and after the change. Storing closures
  * that recompute an inverse operation is the textbook alternative, but every
  * such inverse is a second implementation of the edit that can drift from the

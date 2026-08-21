@@ -7,7 +7,7 @@ import { Icon } from '../Icon.js';
  * Stylesheet manager for the open page.
  *
  * Uploading a `.css` copies it into the project folder (never references it
- * from wherever it happened to live — the folder has to stay uploadable to any
+ * from wherever it happened to live - the folder has to stay uploadable to any
  * host as-is), appends a real `<link rel="stylesheet">` to the page's `<head>`
  * and re-parses the page. From that moment the sheet is an ordinary part of the
  * project: it renders on the canvas and in the preview, its class names appear
@@ -15,7 +15,7 @@ import { Icon } from '../Icon.js';
  * "imported by Litho".
  *
  * The new link goes *last*, which is what makes an uploaded theme actually take
- * effect — and it also becomes the sheet new rules are written into, so edits
+ * effect - and it also becomes the sheet new rules are written into, so edits
  * made in the properties panel can still override it without `!important`.
  */
 export function StyleSheetsSection(): JSX.Element {
@@ -134,7 +134,7 @@ export function StyleSheetsSection(): JSX.Element {
                   className="button button--ghost"
                   disabled={busy}
                   onClick={() => void detach(sheet.hostNodeId!)}
-                  title="Usuwa tylko odwołanie ze strony — plik zostaje w projekcie"
+                  title="Usuwa tylko odwołanie ze strony - plik zostaje w projekcie"
                 >
                   Odłącz
                 </button>
@@ -174,7 +174,7 @@ export function StyleSheetsSection(): JSX.Element {
 }
 
 function describeSheet(sheet: StyleSheetInfo): string {
-  if (sheet.remote) return 'zdalny (CDN) — renderowany, ale nieedytowalny';
+  if (sheet.remote) return 'zdalny (CDN) - renderowany, ale nieedytowalny';
 
   const parts: string[] = [];
   if (sheet.origin === 'embedded') parts.push('wpisany w HTML');

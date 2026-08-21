@@ -102,7 +102,7 @@ describe('isSelectableTag', () => {
  * Inline handlers are script, and the canvas runs no script. They could never
  * execute anyway (the frame is sandboxed without `allow-scripts`), but leaving
  * them in made Chromium log "Blocked script execution in 'about:srcdoc'" once
- * per handler on every rebuild — pages of warnings about a defence working.
+ * per handler on every rebuild - pages of warnings about a defence working.
  */
 describe('inline scripting on the canvas', () => {
   const HANDLERS = `<!doctype html>
@@ -146,7 +146,7 @@ describe('inline scripting on the canvas', () => {
  * The editing surface holds animations at their end state: a page whose content
  * fades and slides in replayed that entrance on every canvas rebuild, under the
  * pointer trying to click it, and an infinite animation never stopped at all.
- * The page's own CSS is untouched — this lives in the canvas-only overlay, and
+ * The page's own CSS is untouched - this lives in the canvas-only overlay, and
  * the live preview still plays everything.
  */
 describe('canvas document: motion', () => {

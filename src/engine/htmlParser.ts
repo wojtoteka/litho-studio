@@ -55,7 +55,7 @@ export interface ParseNotice {
  *
  * The page was probably moved, or the reference was written against a different
  * folder layout. The editor cannot know which file was meant, so it collects
- * plausible candidates and lets the user pick — the chosen path is then written
+ * plausible candidates and lets the user pick - the chosen path is then written
  * back into the HTML.
  */
 export interface MissingReference {
@@ -94,7 +94,7 @@ export function parseHtml(relPath: string, source: string, options: ParseOptions
     // string of markup at all. Produce an empty but valid page rather than throw.
     notices.push({
       level: 'warn',
-      message: `Plik ${relPath} nie zawiera struktury HTML — utworzono pustą stronę.`,
+      message: `Plik ${relPath} nie zawiera struktury HTML - utworzono pustą stronę.`,
     });
     return {
       document: {
@@ -377,10 +377,10 @@ function collectSources(
  *
  * Windows and macOS filesystems are case-insensitive, so an href written as
  * `Style.css` against a file saved as `style.css` opens and behaves correctly
- * for the person who wrote it — flagging that as a *missing* reference (which
+ * for the person who wrote it - flagging that as a *missing* reference (which
  * `findReferenceCandidates` would then have to rank back to the very same
  * file) is a false positive, not a real repair the user needs to make.
- * `actualPath` — the key exactly as it exists in `files` — is what gets used
+ * `actualPath` - the key exactly as it exists in `files` - is what gets used
  * for reads and writes; the href in the HTML is left untouched.
  */
 function lookupFile(
@@ -408,7 +408,7 @@ const MAX_CANDIDATES = 8;
  * Ranks the project's files as repair candidates for a broken reference:
  * exact file name match first (the page was moved), then same stem (the file
  * was renamed slightly), then any other file of the right type. The list is
- * what the UI offers the user to choose from — never applied automatically.
+ * what the UI offers the user to choose from - never applied automatically.
  */
 export function findReferenceCandidates(
   files: Record<string, string>,

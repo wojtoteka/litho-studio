@@ -3,7 +3,7 @@
  *
  * Each fixture is a page Litho must open and edit correctly *without* the user
  * reorganising anything first. They differ deliberately in how CSS and JS are
- * placed, in indentation, and in how tidy the markup is — because the product
+ * placed, in indentation, and in how tidy the markup is - because the product
  * requirement is that none of that matters.
  */
 
@@ -43,7 +43,7 @@ body { font-family: Arial, sans-serif; background:#111; color:#eee }
 <a href="#kontakt" class="btn">Napisz do mnie</a>
 </div>
 <footer class="site-footer">
-<p>&copy; wojtoteka.ovh 2024–2026</p>
+<p>&copy; wojtoteka.ovh 2024-2026</p>
 </footer>
 <script>
 document.querySelectorAll('a[href^="#"]').forEach(function (link) {
@@ -59,7 +59,7 @@ document.querySelectorAll('a[href^="#"]').forEach(function (link) {
 };
 
 /**
- * Three stylesheets — a CDN reset, a local base, a local theme — plus a
+ * Three stylesheets - a CDN reset, a local base, a local theme - plus a
  * separate script file. The generator must write into `theme.css` (last
  * writable) and must never touch the CDN link.
  */

@@ -63,7 +63,7 @@ const UPLOADED_CSS = `.motyw-ciemny {
 test('wgrany plik CSS trafia do projektu, do strony i do listy klas', async () => {
   const projectPath = await writeProject(harness.workspace, 'firma', PROJECT);
   // The uploaded file deliberately lives *outside* the project, like a file the
-  // user downloaded — importing it must copy it in, not link to where it sits.
+  // user downloaded - importing it must copy it in, not link to where it sits.
   const sourceCss = path.join(harness.workspace, 'pobrane', 'motyw.css');
   await fs.mkdir(path.dirname(sourceCss), { recursive: true });
   await fs.writeFile(sourceCss, UPLOADED_CSS, 'utf8');
@@ -125,7 +125,7 @@ test('skrypt przypisany do elementu ląduje w pliku JS strony', async () => {
 
   const script = await waitForFile(projectPath, 'js/app.js', (content) => content.includes('litho-config'));
 
-  // The user's own code is never touched — that is the whole contract of the
+  // The user's own code is never touched - that is the whole contract of the
   // managed region.
   expect(script).toContain('kod użytkownika, którego nie wolno ruszać');
   expect(script).toContain('Intl.DateTimeFormat');
@@ -146,7 +146,7 @@ test('skrypt przypisany do elementu ląduje w pliku JS strony', async () => {
   );
 
   // With a script attached, manual text editing would just be overwritten on
-  // the next "Zastosuj" — the field is replaced by an explanation instead.
+  // the next "Zastosuj" - the field is replaced by an explanation instead.
   await expect(contentSection).not.toBeVisible();
   await expect(page.getByText('ustawia przypisany skrypt', { exact: false })).toBeVisible();
 
@@ -267,11 +267,11 @@ test('panel strony zapisuje tytuł i opis do <head> prawdziwego pliku', async ()
   await openProject(page, projectPath);
 
   // Nothing is selected right after opening, so the page panel is on screen.
-  const title = page.getByPlaceholder('np. Kowalski — stolarnia z Krakowa');
-  await title.fill('Stolarnia Kowalski — meble na wymiar');
+  const title = page.getByPlaceholder('np. Kowalski - stolarnia z Krakowa');
+  await title.fill('Stolarnia Kowalski - meble na wymiar');
   await title.blur();
 
-  const description = page.getByPlaceholder(/Jedno–dwa zdania/u);
+  const description = page.getByPlaceholder(/Jedno-dwa zdania/u);
   await description.fill('Robimy meble na wymiar w Krakowie od 1998 roku.');
   await description.blur();
 
@@ -279,7 +279,7 @@ test('panel strony zapisuje tytuł i opis do <head> prawdziwego pliku', async ()
     content.includes('name="description"'),
   );
 
-  expect(html).toContain('<title>Stolarnia Kowalski — meble na wymiar</title>');
+  expect(html).toContain('<title>Stolarnia Kowalski - meble na wymiar</title>');
   expect(html).toContain('Robimy meble na wymiar w Krakowie od 1998 roku.');
   // Open Graph is mirrored, so a pasted link is not blank.
   expect(html).toContain('property="og:title"');
@@ -292,7 +292,7 @@ test('panel strony zapisuje tytuł i opis do <head> prawdziwego pliku', async ()
  * Shared sections (R1).
  *
  * The feature only means anything if editing the menu on one page rewrites the
- * *other pages' files* — so that is exactly what this asserts, along with the
+ * *other pages' files* - so that is exactly what this asserts, along with the
  * promise that the mechanism stays a plain HTML comment.
  */
 test('wspólna sekcja z jednej podstrony aktualizuje pozostałe pliki', async () => {
@@ -321,7 +321,7 @@ test('wspólna sekcja z jednej podstrony aktualizuje pozostałe pliki', async ()
 
   await openProject(page, projectPath);
 
-  // Duplicate the link inside the shared menu — a structural change to the
+  // Duplicate the link inside the shared menu - a structural change to the
   // block, which is exactly what has to travel to the other page.
   await page.evaluate(() => {
     const hooks = window.__lithoTestHooks;

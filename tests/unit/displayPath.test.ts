@@ -3,7 +3,7 @@ import { collapseHome, displayPath, relativeDay, shortenPath } from '@/lib/displ
 
 /**
  * These exist because the start screen's recents list shipped for months
- * truncating paths with `direction: rtl`, which silently reordered them —
+ * truncating paths with `direction: rtl`, which silently reordered them -
  * `/home/ala/strona` was drawn as `home/ala/strona/`. The first test below is
  * that regression: whatever else changes, the string that reaches the DOM must
  * be in reading order.

@@ -18,7 +18,7 @@ import { formatSource } from './formatter.js';
  * per-project backup folder under the OS app-data directory, and the previous
  * content is kept as a rolling `.bak` so there is always one known-good
  * version to fall back to. Backups live outside the project folder so opening
- * a project never adds files to it — a Litho project stays a plain website
+ * a project never adds files to it - a Litho project stays a plain website
  * folder, and the user's own folder (e.g. their Desktop) never gets one dropped
  * into it.
  */
@@ -132,7 +132,7 @@ export class FileService {
       const hash = FileService.hash(formatted);
       hashes[entry.relPath] = hash;
 
-      // Skip files whose content did not actually change — this keeps the
+      // Skip files whose content did not actually change - this keeps the
       // watcher quiet and avoids pointless disk churn during drag operations.
       if (this.ownWriteHashes.get(entry.relPath) === hash) {
         const stillThere = await pathExists(resolved.value);

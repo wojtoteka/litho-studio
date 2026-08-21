@@ -9,7 +9,7 @@ import { log } from '../logger.js';
  *
  * Deliberately *not* an auto-updater. The app is distributed as an AppImage, a
  * .deb and a couple of Windows builds from one static page, and each of those
- * is installed a different way — a downloader that guessed wrong would be worse
+ * is installed a different way - a downloader that guessed wrong would be worse
  * than useless. So this only ever *reads* a version number and tells the user
  * where to get the new build; the download stays a normal click on a normal
  * page in their own browser.
@@ -19,8 +19,8 @@ import { log } from '../logger.js';
  * the platform we are running on is consulted: a Linux user learns nothing
  * useful from a Windows build appearing first.
  *
- * Every failure — no network, DNS down, the server returning HTML, a malformed
- * payload — resolves to "no update known" rather than an error the user has to
+ * Every failure - no network, DNS down, the server returning HTML, a malformed
+ * payload - resolves to "no update known" rather than an error the user has to
  * dismiss. Being offline is the normal state of a laptop on a train, not a
  * fault worth interrupting anybody for.
  */
@@ -34,7 +34,7 @@ const MAX_RESPONSE_BYTES = 512 * 1024;
  * The check runs in a session of its own, not the app's.
  *
  * `blockRemoteRequests` in main.ts cancels every outbound HTTP request on the
- * default session — that is the editor's offline-by-default policy and the
+ * default session - that is the editor's offline-by-default policy and the
  * reason a compromised renderer cannot phone home. A main-process `net.request`
  * goes through that same session and was duly blocked
  * (`net::ERR_BLOCKED_BY_CLIENT`), so the check never got an answer.
@@ -43,7 +43,7 @@ const MAX_RESPONSE_BYTES = 512 * 1024;
  * hole the renderer can reach through. A separate partition carries none of the
  * default session's request handlers, so the one request this file makes gets
  * out while the editor's policy stays exactly as strict as it was. Cookies and
- * cache are off — there is no state to keep for a single GET of a version
+ * cache are off - there is no state to keep for a single GET of a version
  * number.
  */
 const UPDATE_PARTITION = 'litho-update';
@@ -104,7 +104,7 @@ function readVersion(payload: unknown, platformKey: string, versionKey: string):
 }
 
 /**
- * Numeric, segment-by-segment comparison — `1.0.10` is newer than `1.0.9`, which
+ * Numeric, segment-by-segment comparison - `1.0.10` is newer than `1.0.9`, which
  * a string comparison gets backwards. Missing segments count as zero, so `1.1`
  * and `1.1.0` are the same version.
  */
@@ -121,7 +121,7 @@ export function compareVersions(a: string, b: string): number {
 
 /**
  * A single GET over Electron's own `net` stack rather than `fetch`, so the
- * request honours the system proxy the user's desktop is configured with —
+ * request honours the system proxy the user's desktop is configured with -
  * which is the difference between "works" and "times out" on a corporate or
  * school network.
  */
@@ -136,7 +136,7 @@ function fetchJson(url: string): Promise<unknown> {
     // The endpoint sits behind Cloudflare, which challenges requests that do not
     // look like a browser. Electron's own User-Agent already carries a Chrome
     // token, and asking explicitly for JSON keeps an HTML challenge page from
-    // being mistaken for a payload — it fails the parse and the check simply
+    // being mistaken for a payload - it fails the parse and the check simply
     // reports "nothing known", which is the right outcome either way.
     request.setHeader('Accept', 'application/json');
     let settled = false;

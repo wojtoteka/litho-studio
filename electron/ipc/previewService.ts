@@ -16,7 +16,7 @@ import { isInside } from './pathGuard.js';
  *
  *  - its own session partition, so storage and cookies never touch the app;
  *  - `sandbox: true`, `contextIsolation: true`, no preload, no Node;
- *  - navigation is confined to the project folder — external links open in the
+ *  - navigation is confined to the project folder - external links open in the
  *    system browser instead of taking over the pane;
  *  - `window.open` is denied outright.
  */
@@ -33,7 +33,7 @@ export class PreviewService {
    *
    * Tracked here because `hide()` also collapses the view's box to nothing (see
    * below), and the renderer keeps publishing real bounds from its layout while
-   * the pane is standing down — without this flag the next `setBounds` would
+   * the pane is standing down - without this flag the next `setBounds` would
    * quietly put a hidden view back at full size.
    */
   private visible = false;
@@ -43,7 +43,7 @@ export class PreviewService {
   constructor(
     private readonly getWindow: () => BrowserWindow | null,
     /**
-     * Surfaces a navigation problem to the renderer's own log/console panel —
+     * Surfaces a navigation problem to the renderer's own log/console panel -
      * a plain `log.warn` only reaches the log file, which is invisible while
      * using the app. "Przeglądanie" is meant to behave like a real page, and a
      * silently-swallowed broken link is the opposite of that.
@@ -98,7 +98,7 @@ export class PreviewService {
    * Hardware acceleration is disabled outright (see `app.disableHardwareAcceleration`
    * in main.ts, which exists because Linux GPU stacks left the window blank),
    * and under software compositing a native child view that is merely marked
-   * invisible can leave its last painted frame on screen — the reported "I leave
+   * invisible can leave its last painted frame on screen - the reported "I leave
    * the project and my page is still sitting on top of the main menu, until I
    * click Edycja". Collapsing the box to zero as well removes the surface those
    * pixels belong to, and the repaint below makes the window redraw what should
@@ -116,7 +116,7 @@ export class PreviewService {
 
   setBounds(bounds: PreviewBounds): IpcResult<void> {
     this.bounds = bounds;
-    // Remembered either way, so `show()` can restore the pane's real box — but
+    // Remembered either way, so `show()` can restore the pane's real box - but
     // only applied while the view is supposed to be on screen. The renderer
     // publishes bounds on a timer and on every resize, including during the
     // moments the pane is standing down for a dialog or being torn down.
@@ -128,7 +128,7 @@ export class PreviewService {
    * Page zoom, remembered across loads.
    *
    * `webContents.setZoomFactor` is per-navigation state in Chromium, so the
-   * factor is stored and re-applied on every load — otherwise browsing to a
+   * factor is stored and re-applied on every load - otherwise browsing to a
    * second page through a link would silently snap back to 100 %.
    */
   setZoom(factor: number): IpcResult<void> {
@@ -183,7 +183,7 @@ export class PreviewService {
 
   /**
    * Marks whatever is loaded as stale. Used after the editor's own saves, which
-   * the watcher deliberately never reports — a hidden preview would otherwise
+   * the watcher deliberately never reports - a hidden preview would otherwise
    * come back showing the pre-save file.
    */
   invalidateAll(): void {
@@ -202,7 +202,7 @@ export class PreviewService {
 
     if (!view) return;
 
-    // Hidden and collapsed *before* it is unparented — see `hide()`. Removing a
+    // Hidden and collapsed *before* it is unparented - see `hide()`. Removing a
     // still-visible child view is what leaves its last frame composited over
     // the window on the software renderer this app runs on.
     if (!view.webContents.isDestroyed()) {
@@ -221,7 +221,7 @@ export class PreviewService {
    *
    * `invalidate()` is the only thing that reliably clears a stale composite
    * here; without it the pixels of a removed view can survive until something
-   * else happens to dirty that region — which is why the leftover page used to
+   * else happens to dirty that region - which is why the leftover page used to
    * disappear only once the user clicked Edycja and the whole work area was
    * re-laid-out.
    */
@@ -357,7 +357,7 @@ function toIntegerBounds(bounds: PreviewBounds): Electron.Rectangle {
 
 /**
  * Swaps every same-origin stylesheet for a cache-busted copy, then removes the
- * old node only once the new one has loaded — that ordering avoids the flash of
+ * old node only once the new one has loaded - that ordering avoids the flash of
  * unstyled content a naive `href` reassignment produces.
  */
 const CSS_HOT_RELOAD_SNIPPET = `(() => {

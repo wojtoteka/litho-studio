@@ -17,8 +17,8 @@ export type DragPayload =
 /**
  * The payload of the drag currently in flight, or `null` between drags.
  *
- * `dataTransfer.getData` is deliberately unreadable during `dragover` — the
- * spec exposes only the *types* until the drop actually happens — but the
+ * `dataTransfer.getData` is deliberately unreadable during `dragover` - the
+ * spec exposes only the *types* until the drop actually happens - but the
  * canvas has to know what is being dragged *before* it lands, to show the right
  * affordance: an outline on the image that is about to be replaced, versus the
  * free-placement marker for everything else. Every drag inside the app starts
@@ -31,8 +31,8 @@ export function setDragPayload(event: React.DragEvent, payload: DragPayload): vo
   event.dataTransfer.setData(DRAG_MIME, JSON.stringify(payload));
   event.dataTransfer.effectAllowed = 'copy';
   inFlight = payload;
-  // A drag that ends any way at all — dropped, cancelled with Escape, or
-  // released outside the window — must not leave a stale payload behind for the
+  // A drag that ends any way at all - dropped, cancelled with Escape, or
+  // released outside the window - must not leave a stale payload behind for the
   // next `dragover` to read.
   event.currentTarget.addEventListener('dragend', clearDragPayload, { once: true });
 }

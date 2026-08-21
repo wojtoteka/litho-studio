@@ -20,7 +20,7 @@ import type { IconName } from './icons.js';
 /**
  * Dynamic behaviour a template brings with it.
  *
- * Almost no template needs this — a heading is a heading. The footer does: a
+ * Almost no template needs this - a heading is a heading. The footer does: a
  * copyright line whose year is typed in is wrong on the first of January, and
  * every project that has ever shipped one has discovered that the hard way. The
  * binding is applied through the ordinary element-script machinery, so what
@@ -40,7 +40,7 @@ export interface ElementTemplate {
    * Material Symbol shown on the palette card. A name, not a character: the
    * palette used a mix of box-drawing glyphs and emoji, which rendered at
    * different weights, different baselines and different colours depending on
-   * the font the OS happened to substitute — and turned into full-colour emoji
+   * the font the OS happened to substitute - and turned into full-colour emoji
    * on Windows for exactly four of them.
    */
   icon: IconName;
@@ -186,8 +186,8 @@ export const ELEMENT_TEMPLATES: ElementTemplate[] = [
      * can't change the line's colour".
      *
      * As a height plus a background the two obvious controls both work and mean
-     * what they say — "Kolor tła" is the line's colour, "Wysokość" is its
-     * thickness — and the rendered result is identical to the border version.
+     * what they say - "Kolor tła" is the line's colour, "Wysokość" is its
+     * thickness - and the rendered result is identical to the border version.
      */
     css: `.linia {\n  border: none;\n  height: 1px;\n  background-color: #e6e8ef;\n  margin: 24px 0;\n}\n`,
   },
@@ -199,7 +199,7 @@ export const ELEMENT_TEMPLATES: ElementTemplate[] = [
     build: () =>
       element('blockquote', { class: 'cytat' }, [
         element('p', {}, [text('Tu wpisz treść cytatu.')]),
-        element('footer', { class: 'cytat__autor' }, [text('— Autor cytatu')]),
+        element('footer', { class: 'cytat__autor' }, [text('- Autor cytatu')]),
       ]),
     css: `.cytat {\n  margin: 0 0 12px;\n  padding: 16px 20px;\n  border-left: 4px solid #6e56cf;\n  font-style: italic;\n  color: #3d3f4d;\n}\n\n.cytat__autor {\n  margin-top: 8px;\n  font-size: 14px;\n  font-style: normal;\n  color: #5b5f73;\n}\n`,
   },
@@ -389,7 +389,7 @@ export function getElementTemplate(id: string): ElementTemplate | null {
 /* ------------------------------------------------------------------ */
 
 /**
- * Ready-made blocks. Each one is a plain composition of the basic elements —
+ * Ready-made blocks. Each one is a plain composition of the basic elements -
  * there is no component abstraction in the output, so once dropped the user can
  * take it apart, restyle it or delete half of it like any other markup.
  */
@@ -412,7 +412,7 @@ const BASE_COMPONENT_TEMPLATES: ComponentTemplate[] = [
      * `background-color` is written out even though `#ffffff` is what the bar
      * already looked like against a default page.
      *
-     * It declared no background at all, so the bar was white by accident — the
+     * It declared no background at all, so the bar was white by accident - the
      * page showing through. That made the properties panel tell the truth about
      * a rule that did not exist: "Kolor tła" was blank, the swatch offered black
      * as its starting point, and there was nothing on screen connecting the two
@@ -526,7 +526,7 @@ const BASE_COMPONENT_TEMPLATES: ComponentTemplate[] = [
         find: (root) => findByClass(root, 'ls-footer__copy'),
         binding: {
           presetId: 'aktualny-rok',
-          params: { rokStartowy: '', separator: '–', przedrostek: '© Twoja firma ', przyrostek: '' },
+          params: { rokStartowy: '', separator: '-', przedrostek: '© Twoja firma ', przyrostek: '' },
         },
       },
     ],
@@ -535,7 +535,7 @@ const BASE_COMPONENT_TEMPLATES: ComponentTemplate[] = [
 ];
 
 /* ------------------------------------------------------------------ */
-/* Component library — page sections                                   */
+/* Component library - page sections                                   */
 /* ------------------------------------------------------------------ */
 
 /**
@@ -544,7 +544,7 @@ const BASE_COMPONENT_TEMPLATES: ComponentTemplate[] = [
  * stylesheet:
  *
  *  - **Every selector is scoped to the block's own root class.** No bare tag
- *    selectors (`section`, `h2`, `blockquote`), no resets, no `!important` —
+ *    selectors (`section`, `h2`, `blockquote`), no resets, no `!important` -
  *    dropping a pricing table can never restyle a heading somewhere else on the
  *    page. Where a block relies on a browser default that a project is likely to
  *    have overridden (`blockquote` margins, `ul` bullets), it zeroes it out on
@@ -638,7 +638,7 @@ function testimonial(spec: { rating: number; quote: string; name: string; role: 
 
 /**
  * One statistic. `<dl>` wants `<dt>` before `<dd>`, but the number has to read
- * first visually — `flex-direction: column-reverse` on `.ls-stat` gives that
+ * first visually - `flex-direction: column-reverse` on `.ls-stat` gives that
  * without inventing a non-semantic structure or reversing the reading order.
  */
 function statistic(value: string, suffix: string, label: string): ElementNode {
@@ -852,7 +852,7 @@ const SECTION_COMPONENT_TEMPLATES: ComponentTemplate[] = [
         element('div', { class: 'ls-faq__header' }, [
           element('h2', { class: 'ls-faq__title' }, [text('Najczęściej zadawane pytania')]),
           element('p', { class: 'ls-faq__lead' }, [
-            text('Nie znalazłeś odpowiedzi? Napisz do nas — odpowiadamy w ciągu jednego dnia roboczego.'),
+            text('Nie znalazłeś odpowiedzi? Napisz do nas - odpowiadamy w ciągu jednego dnia roboczego.'),
           ]),
         ]),
         element('div', { class: 'ls-faq__list' }, [
@@ -1143,7 +1143,7 @@ const SECTION_COMPONENT_TEMPLATES: ComponentTemplate[] = [
         element('dl', { class: 'ls-stats__grid' }, [
           statistic('100', '+', 'zadowolonych klientów'),
           statistic('5', '', 'lat doświadczenia'),
-          // Spaced thousands, the way Polish writes them — and the way the
+          // Spaced thousands, the way Polish writes them - and the way the
           // `licznik-liczb` script formats the value it counts up to.
           statistic('1 200', '+', 'zrealizowanych projektów'),
           statistic('24', 'h', 'średni czas odpowiedzi'),
@@ -1304,7 +1304,7 @@ export function buildImageForAsset(
     loading: 'lazy',
   };
   if (width !== null && height !== null) {
-    // Intrinsic dimensions prevent layout shift — worth writing into the file.
+    // Intrinsic dimensions prevent layout shift - worth writing into the file.
     attrs.width = String(width);
     attrs.height = String(height);
   }

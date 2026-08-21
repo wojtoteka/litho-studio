@@ -4,7 +4,7 @@
  * These libraries ship content pre-hidden (`opacity: 0`, `visibility: hidden`,
  * an off-screen `transform`) and rely on JavaScript to add a class once the
  * element scrolls into view. The editor canvas runs no page scripts, so that
- * class never arrives and the content stays invisible — which is why the same
+ * class never arrives and the content stays invisible - which is why the same
  * page renders fully in the live preview but not in the editor.
  *
  * This single list is the source of truth for both sides of the fix:
@@ -50,7 +50,7 @@ export const REVEAL_HOOK_ATTRIBUTES: readonly string[] = [
 
 /**
  * Maps a hook back to the library it belongs to, for human-readable copy in the
- * conversion prompt. Best-effort — a page can carry generic hooks with no
+ * conversion prompt. Best-effort - a page can carry generic hooks with no
  * recognisable library, in which case it contributes nothing here.
  */
 export function libraryForHook(hook: string): string | null {

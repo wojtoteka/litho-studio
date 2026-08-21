@@ -23,7 +23,7 @@ test.afterEach(async () => {
 /**
  * Deliberately includes `scroll-behavior: smooth` and a viewport-sized hero.
  * Smooth scrolling makes a programmatic restore *animate*, and each frame of
- * that animation fires a scroll event — which is exactly what used to overwrite
+ * that animation fires a scroll event - which is exactly what used to overwrite
  * the remembered position and creep the page back to the top.
  */
 const TALL_PROJECT = {
@@ -96,7 +96,7 @@ test('canvas wypełnia obszar roboczy także po przeskalowaniu do breakpointu', 
   // frame then has to grow *logically* by the same factor, or the scaled result
   // covers only that fraction of the work area and leaves the rest blank.
   // Done on Tablet rather than the base breakpoint, which has no width of its
-  // own to widen — it always spans the work area (see the test below).
+  // own to widen - it always spans the work area (see the test below).
   await harness.page.getByRole('button', { name: /Tablet/ }).click();
   await harness.page.getByRole('button', { name: 'Rozmiar' }).click();
   const widthField = harness.page.getByLabel('Szerokość podglądu');
@@ -150,7 +150,7 @@ test('breakpoint bazowy zajmuje całą szerokość obszaru roboczego, bez skalow
  * Selection overlays are drawn from rects measured inside the iframe, so an
  * element taller than the frame produces an overlay box that sticks out past
  * the stage. Unclipped, that box extends `.canvas__viewport`'s scroll range and
- * the work area grows a second scrollbar next to the page's own — appearing and
+ * the work area grows a second scrollbar next to the page's own - appearing and
  * vanishing depending on which element happens to be selected.
  */
 test('zaznaczenie wysokiego elementu nie tworzy drugiego paska przewijania', async () => {

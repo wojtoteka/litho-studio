@@ -51,14 +51,14 @@ const LABEL_HEIGHT = 16;
  * scale. And zoom is multiplicative: 50 %→100 % has to feel like the same
  * distance as 100 %→200 %, which a linear step cannot give.
  *
- * 450 is picked so a standard notch lands on ×1.25 — the same step the
+ * 450 is picked so a standard notch lands on ×1.25 - the same step the
  * toolbar's +/− buttons take, so the two ways of zooming agree.
  */
 const WHEEL_ZOOM_DIVISOR = 450;
 
 /**
  * The state-preview stylesheet for whatever is selected right now, or `''` when
- * nothing should be previewed — see `buildStatePreviewCss`.
+ * nothing should be previewed - see `buildStatePreviewCss`.
  *
  * Reads the store directly instead of taking arguments: both callers (the
  * `srcDoc` memo and the patch effect below) want the value at the moment they
@@ -88,7 +88,7 @@ function wheelZoomFactor(event: WheelEvent): number {
  * The editing surface.
  *
  * The page renders in a same-origin `srcdoc` iframe, so layout is computed by
- * the real engine with the real stylesheet — no approximation of the box model,
+ * the real engine with the real stylesheet - no approximation of the box model,
  * no divergence between what the canvas shows and what the browser will. The
  * editor reads `contentDocument` directly for hit-testing and geometry, and
  * draws selection UI in an overlay *outside* the iframe so it can never end up
@@ -110,20 +110,20 @@ export function Canvas(): JSX.Element {
   const setImageSource = useEditorStore((state) => state.setImageSource);
   const syncFreeLayoutHeight = useEditorStore((state) => state.syncFreeLayoutHeight);
   const breakpoint = useEditorStore((state) => state.currentBreakpoint());
-  // The tree mutates in place, so this counter — not the `document` reference —
+  // The tree mutates in place, so this counter - not the `document` reference -
   // is what tells the canvas to rebuild the iframe after a structural edit
   // (inserts, removals, attribute/text changes). Pure style edits bump
-  // `revision` but not this, and are patched into the live iframe instead —
-  // see the effect below — so typing in the properties panel never reloads
+  // `revision` but not this, and are patched into the live iframe instead -
+  // see the effect below - so typing in the properties panel never reloads
   // the page and flashes the selection outline away.
   const structureRevision = useEditorStore((state) => state.structureRevision);
   // Stylesheet models mutate their rules in place too (same reasoning as
   // `document` above), so the `styleModels` array reference is frequently
-  // unchanged after a style edit. `revision` — bumped on every commit,
-  // style or structural — is the reliable signal for the CSS-patch effect.
+  // unchanged after a style edit. `revision` - bumped on every commit,
+  // style or structural - is the reliable signal for the CSS-patch effect.
   const revision = useEditorStore((state) => state.revision);
   // Markup edits small enough to apply to the loaded document instead of
-  // reloading it — see the `canvasPatch` doc comment in editorStore.
+  // reloading it - see the `canvasPatch` doc comment in editorStore.
   const canvasPatch = useEditorStore((state) => state.canvasPatch);
   // Which pseudo-state the properties panel is editing. Only the id is read
   // here; the declarations themselves are pulled from the store inside the
@@ -143,7 +143,7 @@ export function Canvas(): JSX.Element {
    * Where the user had scrolled to inside the page.
    *
    * A structural edit rebuilds `srcDoc`, and a reloaded document always starts
-   * at the top — so without this, editing anything below the fold would throw
+   * at the top - so without this, editing anything below the fold would throw
    * the user back to the header on every keystroke. Kept in a ref, not state,
    * because it changes on every scroll frame and must never trigger a render.
    */
@@ -151,14 +151,14 @@ export function Canvas(): JSX.Element {
 
   /**
    * The canvas iframe is a *window*, exactly like the browser window the live
-   * preview runs in — the page scrolls inside it. Its size comes from the work
+   * preview runs in - the page scrolls inside it. Its size comes from the work
    * area, never from the content it renders: pages routinely size themselves
    * against the viewport (`100vh` sections, `height: 100%`, `position: fixed`
    * decoration), so deriving the frame from the content it lays out is
-   * circular — taller frame → taller `vh` → taller content → taller frame. One
+   * circular - taller frame → taller `vh` → taller content → taller frame. One
    * real page ran away to 427 000 px that way.
    *
-   * The size of the work area, measured — never inferred from the page.
+   * The size of the work area, measured - never inferred from the page.
    *
    * This is the one external input the layout below is derived from. Keeping it
    * a pure measurement is what makes the whole arrangement loop-free: the page
@@ -173,7 +173,7 @@ export function Canvas(): JSX.Element {
    * The base breakpoint emits no media query, so it has no width of its own to
    * respect: it *is* whatever the browser window happens to be. Pinning it to a
    * stored number (1440 by default) meant the desktop canvas was a narrow strip
-   * scaled down inside a much wider work area — smaller and less faithful than
+   * scaled down inside a much wider work area - smaller and less faithful than
    * the live preview of the same page. It now takes the whole work area at 1:1,
    * which is both the largest and the most honest thing to show.
    *
@@ -196,15 +196,15 @@ export function Canvas(): JSX.Element {
   // Where a panel drop would land: a single pixel under the cursor, since a
   // drop places freely (`position: absolute`) rather than into a sibling slot.
   // (There is no sibling-slot drop indicator any more: both panel drops and
-  // dragging an existing element place freely at a pixel — see `freePoint`.)
+  // dragging an existing element place freely at a pixel - see `freePoint`.)
   const [freePoint, setFreePoint] = useState<{ x: number; y: number } | null>(null);
-  // Alignment guide lines to draw while placing/moving — shared by panel drops
+  // Alignment guide lines to draw while placing/moving - shared by panel drops
   // and by dragging a positioned element (TransformControls). Empty most of the
   // time; a line only appears when an edge actually lines up with another.
   const [snapGuides, setSnapGuides] = useState<SnapGuide[]>([]);
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number; nodeId: string } | null>(null);
   // Ctrl-drag marquee (rubber-band) select, in the iframe's own coordinate
-  // space like the other overlays — see the pointerdown/move/up trio below.
+  // space like the other overlays - see the pointerdown/move/up trio below.
   const [marquee, setMarquee] = useState<{ left: number; top: number; width: number; height: number } | null>(
     null,
   );
@@ -223,7 +223,7 @@ export function Canvas(): JSX.Element {
           ? { width, height }
           : current,
       );
-      // Display only — the breakpoint bar labels the base breakpoint with it.
+      // Display only - the breakpoint bar labels the base breakpoint with it.
       setCanvasPaneWidth(width);
     };
 
@@ -247,7 +247,7 @@ export function Canvas(): JSX.Element {
   /**
    * The frame is a window onto the page, living inside a `scale(zoom)` stage.
    * To cover the pane *after* that transform its own untransformed height must
-   * be the pane height divided by the zoom — otherwise a scaled-down canvas (a
+   * be the pane height divided by the zoom - otherwise a scaled-down canvas (a
    * 3840 px breakpoint fitted into a 1790 px pane) paints only that fraction of
    * the pane and leaves the rest of the work area empty.
    *
@@ -263,7 +263,7 @@ export function Canvas(): JSX.Element {
   // mode without moving the pane, so `fitScale` is unchanged and an effect keyed
   // on it alone never re-ran. The canvas scaled to fit (it reads `fitScale`
   // directly) while the toolbar went on displaying whatever the last *manual*
-  // zoom had been — the reported "% does not update when the page is fitted to
+  // zoom had been - the reported "% does not update when the page is fitted to
   // the window". `applyFitZoom` still ignores the call outside `fit` mode, so
   // this cannot clobber a manual zoom.
   const applyFitZoom = useUiStore((state) => state.applyFitZoom);
@@ -279,7 +279,7 @@ export function Canvas(): JSX.Element {
    * The zoom the DOM currently reflects.
    *
    * The wheel handlers run outside React's render, on listeners that are
-   * deliberately registered once (see below) — they need whatever scale the
+   * deliberately registered once (see below) - they need whatever scale the
    * stage is actually drawn at right now, not the value captured when the
    * listener was created.
    */
@@ -292,12 +292,12 @@ export function Canvas(): JSX.Element {
    * The point the next zoom step has to keep still, captured before that step
    * is applied.
    *
-   * `lx` is in the stage's own *unscaled* coordinate space — which is also the
+   * `lx` is in the stage's own *unscaled* coordinate space - which is also the
    * canvas iframe's viewport space, since the frame fills the stage 1:1 inside
    * the `scale()`. `pageY` is a position in the edited document, not on screen,
    * because the page scrolls *inside* the frame: the vertical half of "keep
    * this spot under the cursor" is a frame scroll, not a stage offset.
-   * `clientX`/`clientY` are the cursor in window coordinates — the target the
+   * `clientX`/`clientY` are the cursor in window coordinates - the target the
    * anchor has to land back on.
    */
   const wheelAnchorRef = useRef<{ lx: number; pageY: number; clientX: number; clientY: number } | null>(null);
@@ -310,7 +310,7 @@ export function Canvas(): JSX.Element {
    *
    * Coalesced to one zoom change per animation frame. A zoom step resizes the
    * canvas iframe (its height is the work area divided by the scale), and a
-   * resized frame re-lays-out the whole page inside it — doing that once per
+   * resized frame re-lays-out the whole page inside it - doing that once per
    * wheel event would mean up to a hundred full page reflows a second on a
    * touchpad, on a build that deliberately runs without GPU acceleration.
    * Accumulating the factor loses nothing: zooming is multiplicative, so four
@@ -320,7 +320,7 @@ export function Canvas(): JSX.Element {
     (factor: number, lx: number, ly: number, clientX: number, clientY: number): void => {
       // Only the first event of a batch captures geometry: the later ones in
       // the same frame arrive before the DOM has moved, so re-reading it would
-      // just record the same thing — and once a step *has* been applied the
+      // just record the same thing - and once a step *has* been applied the
       // reading would belong to the new scale, not to the one being left.
       if (wheelFrameRef.current === null) {
         const scroller = frameRef.current?.contentDocument?.scrollingElement;
@@ -352,7 +352,7 @@ export function Canvas(): JSX.Element {
    *
    * Measured rather than predicted. The stage is centred by auto margins when
    * it is narrower than the work area, so its screen position is not a pure
-   * function of the scroll offset and the zoom — deriving the correction
+   * function of the scroll offset and the zoom - deriving the correction
    * arithmetically drifted exactly at the zoom levels where the page stops
    * overflowing. Reading where the anchor *actually* landed and moving the
    * difference is correct at every scale, and self-correcting besides: once the
@@ -368,7 +368,7 @@ export function Canvas(): JSX.Element {
       const stage = stageRef.current;
       if (!viewport || !stage) return;
       const box = stage.getBoundingClientRect();
-      // Horizontally the page does not move inside the frame — the stage does,
+      // Horizontally the page does not move inside the frame - the stage does,
       // within the scrolling work area.
       viewport.scrollLeft += box.left + anchor.lx * zoom - anchor.clientX;
       // Vertically it is the other way round: the stage always covers the work
@@ -423,7 +423,7 @@ export function Canvas(): JSX.Element {
   // restore the remembered position.
   useEffect(() => {
     scrollPositionRef.current = { top: 0, left: 0 };
-    // A different page has an unrelated set of node ids — nothing this cache
+    // A different page has an unrelated set of node ids - nothing this cache
     // remembers about the previous one is still meaningful.
     appliedFreeHeightsRef.current.clear();
   }, [pageRelPath]);
@@ -433,7 +433,7 @@ export function Canvas(): JSX.Element {
     try {
       // Read the live stylesheet models rather than subscribing to them: a
       // structural reload always wants *current* CSS, but a style-only edit
-      // must not be a dependency here — that path is handled by patching the
+      // must not be a dependency here - that path is handled by patching the
       // already-loaded iframe below, without a reload.
       const currentStyleModels = useEditorStore.getState().styleModels;
       return buildCanvasDocument({
@@ -456,7 +456,7 @@ export function Canvas(): JSX.Element {
 
   /**
    * Remembers the `min-height` this session last wrote onto each free-layout
-   * container, keyed by node id — so `syncFreeLayoutHeights` below can tell
+   * container, keyed by node id - so `syncFreeLayoutHeights` below can tell
    * "still the right height, nothing to write" from "shrank back to 0, the
    * override needs to come off" without re-reading the stylesheet on every
    * pass. Component-local on purpose: it is a cache of what was *sent*, not
@@ -468,18 +468,18 @@ export function Canvas(): JSX.Element {
    * Grows (or shrinks) every free-layout container to fit its out-of-flow
    * children.
    *
-   * `position: absolute` children — and `position: relative` ones a drag has
-   * offset — never contribute to their parent's auto height (that's the whole
+   * `position: absolute` children - and `position: relative` ones a drag has
+   * offset - never contribute to their parent's auto height (that's the whole
    * point of taking a box out of flow), so a free element placed or dragged
    * near the bottom of its container would otherwise hang past the visible
    * page edge with nothing to scroll to it. This walks every element that has
    * at least one such child, takes the lowest bottom edge among them, and
-   * syncs it to the store as a `min-height` floor — which shrinks back (or is
+   * syncs it to the store as a `min-height` floor - which shrinks back (or is
    * removed) on its own once no free child needs the room any more, since it
    * is only ever a floor under the container's natural content height, never
    * a fixed height that could clip normal-flow content.
    *
-   * Reads live layout only — like `measure`, this cannot feed back into the
+   * Reads live layout only - like `measure`, this cannot feed back into the
    * page's own sizing (`min-height` on a container is not `100vh` on the
    * frame), so calling it from every place `measure` already runs is safe.
    */
@@ -503,7 +503,7 @@ export function Canvas(): JSX.Element {
         const position = view.getComputedStyle(child).position;
         // Only children taken out of normal flow (or offset within it) can
         // extend past what the container would naturally be tall enough for
-        // — a `position: static` child already grows the container on its
+        // - a `position: static` child already grows the container on its
         // own, the ordinary way.
         if (position !== 'absolute' && position !== 'relative') continue;
         const bottom = child.offsetTop + child.offsetHeight;
@@ -522,7 +522,7 @@ export function Canvas(): JSX.Element {
 
   /**
    * Recomputes the rect of every element the overlay needs. Called on load, on
-   * selection change, and from a ResizeObserver on the iframe body — polling
+   * selection change, and from a ResizeObserver on the iframe body - polling
    * would either lag behind or burn a frame budget for nothing.
    */
   const measure = useCallback(() => {
@@ -538,7 +538,7 @@ export function Canvas(): JSX.Element {
     }
     setRects(next);
     // Every place that needs fresh geometry needs an up-to-date free-layout
-    // page height too — piggybacking here means a drag commit, a structural
+    // page height too - piggybacking here means a drag commit, a structural
     // reload, and the resize observer below all stay a single call site.
     syncFreeLayoutHeights();
   }, [selection, hovered, syncFreeLayoutHeights]);
@@ -546,8 +546,8 @@ export function Canvas(): JSX.Element {
   useEffect(() => {
     measure();
     // Imported pages routinely finish laying out *after* the iframe's `load`
-    // event — web fonts swap in without blocking it (FOUT/FOIT reflow) and
-    // remote CDN stylesheets settle a beat later — which moves every element
+    // event - web fonts swap in without blocking it (FOUT/FOIT reflow) and
+    // remote CDN stylesheets settle a beat later - which moves every element
     // the overlay has already measured. Re-reading a few times keeps the
     // selection outline on its element instead of stranding it where the
     // element used to be. This only ever updates overlay geometry; it can no
@@ -562,7 +562,7 @@ export function Canvas(): JSX.Element {
    * Pure CSS edits (the common case while someone is dragging a slider or
    * typing in the properties panel) patch the already-loaded iframe's
    * stylesheet in place instead of going through `srcDoc` above, which would
-   * force a full reload — flashing the page blank and dropping the selection
+   * force a full reload - flashing the page blank and dropping the selection
    * outline on every keystroke.
    */
   useEffect(() => {
@@ -575,23 +575,23 @@ export function Canvas(): JSX.Element {
       logger.error('Nie udało się odświeżyć stylów w podglądzie canvas', error);
     }
     // A layout-affecting property (width, padding, font-size…) resizes the
-    // iframe body, which the ResizeObserver above already reacts to — this
+    // iframe body, which the ResizeObserver above already reacts to - this
     // call just avoids waiting a frame for the common case.
     requestAnimationFrame(measure);
-    // `revision`, not `styleModels`, is the real trigger here — see the note
+    // `revision`, not `styleModels`, is the real trigger here - see the note
     // where `revision` is read above. `styleModels` stays in the array so the
     // effect also re-reads it on the (rarer) case where its reference *does*
     // change, e.g. a brand-new stylesheet file being created.
   }, [revision, styleModels, measure]);
 
   /**
-   * Keeps the state preview in step with the panel — see `buildStatePreviewCss`
+   * Keeps the state preview in step with the panel - see `buildStatePreviewCss`
    * for why it exists at all.
    *
    * Patched into the loaded document like the stylesheet above, so switching
    * between Normalny/Najechanie and typing a colour into the state both take
    * effect immediately without a reload. `srcDoc` is a dependency so the
-   * preview is re-applied to the *new* document after a structural reload —
+   * preview is re-applied to the *new* document after a structural reload -
    * the freshly built one already carries the same CSS, so this is a no-op
    * whenever the two agree.
    */
@@ -609,7 +609,7 @@ export function Canvas(): JSX.Element {
 
   /**
    * Markup edits applied to the loaded document, the same way style edits are
-   * applied to the loaded stylesheet above — and for the same reason. Typing a
+   * applied to the loaded stylesheet above - and for the same reason. Typing a
    * heading in the properties panel used to rebuild `srcDoc` on every
    * keystroke, and a reload is a blank page, a re-fetch of every web font and
    * image, and a fresh layout: the editor went white and stopped responding
@@ -618,7 +618,7 @@ export function Canvas(): JSX.Element {
    * Ops emitted *after* the last `srcDoc` rebuild but *before* the resulting
    * document finished loading would land on the document being replaced, so
    * they are kept here and replayed once the new one is in. They are plain
-   * assignments — set this text, set this attribute — so replaying one that
+   * assignments - set this text, set this attribute - so replaying one that
    * did land changes nothing.
    */
   const pendingOpsRef = useRef<CanvasPatchOp[]>([]);
@@ -652,7 +652,7 @@ export function Canvas(): JSX.Element {
   );
 
   // A new document is on its way. It already contains every op committed
-  // before it was built, so the queue starts empty — and anything arriving
+  // before it was built, so the queue starts empty - and anything arriving
   // from here until it lands belongs to it, not to the document it replaces.
   useEffect(() => {
     frameLoadingRef.current = true;
@@ -678,8 +678,8 @@ export function Canvas(): JSX.Element {
   /**
    * Brings a newly selected element into view when it is off screen.
    *
-   * Selecting is how every list in the app — the layer tree, the out-of-layout
-   * warning, the audit results — says "this one": without this, picking an item
+   * Selecting is how every list in the app - the layer tree, the out-of-layout
+   * warning, the audit results - says "this one": without this, picking an item
    * three screens down highlighted something the user could not see, and the
    * feature read as broken. Only elements that are genuinely outside the frame
    * are scrolled to, so clicking an element on the canvas never yanks the page
@@ -707,7 +707,7 @@ export function Canvas(): JSX.Element {
     // `event.target` belongs to the iframe's own JS realm (every <iframe> gets
     // its own global object, `allow-same-origin` or not), so `instanceof
     // Element` against *this* window's `Element` constructor is always false
-    // for it — a cross-realm check that silently no-ops every click. Duck-type
+    // for it - a cross-realm check that silently no-ops every click. Duck-type
     // instead of checking the constructor identity.
     const target = event.target as Element | null;
     if (!target || typeof target.closest !== 'function') return null;
@@ -751,7 +751,7 @@ export function Canvas(): JSX.Element {
      * Ctrl+wheel over the page itself.
      *
      * A native `<iframe>` owns the wheel events for the area it covers, so the
-     * listener on `.canvas__viewport` never sees these — the same reason the
+     * listener on `.canvas__viewport` never sees these - the same reason the
      * click and drag handling lives in here. The coordinates arrive in the
      * frame's own space, which *is* the stage's unscaled space, so they need
      * multiplying by the zoom (not dividing) to say where the cursor is on
@@ -774,16 +774,16 @@ export function Canvas(): JSX.Element {
     };
 
     // Ctrl+drag marquee (rubber-band) multi-select, à la a desktop file
-    // manager. A bare Ctrl+click still means what it already did — toggle
-    // that one element in/out of the selection — so this only becomes a
+    // manager. A bare Ctrl+click still means what it already did - toggle
+    // that one element in/out of the selection - so this only becomes a
     // marquee once the pointer actually moves past a small threshold, and
     // `suppressNextClick` stops the click that follows the eventual pointerup
     // from re-running the plain click-to-select logic on top of it.
     let pendingMarquee: { x: number; y: number; active: boolean } | null = null;
     let suppressNextClick = false;
     // The pointer's last known position in the iframe's own coordinate space,
-    // kept up to date both by real `pointermove` events and — while
-    // autoscrolling — by compensating for the scroll delta, since scrolling
+    // kept up to date both by real `pointermove` events and - while
+    // autoscrolling - by compensating for the scroll delta, since scrolling
     // moves the page under a cursor that never itself sent a new event.
     let currentPoint: { x: number; y: number } | null = null;
     let autoScrollHandle: number | null = null;
@@ -802,7 +802,7 @@ export function Canvas(): JSX.Element {
     };
 
     // Runs continuously (via rAF) while a marquee drag is active, independent
-    // of `pointermove` — so the selection box keeps growing even when the
+    // of `pointermove` - so the selection box keeps growing even when the
     // pointer is held still against the edge of the viewport, the same way
     // a Windows Explorer rubber-band select auto-scrolls the list.
     const tickAutoScroll = () => {
@@ -811,7 +811,7 @@ export function Canvas(): JSX.Element {
       if (!pendingMarquee?.active || !currentPoint || !scroller) return;
 
       // Everything here is already in the frame's own viewport coordinates,
-      // which is exactly the space the marquee is drawn in — no conversion
+      // which is exactly the space the marquee is drawn in - no conversion
       // through the outer container or the zoom transform is needed.
       const viewHeight = frameDocument.documentElement.clientHeight;
       const viewWidth = frameDocument.documentElement.clientWidth;
@@ -887,8 +887,8 @@ export function Canvas(): JSX.Element {
       setMarquee(null);
     };
 
-    // A generic "act on this element" menu — delete/duplicate/copy/paste/group
-    // — for right-clicking an element itself. `TextActionMenu` owns the case
+    // A generic "act on this element" menu - delete/duplicate/copy/paste/group
+    // - for right-clicking an element itself. `TextActionMenu` owns the case
     // where the user has a partial *text* selection instead; the two never
     // fight over the same click because each backs off when the other's
     // condition holds, regardless of listener registration order.
@@ -911,7 +911,7 @@ export function Canvas(): JSX.Element {
     // Drag-and-drop from the element/component/assets panels has to be wired
     // up *inside* the iframe's own document, not on an outer wrapper div: a
     // native `<iframe>` owns drag events for the screen area it covers, so a
-    // handler on an ancestor in the parent document never sees them — the
+    // handler on an ancestor in the parent document never sees them - the
     // same reason click/pointer listeners live here instead of on
     // `.canvas__viewport`.
     const onDragEnter = (event: DragEvent) => {
@@ -933,7 +933,7 @@ export function Canvas(): JSX.Element {
 
       // Over an image, the drop swaps that image's source. Outlining the tile
       // (and dropping the placement marker) is what tells the user that before
-      // they let go — otherwise "replace" and "add on top" look identical.
+      // they let go - otherwise "replace" and "add on top" look identical.
       const replaceId = replaceTargetAt(event.clientX, event.clientY);
       if (replaceId) {
         setFreePoint(null);
@@ -943,7 +943,7 @@ export function Canvas(): JSX.Element {
       }
       setHovered(null);
 
-      // A drop always places freely at the exact pixel released over — the
+      // A drop always places freely at the exact pixel released over - the
       // pointer marker shows where, the guides suggest what it would line up
       // with. No sibling-slot line: that gesture belongs to reordering an
       // existing flow element, not to adding a new one.
@@ -961,7 +961,7 @@ export function Canvas(): JSX.Element {
       if (!raw) return;
       event.preventDefault();
       // The affordance shown during `dragover` had to guess from module state,
-      // but the drop itself carries the real payload — decide from that, so a
+      // but the drop itself carries the real payload - decide from that, so a
       // drag the app did not start still lands correctly.
       clearDragPayload();
 
@@ -1056,14 +1056,14 @@ export function Canvas(): JSX.Element {
     // the page they are editing.
     frameDocument.addEventListener('keydown', handleEditorKeydown);
     // The page scrolls inside the frame now, so every overlay rect the editor
-    // holds goes stale the moment it does — and the position has to be
+    // holds goes stale the moment it does - and the position has to be
     // remembered, because the next structural edit reloads this document.
     // True while the code below is restoring the position, so the `scroll`
     // events that restoring itself fires are not mistaken for the user
     // scrolling. Without this the restore destroys its own target: right after
     // a reload the page is still short (images and fonts have not landed), the
     // browser clamps `scrollTop` to that smaller height, and the resulting
-    // `scroll` event writes the clamped value back over the remembered one —
+    // `scroll` event writes the clamped value back over the remembered one -
     // so every later attempt restores a position closer and closer to the top,
     // usually 0. That is the "first save jumps me back to the top" bug.
     let restoring = false;
@@ -1079,7 +1079,7 @@ export function Canvas(): JSX.Element {
 
     // Put the user back where they were before this reload. Images and web
     // fonts land after `load` and change the page's height, so a single
-    // restore can be clamped short — repeating it as the layout settles is
+    // restore can be clamped short - repeating it as the layout settles is
     // what actually holds the position.
     const restoreScroll = (): void => {
       const scroller = frameDocument.scrollingElement ?? frameDocument.documentElement;
@@ -1107,7 +1107,7 @@ export function Canvas(): JSX.Element {
     // deferring one frame breaks the cycle.
     const observer = new ResizeObserver(() => requestAnimationFrame(measure));
     if (frameDocument.body) observer.observe(frameDocument.body);
-    // `body` alone misses growth that only shows up on `<html>` — e.g. a page
+    // `body` alone misses growth that only shows up on `<html>` - e.g. a page
     // whose real content lives in `position: absolute`/`fixed` descendants
     // that never affect `body`'s own box.
     observer.observe(frameDocument.documentElement);
@@ -1137,7 +1137,7 @@ export function Canvas(): JSX.Element {
     };
   }, [
     canvasMode,
-    // Read by `onDrop`, which resolves the drop against the live tree — listing
+    // Read by `onDrop`, which resolves the drop against the live tree - listing
     // it stops a future edit from silently capturing a stale document.
     document,
     measure,
@@ -1162,7 +1162,7 @@ export function Canvas(): JSX.Element {
 
   useEffect(() => () => cleanupRef.current?.(), []);
 
-  // A structural reload replaces the iframe's document — any open context
+  // A structural reload replaces the iframe's document - any open context
   // menu was positioned against the old one and its target may no longer
   // exist in the same place.
   useEffect(() => {
@@ -1176,7 +1176,7 @@ export function Canvas(): JSX.Element {
    * Floored, not raw: `width * zoom` is a float (1440 × (1183/1440) lands on
    * 1183.0000000000002), and half a device pixel of overflow is enough for the
    * work area to grow a scrollbar. That scrollbar then eats ~15 px of
-   * `clientWidth`, which re-measures the pane, which re-derives the fit zoom —
+   * `clientWidth`, which re-measures the pane, which re-derives the fit zoom -
    * the page visibly twitching between two layouts for as long as the window
    * sits at that width.
    */
@@ -1201,7 +1201,7 @@ export function Canvas(): JSX.Element {
         ref={viewportRef}
         className="canvas__viewport"
         // The real drag/drop handling lives inside the iframe's own document
-        // (see `handleFrameLoad`) — this is just a safety net for clearing
+        // (see `handleFrameLoad`) - this is just a safety net for clearing
         // the drop indicator if the cursor leaves the canvas area entirely
         // without dropping.
         onDragLeave={() => {

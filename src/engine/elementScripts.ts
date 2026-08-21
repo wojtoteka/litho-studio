@@ -9,7 +9,7 @@ import type { ManagedSnippet } from './jsGenerator.js';
  * is a normal website: opening `script.js` in VS Code shows readable code, and
  * deleting Litho from the equation changes nothing about how the page behaves.
  *
- * The binding has to survive a round trip through the file — the user closes
+ * The binding has to survive a round trip through the file - the user closes
  * the project, re-opens it, and the panel must still show "Aktualna data,
  * format: długi". Two mechanisms do that, and both live in the generated text
  * rather than in any Litho-side database:
@@ -21,7 +21,7 @@ import type { ManagedSnippet } from './jsGenerator.js';
  *     the panel instead of being overwritten by a stale copy in the config.
  *
  * Snippets are keyed by the element's `id` attribute, because that is what the
- * generated `getElementById` call uses — the code and the binding cannot drift
+ * generated `getElementById` call uses - the code and the binding cannot drift
  * apart. Renaming the id detaches the binding (the snippet's own
  * `if (!element) return;` keeps the page working); re-applying from the panel
  * writes a fresh one.
@@ -52,7 +52,7 @@ export interface ScriptParam {
  * the page's own JavaScript), which means a script's effect can never appear
  * live on the canvas. `setElementScript` (editorStore.ts) writes this value
  * into the element's static text on apply, so the canvas at least shows a
- * real result instead of the pre-existing placeholder — but that write is a
+ * real result instead of the pre-existing placeholder - but that write is a
  * one-time snapshot, not a live binding, so this preview is still what the
  * panel shows on every keystroke in between.
  */
@@ -123,7 +123,7 @@ function computeYear(params: Record<string, string>, now: Date): string {
   const startYear = Number.parseInt(params.rokStartowy ?? '', 10);
   const core =
     Number.isFinite(startYear) && currentYear > startYear
-      ? `${startYear}${params.separator ?? '–'}${currentYear}`
+      ? `${startYear}${params.separator ?? '-'}${currentYear}`
       : String(currentYear);
   return `${params.przedrostek ?? ''}${core}${params.przyrostek ?? ''}`;
 }
@@ -181,11 +181,11 @@ export const ELEMENT_SCRIPT_PRESETS: readonly ElementScriptPreset[] = [
         type: 'select',
         default: 'dlugi',
         options: [
-          { value: 'dlugi', label: 'Długi — 24 lipca 2026' },
-          { value: 'krotki', label: 'Krótki — 24.07.2026' },
-          { value: 'zDniemTygodnia', label: 'Z dniem tygodnia — piątek, 24 lipca 2026' },
-          { value: 'zGodzina', label: 'Z godziną — 24.07.2026, 14:30' },
-          { value: 'miesiacRok', label: 'Miesiąc i rok — lipiec 2026' },
+          { value: 'dlugi', label: 'Długi - 24 lipca 2026' },
+          { value: 'krotki', label: 'Krótki - 24.07.2026' },
+          { value: 'zDniemTygodnia', label: 'Z dniem tygodnia - piątek, 24 lipca 2026' },
+          { value: 'zGodzina', label: 'Z godziną - 24.07.2026, 14:30' },
+          { value: 'miesiacRok', label: 'Miesiąc i rok - lipiec 2026' },
         ],
       },
       { name: 'jezyk', label: 'Język (locale)', type: 'text', default: 'pl-PL', placeholder: 'pl-PL' },
@@ -224,9 +224,9 @@ export const ELEMENT_SCRIPT_PRESETS: readonly ElementScriptPreset[] = [
         type: 'number',
         default: '',
         placeholder: '2020',
-        hint: 'Podaj, aby uzyskać zakres „2020–2026”.',
+        hint: 'Podaj, aby uzyskać zakres „2020-2026”.',
       },
-      { name: 'separator', label: 'Separator zakresu', type: 'text', default: '–' },
+      { name: 'separator', label: 'Separator zakresu', type: 'text', default: '-' },
       { name: 'przedrostek', label: 'Tekst przed rokiem', type: 'text', default: '© ', placeholder: '© ' },
       { name: 'przyrostek', label: 'Tekst po roku', type: 'text', default: '', placeholder: ' Moja Firma' },
     ],
@@ -236,7 +236,7 @@ export const ELEMENT_SCRIPT_PRESETS: readonly ElementScriptPreset[] = [
       if (Number.isFinite(startYear)) {
         lines.push(
           `var value = currentYear > ${startYear}`,
-          `  ? ${JSON.stringify(`${startYear}${params.separator ?? '–'}`)} + currentYear`,
+          `  ? ${JSON.stringify(`${startYear}${params.separator ?? '-'}`)} + currentYear`,
           '  : String(currentYear);',
         );
       } else {
@@ -252,7 +252,7 @@ export const ELEMENT_SCRIPT_PRESETS: readonly ElementScriptPreset[] = [
     id: 'zegar',
     label: 'Zegar (odświeżany co sekundę)',
     description: 'Pokazuje bieżącą godzinę i odświeża ją co sekundę.',
-    hint: 'Element musi być pusty albo zawierać tylko tekst — jego treść jest nadpisywana.',
+    hint: 'Element musi być pusty albo zawierać tylko tekst - jego treść jest nadpisywana.',
     params: [
       { name: 'jezyk', label: 'Język (locale)', type: 'text', default: 'pl-PL', placeholder: 'pl-PL' },
       {
@@ -261,8 +261,8 @@ export const ELEMENT_SCRIPT_PRESETS: readonly ElementScriptPreset[] = [
         type: 'select',
         default: 'tak',
         options: [
-          { value: 'tak', label: 'Tak — 14:30:07' },
-          { value: 'nie', label: 'Nie — 14:30' },
+          { value: 'tak', label: 'Tak - 14:30:07' },
+          { value: 'nie', label: 'Nie - 14:30' },
         ],
       },
     ],
@@ -387,7 +387,7 @@ export const ELEMENT_SCRIPT_PRESETS: readonly ElementScriptPreset[] = [
       ].join('\n');
     },
     preview: (params) => {
-      // No real query string in the editor, so show the fallback branch — which
+      // No real query string in the editor, so show the fallback branch - which
       // is exactly what a visitor without the parameter sees.
       const value = params.zastepczo || 'Gościu';
       const text = (params.szablon || 'Cześć, {}!').split('{}').join(value);
@@ -399,7 +399,7 @@ export const ELEMENT_SCRIPT_PRESETS: readonly ElementScriptPreset[] = [
     id: 'maszyna-do-pisania',
     label: 'Efekt maszyny do pisania',
     description: 'Wypisuje tekst elementu znak po znaku po wczytaniu strony.',
-    hint: 'Animuje tekst, który już jest w elemencie — nic nie trzeba wpisywać w parametrach.',
+    hint: 'Animuje tekst, który już jest w elemencie - nic nie trzeba wpisywać w parametrach.',
     params: [
       {
         name: 'tempo',
@@ -432,7 +432,7 @@ export const ELEMENT_SCRIPT_PRESETS: readonly ElementScriptPreset[] = [
     id: 'licznik-liczb',
     label: 'Animowany licznik liczb',
     description: 'Zlicza od zera do podanej wartości, gdy element pojawi się na ekranie.',
-    hint: 'Do sekcji statystyk: podepnij pod samą liczbę (np. „100”), bez znaku „+” — treść elementu jest nadpisywana.',
+    hint: 'Do sekcji statystyk: podepnij pod samą liczbę (np. „100”), bez znaku „+” - treść elementu jest nadpisywana.',
     params: [
       {
         name: 'wartosc',
@@ -449,8 +449,8 @@ export const ELEMENT_SCRIPT_PRESETS: readonly ElementScriptPreset[] = [
         type: 'select',
         default: 'spacja',
         options: [
-          { value: 'spacja', label: 'Spacja — 12 500' },
-          { value: 'brak', label: 'Brak — 12500' },
+          { value: 'spacja', label: 'Spacja - 12 500' },
+          { value: 'brak', label: 'Brak - 12500' },
         ],
       },
       { name: 'przedrostek', label: 'Tekst przed liczbą', type: 'text', default: '', placeholder: 'ponad ' },
@@ -533,7 +533,7 @@ export const ELEMENT_SCRIPT_PRESETS: readonly ElementScriptPreset[] = [
         label: 'Kod JavaScript',
         type: 'code',
         default: 'element.textContent = "Cześć!";',
-        hint: 'Dostępne: element, document, window — jak w zwykłym skrypcie strony.',
+        hint: 'Dostępne: element, document, window - jak w zwykłym skrypcie strony.',
       },
     ],
     build: (params, elementId) => {
@@ -579,7 +579,7 @@ export function elementScriptSnippetId(domId: string): string {
  * Builds the snippet for a binding.
  *
  * The wrapper waits for `DOMContentLoaded` when the document is still parsing,
- * which makes the code correct no matter where the host `<script>` sits — a
+ * which makes the code correct no matter where the host `<script>` sits - a
  * page that keeps its scripts in `<head>` is just as common as one that puts
  * them last, and the panel must not depend on which one this is.
  */
@@ -614,7 +614,7 @@ export function buildElementScriptSnippet(domId: string, binding: ElementScriptB
     '})();',
   ].join('\n');
 
-  return { id: elementScriptSnippetId(domId), title: `${preset.label} — #${domId}`, code };
+  return { id: elementScriptSnippetId(domId), title: `${preset.label} - #${domId}`, code };
 }
 
 /* ------------------------------------------------------------------ */
@@ -626,8 +626,8 @@ const CONFIG_COMMENT = /\/\*\s*litho-config:\s*([\s\S]*?)\*\//u;
 /**
  * Recovers the panel state from a snippet found in the project's JavaScript.
  *
- * Returns `null` for anything that does not carry a readable config — a
- * hand-written snippet, or one produced by a newer version of the app — so the
+ * Returns `null` for anything that does not carry a readable config - a
+ * hand-written snippet, or one produced by a newer version of the app - so the
  * panel can say "nierozpoznany skrypt" rather than silently showing defaults
  * that do not match the code actually on disk.
  */

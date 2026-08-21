@@ -23,7 +23,7 @@ export interface LithoApi {
   readonly appVersion: string;
   /**
    * The user's home directory, so paths shown in the UI can collapse it to `~`.
-   * Purely cosmetic — nothing resolves against it, and it is empty on the rare
+   * Purely cosmetic - nothing resolves against it, and it is empty on the rare
    * system that sets neither HOME nor USERPROFILE, which callers must tolerate.
    */
   readonly homeDir: string;
@@ -97,7 +97,7 @@ export interface LithoApi {
      * Magnification of the previewed page, as a factor (1 = 100 %).
      *
      * The preview is a native view, so the canvas's trick of drawing into a
-     * CSS-scaled stage does not reach it — the toolbar's zoom simply did
+     * CSS-scaled stage does not reach it - the toolbar's zoom simply did
      * nothing while browsing. Chromium's own page zoom is the equivalent, and
      * it is better than a transform besides: the page's CSS viewport becomes
      * `bounds ÷ factor`, so zooming out shows *more* page at the layout width
@@ -119,7 +119,7 @@ export interface LithoApi {
      * Tells the OS which way the app's own theme is pointing.
      *
      * The title bar and its minimise/maximise/close buttons are drawn by the
-     * *window manager*, not by this app, so no amount of CSS reaches them —
+     * *window manager*, not by this app, so no amount of CSS reaches them -
      * switching to the light theme left a black caption bar bolted to a white
      * application. `nativeTheme.themeSource` is the one control that does
      * reach them (and the Chromium-drawn menu bar besides).
@@ -134,7 +134,7 @@ export interface LithoApi {
     path(): Promise<IpcResult<string>>;
     /** Tail of the log file for the in-app console panel. */
     tail(lines: number): Promise<IpcResult<LogEntry[]>>;
-    /** Reveals the log file in Explorer/Finder — it lives outside the project. */
+    /** Reveals the log file in Explorer/Finder - it lives outside the project. */
     reveal(): Promise<IpcResult<void>>;
   };
 
@@ -142,7 +142,7 @@ export interface LithoApi {
     /**
      * Spawns a real shell (main process only) rooted at the current project's
      * folder, or the user's home folder when no project is open. The result
-     * says which backend was used — see `TerminalBackendKind`.
+     * says which backend was used - see `TerminalBackendKind`.
      */
     create(cols: number, rows: number): Promise<IpcResult<TerminalSession>>;
     /** Keystrokes/pasted text going to the pty. Fire-and-forget: this is a data stream, not a request. */
@@ -152,7 +152,7 @@ export interface LithoApi {
   };
 
   /**
-   * The AI tool installer. Windows-only — see `AI_TOOLS_PLATFORM` in
+   * The AI tool installer. Windows-only - see `AI_TOOLS_PLATFORM` in
    * `shared/aiTools.ts` for why, and note that the platform gate is enforced in
    * the main process, not just hidden in the UI.
    *
@@ -174,7 +174,7 @@ export interface LithoApi {
   };
 
   /**
-   * Runs the handful of menu commands only the main process can carry out —
+   * Runs the handful of menu commands only the main process can carry out -
    * full screen, quitting, opening the contact page in the system browser.
    *
    * The native menu invokes those through Electron `role`s, which the in-app
@@ -188,7 +188,7 @@ export interface LithoApi {
   update: {
     /**
      * Asks the release API whether a newer build exists for this platform.
-     * Never rejects and never reports "offline" as a failure — see
+     * Never rejects and never reports "offline" as a failure - see
      * `updateService.ts`.
      */
     check(): Promise<IpcResult<UpdateStatus>>;
@@ -233,7 +233,7 @@ export interface ProjectFileOpenResult {
  * UI can stay silent in both cases while the log still says which happened.
  */
 export interface UpdateStatus {
-  /** Version of the running build — `package.json`, via `app.getVersion()`. */
+  /** Version of the running build - `package.json`, via `app.getVersion()`. */
   current: string;
   /** Newest version the API offers for this platform, or `null` if unknown. */
   latest: string | null;
@@ -253,7 +253,7 @@ export interface PreviewBounds {
  * Which mechanism actually backs a terminal session.
  *
  * `pty` is the real thing (node-pty). The other two are degraded fallbacks used
- * where node-pty has no loadable binary — most notably the Linux build, which
+ * where node-pty has no loadable binary - most notably the Linux build, which
  * is cross-packaged from Windows and so cannot compile it. See
  * `electron/ipc/terminalService.ts`.
  */
@@ -337,14 +337,14 @@ export const CONTACT_URL = 'https://wojtoteka.ovh/kontakt';
  *
  * "Pobierz" hands the page to `shell.openExternal` and stops there. Litho never
  * downloads a build itself: the page offers an AppImage, a .deb and the Windows
- * installers, and which of those is the right file — and how it gets installed —
+ * installers, and which of those is the right file - and how it gets installed -
  * is the user's call, not a guess this app is in any position to make.
  */
 export const RELEASES_API_URL = 'https://wojtoteka.ovh/api/litho/releases';
 export const DOWNLOAD_PAGE_URL = 'https://wojtoteka.ovh/inne/litho/';
 
 /* ------------------------------------------------------------------ */
-/* Channel names — the single source of truth for main <-> preload      */
+/* Channel names - the single source of truth for main <-> preload      */
 /* ------------------------------------------------------------------ */
 
 export const IPC = {

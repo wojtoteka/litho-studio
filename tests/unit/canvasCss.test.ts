@@ -5,7 +5,7 @@ import { analyzeSelector, neutralizeHiddenReveals } from '@/engine/canvasCss.js'
  * The canvas runs no page scripts, so content a page hides until a scroll
  * observer reveals it would stay invisible while editing. These cases are taken
  * from a real hand-written page: the hiding is done with the author's own class
- * names and — crucially — through descendant selectors, where the hidden
+ * names and - crucially - through descendant selectors, where the hidden
  * element itself carries no marker at all. Nothing here may rely on knowing a
  * library name.
  */
@@ -46,7 +46,7 @@ describe('neutralizeHiddenReveals', () => {
   });
 
   it('reveals children hidden through a descendant selector', () => {
-    // The child carries no class of its own — a name-based override cannot see it.
+    // The child carries no class of its own - a name-based override cannot see it.
     const css = `
       .reveal-group > * { opacity: 0; transform: translateY(20px); }
       .reveal-group.visible > * { opacity: 1; transform: translateY(0); }
@@ -76,7 +76,7 @@ describe('neutralizeHiddenReveals', () => {
     const out = neutralizeHiddenReveals(css);
 
     expect(out).toContain('.hero h1');
-    // Otherwise the fade replays on every structural reload — and stays blank
+    // Otherwise the fade replays on every structural reload - and stays blank
     // entirely when the OS asks for reduced motion.
     expect(out).toContain('animation: none !important');
   });

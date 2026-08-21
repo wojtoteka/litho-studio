@@ -63,7 +63,7 @@ describe('ensureRule', () => {
   });
 });
 
-describe('applyDeclarations — keepEmptyRule', () => {
+describe('applyDeclarations - keepEmptyRule', () => {
   it('keeps a named style alive after its last property is cleared', () => {
     const model = sheet('.page-intro { color: red; }\n');
     applyDeclarations(model, '.page-intro', desktop, { color: null }, { keepEmptyRule: true });
@@ -174,8 +174,8 @@ describe('listStyleClasses', () => {
     const intro = classes.find((entry) => entry.name === 'intro');
     expect(intro?.declarations).toEqual({ color: 'red', 'font-size': '18px' });
     expect(intro?.ownRule).toBe(true);
-    // A class that only appears inside a compound selector is still listed —
-    // it is a name the user can assign — but has no rule of its own.
+    // A class that only appears inside a compound selector is still listed -
+    // it is a name the user can assign - but has no rule of its own.
     expect(classes.find((entry) => entry.name === 'title')?.ownRule).toBe(false);
   });
 

@@ -4,14 +4,14 @@ import type { LogEntry, UpdateStatus } from '@shared/ipc.js';
 /**
  * Presentation state: theme, panel visibility, canvas viewport and the console
  * buffer. Kept apart from `editorStore` because none of it belongs to the
- * document — losing all of it would cost the user nothing but a re-arranged
+ * document - losing all of it would cost the user nothing but a re-arranged
  * workspace, whereas losing editor state would cost them work.
  */
 
 export type Theme = 'dark' | 'light';
 
 /**
- * A viewport-space box of something drawn *over* the app — a menu, a popover, a
+ * A viewport-space box of something drawn *over* the app - a menu, a popover, a
  * dialog backdrop. Kept as plain numbers rather than a `DOMRect` so the store
  * stays serialisable and comparable.
  */
@@ -71,8 +71,8 @@ interface UiState {
   /**
    * Width of the canvas work area, in CSS px, as measured by `Canvas`.
    *
-   * The base breakpoint has no width of its own — it renders at whatever the
-   * work area happens to be, exactly like a real browser window — so this is
+   * The base breakpoint has no width of its own - it renders at whatever the
+   * work area happens to be, exactly like a real browser window - so this is
    * the number the breakpoint bar shows for it. Published here purely for
    * display: nothing in the canvas reads it back, so it cannot feed into the
    * layout it was measured from.
@@ -116,7 +116,7 @@ interface UiState {
    * The dialog is the loud half of the notice and the banner is the quiet
    * half: "Później" closes the dialog and leaves the banner behind, so the
    * user can keep working and still has one click to the download page. Like
-   * `updateDismissed`, it lives and dies with the process — the check is meant
+   * `updateDismissed`, it lives and dies with the process - the check is meant
    * to speak up on *every* start.
    */
   updateNoticeSeen: boolean;
@@ -158,7 +158,7 @@ function readStoredTheme(): Theme {
     const stored = localStorage.getItem(THEME_KEY);
     if (stored === 'light' || stored === 'dark') return stored;
   } catch {
-    // Private mode or a locked-down profile — fall back to the default.
+    // Private mode or a locked-down profile - fall back to the default.
   }
   return 'dark';
 }
@@ -178,7 +178,7 @@ function persistTheme(theme: Theme): void {
  *
  * `data-theme` styles everything this app draws, but the caption bar, the
  * window buttons and the menu bar are drawn by the OS and answer only to
- * `nativeTheme` in the main process — which is why switching to the light theme
+ * `nativeTheme` in the main process - which is why switching to the light theme
  * used to leave a black bar across the top. Optional-chained because the store
  * is also imported by code that runs without the preload bridge (tests).
  */
@@ -278,13 +278,13 @@ export const useUiStore = create<UiState>((set, get) => ({
  * This exists for one reason: the live preview is a native `WebContentsView`,
  * not part of the document. Native views are composited *above* the page no
  * matter what `z-index` the DOM asks for, so a dialog opened while the preview
- * was on screen was simply painted underneath it — the reported "open the
+ * was on screen was simply painted underneath it - the reported "open the
  * shortcuts dialog while previewing and the panel sinks behind the page". The
  * preview pane subscribes to this and stands its view down while an overlay is
  * up (see PreviewPane.tsx).
  *
  * Modal dialogs are the easy half: they cover the window, so a flag is enough.
- * Everything else that floats — menus, popovers, the out-of-layout list — is
+ * Everything else that floats - menus, popovers, the out-of-layout list - is
  * handled by `floatingLayers` + `isCoveredByLayer`, which stands the view down
  * only when the layer genuinely reaches over it.
  */
@@ -326,7 +326,7 @@ export function applyInitialTheme(): void {
   const theme = readStoredTheme();
   document.documentElement.dataset.theme = theme;
   // The frame is painted before the first React commit, so it has to be told
-  // here too — otherwise a light-themed session starts with a dark caption bar
+  // here too - otherwise a light-themed session starts with a dark caption bar
   // until the user happens to toggle the theme.
   applyThemeToWindowFrame(theme);
 }

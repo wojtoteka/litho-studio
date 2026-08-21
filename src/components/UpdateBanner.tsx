@@ -3,7 +3,7 @@ import { logger } from '@/lib/logger.js';
 import { Icon } from './Icon.js';
 
 /**
- * "A newer Litho exists" — one strip across the top of the window.
+ * "A newer Litho exists" - one strip across the top of the window.
  *
  * The app is installed from a static download page (AppImage, .deb, and the
  * Windows builds), so there is nothing to auto-update *into*: the useful thing
@@ -12,11 +12,11 @@ import { Icon } from './Icon.js';
  * installing software on Linux belongs anyway.
  *
  * The quiet half of the notice: `UpdateDialog` says it once at launch, and what
- * survives "Później" is this strip — same version numbers, same one click to
+ * survives "Później" is this strip - same version numbers, same one click to
  * the page, but out of the way.
  *
- * Rendered for both the start screen and the editor — an update matters just as
- * much before a project is open as after — and dismissible with one click. The
+ * Rendered for both the start screen and the editor - an update matters just as
+ * much before a project is open as after - and dismissible with one click. The
  * dismissal lives in the ui store and is deliberately not persisted: the check
  * is supposed to run on every launch, so "Ukryj" means "not now", never "never
  * again".
@@ -51,7 +51,7 @@ export function UpdateBanner(): JSX.Element | null {
           type="button"
           className="button button--primary"
           onClick={download}
-          title="Otwiera stronę z plikami do pobrania w Twojej przeglądarce — Litho niczego nie pobiera samo"
+          title="Otwiera stronę z plikami do pobrania w Twojej przeglądarce - Litho niczego nie pobiera samo"
         >
           <Icon name="open_in_new" size={15} />
           Pobierz

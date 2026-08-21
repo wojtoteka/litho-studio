@@ -1,10 +1,10 @@
-# Litho Studio na Linuksie — jak uruchomić
+# Litho Studio na Linuksie - jak uruchomić
 
 Paczka `litho-studio-<wersja>.tar.gz` to gotowa aplikacja: nic się nie instaluje,
 nie potrzeba uprawnień administratora, wszystko siedzi w jednym folderze i
 usuwa się przez skasowanie tego folderu.
 
-Wymagania: 64-bitowy Linux (x86_64) ze środowiskiem graficznym — Ubuntu 20.04+,
+Wymagania: 64-bitowy Linux (x86_64) ze środowiskiem graficznym - Ubuntu 20.04+,
 Debian 11+, Fedora 36+, Mint, Arch i pochodne działają bez dodatkowej pracy.
 
 ---
@@ -18,7 +18,7 @@ sh uruchom.sh
 ```
 
 `uruchom.sh` nadaje potrzebne prawa i startuje aplikację. Jeśli wolisz zrobić to
-ręcznie albo coś nie zadziała — niżej jest to samo rozpisane na kroki.
+ręcznie albo coś nie zadziała - niżej jest to samo rozpisane na kroki.
 
 ---
 
@@ -31,14 +31,14 @@ tar -xzf litho-studio-1.0.0.tar.gz
 cd litho-studio-1.0.0
 ```
 
-### 2. Nadaj prawa do uruchamiania — tego kroku nie da się pominąć
+### 2. Nadaj prawa do uruchamiania - tego kroku nie da się pominąć
 
 ```sh
 chmod +x litho-studio chrome_crashpad_handler chrome-sandbox
 ```
 
 Ta paczka jest budowana na Windowsie, a Windows nie zna linuksowego bitu
-wykonywalności — w archiwum każdy plik ma więc tryb `rw-r--r--`. Bez `chmod`
+wykonywalności - w archiwum każdy plik ma więc tryb `rw-r--r--`. Bez `chmod`
 zobaczysz:
 
 ```
@@ -58,7 +58,7 @@ bash: ./litho-studio: Permission denied
 ### „The SUID sandbox helper binary was found, but is not configured correctly"
 
 Chromium (na którym stoi Electron) chce, żeby pomocnik `chrome-sandbox` należał
-do roota i miał bit SUID. Masz dwie drogi — pierwsza jest właściwa, druga
+do roota i miał bit SUID. Masz dwie drogi - pierwsza jest właściwa, druga
 szybsza:
 
 ```sh
@@ -72,7 +72,7 @@ sudo chmod 4755 chrome-sandbox
 ```
 
 Wariant B osłabia izolację procesu renderującego. Litho Studio i tak otwiera
-wyłącznie pliki, które sam wskażesz, ale jeśli możesz użyć `sudo` — wybierz A.
+wyłącznie pliki, które sam wskażesz, ale jeśli możesz użyć `sudo` - wybierz A.
 
 ### „error while loading shared libraries: libXYZ.so"
 
@@ -118,7 +118,7 @@ update-desktop-database ~/.local/share/applications 2>/dev/null || true
 ```
 
 Po tym Litho Studio pojawi się w menu obok innych programów. Skrót wskazuje na
-folder, w którym aplikacja leży teraz — jeśli go przeniesiesz, popraw `Exec=`
+folder, w którym aplikacja leży teraz - jeśli go przeniesiesz, popraw `Exec=`
 i `Icon=` albo powtórz powyższe polecenie w nowej lokalizacji.
 
 ---
@@ -129,7 +129,7 @@ i `Icon=` albo powtórz powyższe polecenie w nowej lokalizacji.
 prawdziwy pseudoterminal, nie ma gotowej binarki dla Linuksa i nie da się jej
 skompilować przy budowaniu paczki na Windowsie. Terminal używa więc polecenia
 `script` (pakiet `util-linux`, obecny w każdej normalnej dystrybucji), które
-również przydziela prawdziwe TTY — interaktywne programy, `git`, `npm` czy
+również przydziela prawdziwe TTY - interaktywne programy, `git`, `npm` czy
 `claude` działają normalnie. Jedyna różnica: **zmiana rozmiaru okna nie jest
 przekazywana do powłoki**, więc programy pełnoekranowe trzymają się rozmiaru z
 chwili otwarcia terminala. Aplikacja mówi o tym sama, żółtym napisem przy
@@ -155,7 +155,7 @@ LITHO_ENABLE_GPU=1 ./litho-studio    # użyj GPU (Linux)
 LITHO_DISABLE_GPU=1 ./litho-studio   # wymuś tryb programowy (każdy system)
 ```
 
-**Nie ma Auto-Installera Narzędzi AI.** Instaluje on globalne narzędzia CLI —
+**Nie ma Auto-Installera Narzędzi AI.** Instaluje on globalne narzędzia CLI -
 na Linuksie to sprawa menedżera pakietów, nie edytora stron: domyślne `npm
 install -g` trafia tam do katalogu należącego do roota, więc przycisk w
 aplikacji albo padłby na uprawnieniach, albo po cichu prosiłby o sudo. Dlatego
@@ -175,9 +175,9 @@ curl https://cursor.com/install -fsS | bash # Cursor Agent
 ## Aktualizacja i odinstalowanie
 
 Aktualizacja: rozpakuj nowe archiwum obok i usuń stary folder. Aplikacja nie
-trzyma niczego w swoim katalogu — ustawienia i lista ostatnich projektów są w
+trzyma niczego w swoim katalogu - ustawienia i lista ostatnich projektów są w
 `~/.config/litho-studio`, a Twoje projekty leżą tam, gdzie je założyłeś.
 
-Odinstalowanie: skasuj folder aplikacji, a jeśli robiłeś skrót — także
+Odinstalowanie: skasuj folder aplikacji, a jeśli robiłeś skrót - także
 `~/.local/share/applications/litho-studio.desktop`. Żeby usunąć również
 ustawienia: `rm -rf ~/.config/litho-studio`.

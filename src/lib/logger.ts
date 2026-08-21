@@ -4,7 +4,7 @@ import type { LogLevel } from '@shared/ipc.js';
  * Renderer-side logging.
  *
  * Everything is forwarded to the main process so it lands in the same rotating
- * file as main-process output. `console` is used only as a development mirror —
+ * file as main-process output. `console` is used only as a development mirror -
  * the requirement that no stray `console.log` ships is met because this is the
  * single place the renderer is allowed to touch it, and it is a no-op in a
  * packaged build.
@@ -25,7 +25,7 @@ function forward(level: LogLevel, message: string, detail?: unknown): void {
   }
 
   if (isDevelopment) {
-    const line = context ? `${message} — ${context.detail}` : message;
+    const line = context ? `${message} - ${context.detail}` : message;
     if (level === 'error') console.error(line);
     else if (level === 'warn') console.warn(line);
     else console.info(line);

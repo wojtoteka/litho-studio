@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="Litho Studio">
   <title>Litho Studio</title>
   <desc>
-    Znak łączy nawias kodu &lt; / &gt; z kursorem myszy — przejście od kodu do edycji
+    Znak łączy nawias kodu &lt; / &gt; z kursorem myszy - przejście od kodu do edycji
     wizualnej i z powrotem. Geometria musi być identyczna jak w
-    src/components/Logo.tsx — z tego pliku scripts/generate-icons.mjs renderuje
+    src/components/Logo.tsx - z tego pliku scripts/generate-icons.mjs renderuje
     ikony instalacyjne.
   </desc>
 

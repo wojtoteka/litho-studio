@@ -33,7 +33,7 @@ const shared = {
   // Electron and native/optional modules stay external and are resolved from
   // node_modules at runtime (electron-builder ships them via `files`).
   // `node-pty` is additionally native (a `.node` binary rebuilt against
-  // Electron's ABI by the `postinstall` script) — bundling it would strip
+  // Electron's ABI by the `postinstall` script) - bundling it would strip
   // that binary reference entirely.
   external: ['electron', 'electron-log', 'chokidar', 'fsevents', 'prettier', 'node-pty'],
 };

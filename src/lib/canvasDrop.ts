@@ -1,6 +1,6 @@
 import { CANVAS_ID_ATTRIBUTE } from './canvasDocument.js';
 
-/** Tags that may hold arbitrary children — valid "drop inside" targets. */
+/** Tags that may hold arbitrary children - valid "drop inside" targets. */
 const CONTAINER_TAGS = new Set([
   'div',
   'section',
@@ -19,7 +19,7 @@ const CONTAINER_TAGS = new Set([
 const SNAP_THRESHOLD = 6;
 
 /**
- * A single alignment guide the overlay draws while something is being placed —
+ * A single alignment guide the overlay draws while something is being placed -
  * the "line that suggests you can drop here to line up" the design asks for.
  * Coordinates are in the frame's own viewport space, exactly like the rects the
  * overlay already positions against.
@@ -38,14 +38,14 @@ export interface FreeDropTarget {
   /** Container-relative offset written to the element's `left`/`top`. */
   left: number;
   top: number;
-  /** The (snapped) drop point in frame-viewport coords — for the overlay marker. */
+  /** The (snapped) drop point in frame-viewport coords - for the overlay marker. */
   pointerX: number;
   pointerY: number;
   guides: SnapGuide[];
   /**
    * Whether the container already establishes its own positioning context
    * (`position` other than `static`). If not, the caller has to give it one
-   * before an absolute child can anchor to it — otherwise the child anchors
+   * before an absolute child can anchor to it - otherwise the child anchors
    * to the page's initial containing block instead of the container the user
    * dropped into.
    */
@@ -85,7 +85,7 @@ export function collectSnapBoxes(frameDocument: Document, exclude?: Element | nu
     if (exclude && (element === exclude || exclude.contains(element))) return;
     const rect = element.getBoundingClientRect();
     // Non-rendered nodes (every `<head>` child carries an id too, plus anything
-    // `display: none`) report a zero box at the origin — snapping to that would
+    // `display: none`) report a zero box at the origin - snapping to that would
     // yank drops toward the top-left corner. Skip them.
     if (rect.width === 0 && rect.height === 0) return;
     boxes.push(boxOf(rect));
@@ -95,7 +95,7 @@ export function collectSnapBoxes(frameDocument: Document, exclude?: Element | nu
 
 /**
  * Nudges a box so one of its edges/centres lines up with a nearby element,
- * returning the adjustment plus the guide lines to draw for it — the "smart
+ * returning the adjustment plus the guide lines to draw for it - the "smart
  * guides" every layout tool shows. A zero-size box (a bare drop point) simply
  * snaps that point to the nearest edge, which is what a panel drop passes in.
  * Picks at most one snap per axis: the closest within the threshold.
@@ -211,14 +211,14 @@ export function resolveFreeDropPosition(
   const host = target?.closest(`[${CANVAS_ID_ATTRIBUTE}]`);
   const hostId = host?.getAttribute(CANVAS_ID_ATTRIBUTE) ?? null;
   // A leaf element (a button, an image…) cannot hold children, so a point
-  // over one falls back to the page body — anything can be dropped anywhere on
+  // over one falls back to the page body - anything can be dropped anywhere on
   // the page.
   const isContainer = host != null && hostId !== null && CONTAINER_TAGS.has(host.tagName.toLowerCase());
   const container = isContainer ? (host as Element) : body;
   const containerId = isContainer ? hostId! : bodyId;
 
   // Snap the bare drop point to nearby element edges so a release near, say, a
-  // heading's left edge lands flush under it rather than a few px off — the
+  // heading's left edge lands flush under it rather than a few px off - the
   // guide lines the overlay draws for this are what the design asks for.
   const point: Box = { left: x, top: y, right: x, bottom: y, centerX: x, centerY: y };
   const { dx, dy, guides } = computeSnap(point, collectSnapBoxes(frameDocument));

@@ -12,7 +12,7 @@ import { Icon, type IconName } from './Icon.js';
  * The application menu, drawn by the app instead of by the platform.
  *
  * On Windows and Linux this is *the* menu. Litho still registers a native one
- * (electron/menu.ts), but only for its accelerators — the platform menu *bar* is
+ * (electron/menu.ts), but only for its accelerators - the platform menu *bar* is
  * hidden on both (see `setMenuBarVisibility` in main.ts), because a
  * Chromium-drawn strip of "Projekt Edycja Widok Pomoc" is painted with the
  * desktop's own font and colours: a pale band welded above a dark editor, and on
@@ -25,7 +25,7 @@ import { Icon, type IconName } from './Icon.js';
  *
  * Nothing here implements a command. Every item dispatches into the same
  * `executeMenuCommand` registry the native menu and the keyboard shortcuts use,
- * so a command can never behave differently depending on which menu ran it —
+ * so a command can never behave differently depending on which menu ran it -
  * see the note at the top of `useCommands.ts`.
  */
 
@@ -39,7 +39,7 @@ type MenuEntry =
       /** Display-only accelerator hint; the key handling lives in `useCommands`. */
       keys?: string;
       disabled?: boolean;
-      /** Drawn with a tick — for the view toggles, whose state the menu should show. */
+      /** Drawn with a tick - for the view toggles, whose state the menu should show. */
       checked?: boolean;
     };
 
@@ -317,13 +317,13 @@ function AppMenuPanel({
         ],
       },
       /*
-       * Windows-only, and omitted rather than disabled elsewhere — the native
+       * Windows-only, and omitted rather than disabled elsewhere - the native
        * menu does the same (see menu.ts). A permanently greyed "Narzędzia AI…"
        * on Linux would advertise something that build cannot do.
        *
        * Column 0 for the reason stated on `MenuSection.column`: it is the short
        * one. Placed in column 2 this sat below Widok, which is already the
-       * longest list — the panel grew a section taller than either neighbour and
+       * longest list - the panel grew a section taller than either neighbour and
        * left a block of dead space under Projekt and Edycja. Here it fills that
        * space instead of creating more, and the three columns come out level.
        */
@@ -389,7 +389,7 @@ function AppMenuPanel({
    * It cannot ride on the panel's own `onKeyDown`, because the app already has
    * a global Escape: `handleEditorKeydown` clears the canvas selection. That
    * listener sits on the window in the bubble phase, so it would run whether or
-   * not the menu was open — closing the menu *and* silently deselecting the
+   * not the menu was open - closing the menu *and* silently deselecting the
    * element the user was working on. Capturing first and stopping propagation
    * is what makes Escape mean one thing at a time.
    */
@@ -410,7 +410,7 @@ function AppMenuPanel({
    *
    * Deliberately keyed on the committed `style`, not on mount. The panel is
    * rendered `visibility: hidden` for one pass so `useClampedMenuPosition` can
-   * measure it, and `focus()` on a hidden element is a silent no-op — the first
+   * measure it, and `focus()` on a hidden element is a silent no-op - the first
    * version of this focused nothing at all, and Escape then went to the global
    * handler instead of to the menu.
    */
@@ -420,7 +420,7 @@ function AppMenuPanel({
   }, [ref, style]);
 
   /**
-   * Arrow keys walk the *enabled* items in reading order — including across the
+   * Arrow keys walk the *enabled* items in reading order - including across the
    * column break, which is what makes a three-column panel still behave like
    * one menu rather than three lists that trap the caret.
    */

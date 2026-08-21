@@ -11,7 +11,7 @@ import { readPageMeta } from './headMeta.js';
 import { resolveHref } from '@shared/paths.js';
 
 /**
- * "Sprawdź stronę" — the checks a developer would run before publishing, for
+ * "Sprawdź stronę" - the checks a developer would run before publishing, for
  * someone who does not know they exist.
  *
  * Every problem here is one that makes a finished-looking page fail in a way
@@ -21,7 +21,7 @@ import { resolveHref } from '@shared/paths.js';
  * canvas cannot show any of that, which is exactly why it needs saying out loud.
  *
  * Pure and synchronous: it takes the parsed document plus what the project
- * knows about itself, and returns findings. No store, no DOM, no I/O — so the
+ * knows about itself, and returns findings. No store, no DOM, no I/O - so the
  * rules are unit-testable, and the panel is only a renderer for them.
  */
 
@@ -60,7 +60,7 @@ export function auditPage(input: AuditInput): AuditFinding[] {
     findings.push(...auditButtons(body));
   }
 
-  // Errors first, then the order the rules ran in — which follows the page.
+  // Errors first, then the order the rules ran in - which follows the page.
   return findings.sort((a, b) => severityRank(a.severity) - severityRank(b.severity));
 }
 
@@ -109,14 +109,14 @@ function auditImages(body: ElementNode): AuditFinding[] {
   for (const node of walk(body)) {
     if (!isElement(node) || node.tag !== 'img') continue;
     const alt = getAttr(node, 'alt');
-    // `alt=""` is a deliberate, correct choice for decorative images — the
+    // `alt=""` is a deliberate, correct choice for decorative images - the
     // check is for a *missing* attribute, not an empty one.
     if (alt === undefined) {
       findings.push({
         rule: 'img-alt',
         severity: 'error',
         message: `Obraz ${describeSource(node)} nie ma opisu alternatywnego.`,
-        hint: 'Wpisz w „Atrybuty” pole alt — jednym zdaniem, co widać na obrazie. Jeśli obraz jest tylko ozdobą, wpisz pusty alt.',
+        hint: 'Wpisz w „Atrybuty” pole alt - jednym zdaniem, co widać na obrazie. Jeśli obraz jest tylko ozdobą, wpisz pusty alt.',
         nodeId: node.id,
       });
     }
@@ -160,7 +160,7 @@ function auditLinks(body: ElementNode, input: AuditInput): AuditFinding[] {
         rule: 'link-missing',
         severity: 'error',
         message: `Link „${label}” wskazuje na nieistniejący plik: ${target}.`,
-        hint: 'Popraw adres albo utwórz tę podstronę — inaczej odwiedzający zobaczy błąd 404.',
+        hint: 'Popraw adres albo utwórz tę podstronę - inaczej odwiedzający zobaczy błąd 404.',
         nodeId: node.id,
       });
     }
@@ -187,7 +187,7 @@ function auditHeadings(body: ElementNode): AuditFinding[] {
       rule: 'heading-no-h1',
       severity: 'warning',
       message: 'Strona nie zaczyna się od nagłówka H1.',
-      hint: 'Główny tytuł treści powinien być H1 — jest jeden na stronę i mówi wyszukiwarce, o czym ona jest.',
+      hint: 'Główny tytuł treści powinien być H1 - jest jeden na stronę i mówi wyszukiwarce, o czym ona jest.',
       nodeId: headings[0]?.id ?? null,
     });
   }
@@ -221,7 +221,7 @@ function auditButtons(body: ElementNode): AuditFinding[] {
         rule: 'button-unlabelled',
         severity: 'error',
         message: 'Przycisk nie ma żadnego napisu.',
-        hint: 'Dodaj tekst na przycisku albo opis w polu „aria-label” — inaczej czytnik ekranu powie tylko „przycisk”.',
+        hint: 'Dodaj tekst na przycisku albo opis w polu „aria-label” - inaczej czytnik ekranu powie tylko „przycisk”.',
         nodeId: node.id,
       });
     }

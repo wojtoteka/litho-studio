@@ -3,10 +3,10 @@
  *
  * Two rules carry real weight here rather than being style preferences:
  *
- *  - `no-console` — the product requirement is that no stray logging ships.
+ *  - `no-console` - the product requirement is that no stray logging ships.
  *    `src/lib/logger.ts` is the single sanctioned exception, because it is what
  *    forwards diagnostics into the rotating log file.
- *  - `no-restricted-globals`/`no-restricted-imports` — the renderer must not
+ *  - `no-restricted-globals`/`no-restricted-imports` - the renderer must not
  *    reach for Node APIs; if it ever type-checks against them, something has
  *    gone wrong with `contextIsolation`.
  */

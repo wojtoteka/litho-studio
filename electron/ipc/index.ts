@@ -118,8 +118,8 @@ function send(channel: string, payload: unknown): void {
 /* ------------------------------------------------------------------ */
 
 /**
- * Wraps a handler so that every failure mode — thrown error, rejected promise,
- * missing project — reaches the renderer as a typed `IpcResult`.
+ * Wraps a handler so that every failure mode - thrown error, rejected promise,
+ * missing project - reaches the renderer as a typed `IpcResult`.
  */
 function handle<Args extends unknown[], T>(
   channel: string,
@@ -178,7 +178,7 @@ function registerProjectHandlers(getWindow: () => BrowserWindow | null): void {
     if (picked.canceled || picked.filePaths.length === 0) {
       return fail('CANCELLED', 'Anulowano wybór pliku.');
     }
-    // A multi-selection is expected to sit in one folder — the picker starts
+    // A multi-selection is expected to sit in one folder - the picker starts
     // there and has no way to browse elsewhere mid-selection. The first pick
     // decides the project root and the page to jump to; every other HTML page
     // already in that folder shows up on its own via the normal project scan,
@@ -289,9 +289,9 @@ async function openProject(rootPath: string, openedFilePath?: string) {
   const watcher = new ProjectWatcher(loaded.value.guard, loaded.value.files, (event) => {
     send(IPC.eventFileChange, event);
 
-    // A file changed by something *other* than this app's own save path — most
+    // A file changed by something *other* than this app's own save path - most
     // notably a CLI tool run in the embedded terminal (`claude`, a build script,
-    // `git checkout`) — must still refresh the live preview if it is currently
+    // `git checkout`) - must still refresh the live preview if it is currently
     // showing that page. The renderer's own save pipeline already does this for
     // its own writes (PreviewPane watches `lastSavedAt`), but that signal never
     // fires for edits that land on disk from outside the app.
@@ -323,7 +323,7 @@ async function openProject(rootPath: string, openedFilePath?: string) {
  * Asks for confirmation when a folder does not look like one website.
  *
  * The scanner walks up to eight levels deep, and nothing stops someone pointing
- * it at a repository checkout, a documentation export or their home directory —
+ * it at a repository checkout, a documentation export or their home directory -
  * where it dutifully produces a page list hundreds of entries long that is
  * useless to edit and slow to open. Rather than guess, the app states what it
  * found and lets the person decide; opening a genuinely large site is still one
@@ -348,7 +348,7 @@ async function confirmImplausibleProject(project: ProjectInfo): Promise<boolean>
     title: 'Litho Studio',
     message: `Znaleziono ${pageCount} stron HTML w folderze „${project.name}”.`,
     detail:
-      'To dużo jak na jedną stronę WWW — czy na pewno wskazano właściwy folder, a nie np. katalog z kodem albo folder domowy?\n\nOtwarcie zadziała, ale lista podstron będzie długa, a wczytywanie potrwa dłużej.',
+      'To dużo jak na jedną stronę WWW - czy na pewno wskazano właściwy folder, a nie np. katalog z kodem albo folder domowy?\n\nOtwarcie zadziała, ale lista podstron będzie długa, a wczytywanie potrwa dłużej.',
     noLink: true,
   });
 
@@ -382,7 +382,7 @@ function registerFileHandlers(): void {
     const report = await session.value.files.writeBatch(writes);
 
     // Our own writes are invisible to the watcher by design, so the preview
-    // must be told directly that its loaded copy is stale — otherwise hiding
+    // must be told directly that its loaded copy is stale - otherwise hiding
     // and re-showing it would present the pre-save page.
     if (report.ok && report.value.written.length > 0) previewService?.invalidateAll();
     return report;
@@ -535,8 +535,8 @@ function registerWindowHandlers(getWindow: () => BrowserWindow | null): void {
   /*
    * The window frame is not ours to style.
    *
-   * Everything above the toolbar — the caption bar, the title, the
-   * minimise/maximise/close buttons, and the Chromium-drawn menu bar — is
+   * Everything above the toolbar - the caption bar, the title, the
+   * minimise/maximise/close buttons, and the Chromium-drawn menu bar - is
    * painted by the platform, which asks `nativeTheme` (not the page) which way
    * to paint it. Without this the app switched to its light theme while the
    * frame stayed black, which reads as a rendering bug rather than a theme.
@@ -650,7 +650,7 @@ function registerTerminalHandlers(): void {
     return ok(terminalService.create(cwd, Number(cols), Number(rows)));
   });
 
-  // Fire-and-forget, like `log:write` — these are a high-frequency data stream,
+  // Fire-and-forget, like `log:write` - these are a high-frequency data stream,
   // not requests that need an acknowledgement.
   ipcMain.on(IPC.terminalWrite, (_event, id: string, data: string) => {
     if (typeof id === 'string' && typeof data === 'string') terminalService?.write(id, data);
@@ -672,7 +672,7 @@ function registerTerminalHandlers(): void {
 /* ------------------------------------------------------------------ */
 
 /**
- * Windows-only, and refused here rather than merely hidden in the UI — the
+ * Windows-only, and refused here rather than merely hidden in the UI - the
  * renderer decides what to draw, the main process decides what may run. See the
  * note on `AI_TOOLS_PLATFORM`.
  *
@@ -706,7 +706,7 @@ function registerAiToolHandlers(): void {
     return ok(undefined);
   });
 
-  // Like `update:open-download-page`, the URL is never taken from the renderer —
+  // Like `update:open-download-page`, the URL is never taken from the renderer -
   // only an id is, and it can only resolve to an address written in the
   // catalogue.
   handle(IPC.aiToolsOpenHomepage, async (id: unknown) => {

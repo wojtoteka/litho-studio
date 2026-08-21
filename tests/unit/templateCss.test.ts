@@ -47,7 +47,7 @@ describe('appendMissingRules', () => {
     expect(output).toContain('body { margin: 0; }');
   });
 
-  it('is idempotent — the second drop adds nothing', () => {
+  it('is idempotent - the second drop adds nothing', () => {
     const model = makeModel('body { margin: 0; }');
     appendMissingRules(model, [model], BUTTON_TEMPLATE_CSS);
     const once = stringifyStyleSheet(model);
@@ -88,7 +88,7 @@ describe('appendMissingRules', () => {
 
     expect(added).toBe(true);
     const output = stringifyStyleSheet(model);
-    // Only one media block — matched despite the whitespace difference.
+    // Only one media block - matched despite the whitespace difference.
     expect(output.match(/@media/gu)).toHaveLength(1);
     expect(output).toContain('.ls-navbar');
   });

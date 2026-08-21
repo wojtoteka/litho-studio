@@ -44,7 +44,7 @@ export async function launchApp(extraEnv: Record<string, string> = {}): Promise<
     env: { ...buildLaunchEnv(), ...extraEnv },
   });
 
-  // Mirror the app's own diagnostics into the test output — when a test dies
+  // Mirror the app's own diagnostics into the test output - when a test dies
   // with "execution context was destroyed", the line that explains it (e.g.
   // "renderer process gone: <reason>") is in this stream, nowhere else.
   const mainOutput: string[] = [];
@@ -82,8 +82,8 @@ export async function launchApp(extraEnv: Record<string, string> = {}): Promise<
 /**
  * Builds the environment for the Electron under test.
  *
- * `ELECTRON_RUN_AS_NODE` is stripped deliberately: when it is set — and it is
- * set inside any Electron-based terminal, which is easy to miss — Electron
+ * `ELECTRON_RUN_AS_NODE` is stripped deliberately: when it is set - and it is
+ * set inside any Electron-based terminal, which is easy to miss - Electron
  * launches as a bare Node process, rejects Chromium flags and never opens a
  * window. Inheriting it would make the suite fail with an error that looks
  * nothing like its cause.
@@ -104,8 +104,8 @@ function buildLaunchEnv(): Record<string, string> {
 /**
  * Writes a project folder to disk.
  *
- * Tests pass in whatever file layout they want to exercise — CSS inline, CSS
- * external, several stylesheets — since being indifferent to that layout is the
+ * Tests pass in whatever file layout they want to exercise - CSS inline, CSS
+ * external, several stylesheets - since being indifferent to that layout is the
  * behaviour under test.
  */
 export async function writeProject(
@@ -150,7 +150,7 @@ export async function waitForCondition(
  * picker (which Playwright cannot drive).
  *
  * The open itself is kicked off fire-and-forget and its outcome is parked on
- * `window` — the polling above then reads it with short evaluates, so no
+ * `window` - the polling above then reads it with short evaluates, so no
  * debugger-held promise stays pending long enough to be collected.
  */
 export async function openProject(page: Page, projectPath: string): Promise<void> {
@@ -187,18 +187,18 @@ export async function openProject(page: Page, projectPath: string): Promise<void
  * Waits until the canvas iframe has finished loading its document.
  *
  * The `<iframe>` *element* appears as soon as React renders it, but every
- * listener the canvas relies on — click-to-select, and crucially `drop` — is
+ * listener the canvas relies on - click-to-select, and crucially `drop` - is
  * attached by `Canvas.handleFrameLoad`, which runs on the frame's `load` event.
  * A test that dispatches a synthetic `drop` in the gap between those two moments
  * hits a document with no handler: the event is swallowed, nothing is written,
  * and the failure surfaces much later as a `waitForFile` timeout that says
  * nothing about the cause. Measured, that gap loses the drop reliably rather
- * than occasionally — it was simply narrow enough on some fixtures to look like
+ * than occasionally - it was simply narrow enough on some fixtures to look like
  * random flakiness.
  *
  * Every probe is a short, immediately-resolving `evaluate`, for the same reason
  * `waitForCondition` above is: anything that leaves a promise pending inside the
- * page — `requestAnimationFrame`, a timer, `waitForFunction` — can be
+ * page - `requestAnimationFrame`, a timer, `waitForFunction` - can be
  * garbage-collected mid-wait under Electron and surfaces as "Promise was
  * collected".
  */
@@ -224,7 +224,7 @@ export async function waitForCanvasReady(page: Page, timeoutMs = 15_000): Promis
  * `--disable-gpu` (software rendering, see `launchApp`), where the canvas is
  * already competing for the main thread with guide recalculation and the
  * debounced style write that each move triggers. Measured on this machine, the
- * batched form failed 10–20 % of runs by timing out *inside* `mouse.move` — and
+ * batched form failed 10-20 % of runs by timing out *inside* `mouse.move` - and
  * it did so before the visual redesign as well, so it is the gesture, not any
  * one feature, that is fragile.
  *

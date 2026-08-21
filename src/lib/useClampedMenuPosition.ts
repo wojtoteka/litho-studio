@@ -11,7 +11,7 @@ import { useFloatingLayer } from './useFloatingLayer.js';
  * wrong spot.
  *
  * Menus positioned through here are also registered as floating layers, so the
- * native preview stands down rather than swallowing them — see
+ * native preview stands down rather than swallowing them - see
  * `useFloatingLayer`. Doing it here and not at each call site means a new menu
  * gets that for free.
  */

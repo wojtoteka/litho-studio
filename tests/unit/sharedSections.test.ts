@@ -15,7 +15,7 @@ import {
 /**
  * Shared sections are the one feature here that writes to files the user is not
  * currently looking at, so the rules around *when it refuses* matter as much as
- * the copying itself. The markers are plain HTML comments on purpose — these
+ * the copying itself. The markers are plain HTML comments on purpose - these
  * tests pin that the output stays a plain website.
  */
 

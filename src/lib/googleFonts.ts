@@ -4,7 +4,7 @@ import type { MaterialSymbolStyle } from './elementFactory.js';
  * Google Fonts / Material Symbols, loaded from Google's CDN.
  *
  * The edited page is a static site meant to be uploaded as-is (see
- * `elementFactory.ts`'s "copy into the project" rule for local assets) — a
+ * `elementFactory.ts`'s "copy into the project" rule for local assets) - a
  * webfont is the one exception, because bundling font files would balloon
  * every project and Google's own CDN is the standard way real sites pull
  * these in. `ensureHeadLink` (in `editorStore`) writes the `<link>` tags this
@@ -84,7 +84,7 @@ export const GOOGLE_FONTS_PRECONNECT: { href: string; crossorigin: '' }[] = [
 
 /**
  * Writes the preconnect hints + stylesheet `<link>` a Material Symbols style
- * needs into the open page's `<head>` — shared by the click-insert path and
+ * needs into the open page's `<head>` - shared by the click-insert path and
  * the canvas drop handler so both ways of placing an icon load the same font.
  */
 export function ensureMaterialSymbolsHeadLinks(

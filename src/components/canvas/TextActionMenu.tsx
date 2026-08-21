@@ -16,7 +16,7 @@ import { TextActionDialog } from './TextActionDialog.js';
  * The context menu behind partial rich-text editing.
  *
  * Selecting part of a text element and right-clicking offers the transformations
- * that apply to *that* selection — the menu is built from the action registry in
+ * that apply to *that* selection - the menu is built from the action registry in
  * `richTextEditor.ts`, so a new action appears here without this file changing.
  *
  * The delicate part is turning the DOM selection inside the iframe into the
@@ -26,7 +26,7 @@ import { TextActionDialog } from './TextActionDialog.js';
  *
  * `frameEpoch` matters: every edit rebuilds the iframe's document, and the old
  * document takes its listeners with it. The epoch bumps on every load, forcing
- * this effect to re-attach — without it the menu works exactly once.
+ * this effect to re-attach - without it the menu works exactly once.
  */
 export function TextActionMenu({
   frameRef,
@@ -200,7 +200,7 @@ function findHost(node: Node): Element | null {
  * Converts a DOM position inside `host` into an offset in `host`'s plain text.
  *
  * Returns `null` when the position is not inside the host at all, which happens
- * if the user's selection spans two elements — the caller then declines to show
+ * if the user's selection spans two elements - the caller then declines to show
  * a menu rather than transforming the wrong range.
  */
 export function domOffsetToPlainText(host: Element, container: Node, offset: number): number | null {

@@ -8,7 +8,7 @@ import { Icon } from '../Icon.js';
  * Live preview.
  *
  * The preview is a native `WebContentsView` owned by the main process, not an
- * iframe — that is what lets it load the file straight off disk with the user's
+ * iframe - that is what lets it load the file straight off disk with the user's
  * own scripts running, in a separate session, exactly as a browser would. React
  * cannot render into it, so this component's job is to *reserve the space* and
  * keep the main process informed of where that space is.
@@ -44,7 +44,7 @@ export function PreviewPane(): JSX.Element {
   const stageRef = useRef<HTMLDivElement>(null);
   const lastHandledSaveRef = useRef<number | null>(null);
 
-  /** Space available to the page, measured — the counterpart of `paneSize` in Canvas.tsx. */
+  /** Space available to the page, measured - the counterpart of `paneSize` in Canvas.tsx. */
   const [stageWidth, setStageWidth] = useState(0);
 
   /*
@@ -54,8 +54,8 @@ export function PreviewPane(): JSX.Element {
    * Tested as a box intersection rather than "is anything open at all": the
    * toolbar and the breakpoint bar span this pane as well as the editor, so
    * their menus *sometimes* land on the preview and sometimes nowhere near it.
-   * Standing the view down for every open menu would blank the page — and put
-   * up the "wstrzymany" card — every time the user touched the ☰ menu on the
+   * Standing the view down for every open menu would blank the page - and put
+   * up the "wstrzymany" card - every time the user touched the ☰ menu on the
    * far side of the window.
    */
   const [covered, setCovered] = useState(false);
@@ -98,7 +98,7 @@ export function PreviewPane(): JSX.Element {
   /*
    * The page has to be laid out at the *same* CSS width the canvas lays it out
    * at, or the two halves of a side-by-side comparison are not comparing the
-   * same thing — the reported "the preview renders the page bigger than the
+   * same thing - the reported "the preview renders the page bigger than the
    * editor". Two things pulled them apart: the canvas loses a slice of its work
    * area to the page's own scrollbar (`clientWidth` excludes it) while this
    * pane does not, and a scaled-to-fit canvas draws a fixed breakpoint smaller
@@ -108,7 +108,7 @@ export function PreviewPane(): JSX.Element {
    * screen, and the magnification is applied as *page zoom* on the native view.
    * `bounds ÷ zoom` is the CSS viewport Chromium then gives the page, so
    * reserving `pageWidth × zoom` device pixels makes the page see exactly
-   * `pageWidth` — the same number the canvas iframe is given.
+   * `pageWidth` - the same number the canvas iframe is given.
    */
   const pageWidth = breakpoint.fluid
     ? sideBySide && canvasPaneWidth > 0
@@ -121,7 +121,7 @@ export function PreviewPane(): JSX.Element {
    * With the canvas on screen its scale is the authority, not a second
    * measurement of a supposedly identical pane: the canvas loses a slice of its
    * width to the page's scrollbar, so computing "fit" here independently lands
-   * a percent or two above it and the preview is fractionally bigger again —
+   * a percent or two above it and the preview is fractionally bigger again -
    * the exact difference this whole arrangement exists to remove. In fit mode
    * the canvas publishes its scale as `zoom` (see `applyFitZoom`), so taking it
    * from there makes the two identical by construction.
@@ -130,7 +130,7 @@ export function PreviewPane(): JSX.Element {
 
   /*
    * A fluid breakpoint with no canvas beside it has no width of its own to
-   * respect — it is whatever the pane is, exactly like a browser window — so
+   * respect - it is whatever the pane is, exactly like a browser window - so
    * the surface simply fills the stage and the zoom factor alone decides how
    * much page fits inside it.
    */
@@ -154,7 +154,7 @@ export function PreviewPane(): JSX.Element {
         width: rect.width,
         height: rect.height,
       });
-      // The pane can slide under a layer that has not moved at all — a panel
+      // The pane can slide under a layer that has not moved at all - a panel
       // opening, the window resizing, the console dock appearing. Same signal,
       // same answer.
       recheckCoverage();
@@ -186,7 +186,7 @@ export function PreviewPane(): JSX.Element {
    * back when that thing goes away.
    *
    * A `WebContentsView` is composited above the document, so an overlay drawn
-   * in the DOM cannot appear in front of it however high its `z-index` — the
+   * in the DOM cannot appear in front of it however high its `z-index` - the
    * dialog was really being rendered all along, just behind the previewed page.
    * That is true of every floating thing, not only modal dialogs: the
    * out-of-layout list, the page picker, the zoom menu and the ☰ panel all drop
@@ -239,7 +239,7 @@ export function PreviewPane(): JSX.Element {
       <div className="preview__toolbar">
         <span className="preview__label">
           <Icon name="visibility" size={15} />
-          Podgląd: {pageRelPath ?? '—'} ·{' '}
+          Podgląd: {pageRelPath ?? '-'} ·{' '}
           {breakpoint.fluid ? 'pełna szerokość' : `${breakpoint.label} ${breakpoint.canvasWidth}px`}
           {Math.round(zoomFactor * 100) === 100 ? '' : ` · ${Math.round(zoomFactor * 100)}%`}
         </span>
@@ -282,7 +282,7 @@ export function PreviewPane(): JSX.Element {
          *
          * While something is drawn over the pane the native view is hidden (it
          * composites above the DOM, so nothing else can be drawn in front of
-         * it) — and what showed through was the surface's own flat white fill,
+         * it) - and what showed through was the surface's own flat white fill,
          * across the whole pane. That is the reported "open a dialog over the
          * preview and the page behind turns completely white": the page had not
          * broken at all, there was simply nothing left saying so. Saying it is

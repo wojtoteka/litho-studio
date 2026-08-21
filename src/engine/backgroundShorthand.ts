@@ -4,15 +4,15 @@ import { Declaration, type Rule } from 'postcss';
  * The `background` shorthand, expanded into the longhands the editor speaks.
  *
  * The properties panel reads and writes `background-color` and
- * `background-image`. Real stylesheets — including the ones this app's own
- * component templates ship — overwhelmingly write the shorthand instead:
+ * `background-image`. Real stylesheets - including the ones this app's own
+ * component templates ship - overwhelmingly write the shorthand instead:
  *
  *     .ls-stats { background: linear-gradient(135deg, #6e56cf, #4f8fff); }
  *
  * Nothing in the panel could see that. The background section showed no colour
  * and layer "Brak", picking a colour appended a `background-color` the
  * shorthand's gradient still covered, and "Brak" removed a `background-image`
- * declaration that was never there — so on a statistics block it was impossible
+ * declaration that was never there - so on a statistics block it was impossible
  * to get a flat colour or a transparent background, which is exactly what was
  * reported. Teaching the reader and the writer about the shorthand fixes both
  * halves at once, for every project, not just for our own templates.
@@ -224,7 +224,7 @@ function parseLayer(layer: string, isFinalLayer: boolean): LayerParts | null {
     }
     if (afterSlash) {
       // A size is one or two values, and the layer may carry on afterwards
-      // (`url(a) center / cover no-repeat`) — so the slash state ends as soon
+      // (`url(a) center / cover no-repeat`) - so the slash state ends as soon
       // as the size is complete or a token that cannot be one turns up.
       if (size.length < 2 && isSizeToken(token)) {
         size.push(token);
@@ -254,7 +254,7 @@ function parseLayer(layer: string, isFinalLayer: boolean): LayerParts | null {
       position.push(token);
       continue;
     }
-    // Only the last layer may carry the colour — it sits *behind* every layer,
+    // Only the last layer may carry the colour - it sits *behind* every layer,
     // so CSS allows it nowhere else, and a colour found earlier means this is
     // not a value we understand.
     if (isColorToken(token) && isFinalLayer && parts.color === undefined) {
@@ -342,7 +342,7 @@ export function expandBackgroundShorthand(value: string): Record<string, string>
  * Called before a background longhand is written, so the declaration the panel
  * produces is not silently overruled by a shorthand further up the same rule.
  * Longhands the shorthand did not mention are written out at their initial
- * values *only* when the same rule declares them somewhere else — the shorthand
+ * values *only* when the same rule declares them somewhere else - the shorthand
  * was resetting those, and dropping that reset would change how the page
  * renders.
  *

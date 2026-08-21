@@ -33,7 +33,7 @@ import {
  *
  * Matching is structural and deliberately conservative: same tag, and either
  * the same `id`/`class` signature or the same position among siblings. A node
- * that cannot be matched confidently keeps its fresh id, which is always safe —
+ * that cannot be matched confidently keeps its fresh id, which is always safe -
  * the worst outcome is that the selection is lost for that one element.
  *
  * Mutates `next` in place and returns it.
@@ -114,7 +114,7 @@ export interface EnsureStyleSheetResult {
  * Order of preference: an existing writable external sheet, then an existing
  * writable `<style>` block, and only if neither exists a new `style.css` next
  * to the page with a `<link>` appended to `<head>`. A page that already keeps
- * its CSS inline therefore *stays* inline — the editor adapts to the project's
+ * its CSS inline therefore *stays* inline - the editor adapts to the project's
  * conventions rather than imposing its own.
  */
 export function ensureStyleSheet(document: PageDocument, styles: StyleSource[]): EnsureStyleSheetResult {
@@ -194,7 +194,7 @@ export interface ScriptTarget {
  * The script the page *already has* that generated code should go into, or
  * `null` when it has none.
  *
- * Deliberately pure — it never touches the document — so the UI can ask "where
+ * Deliberately pure - it never touches the document - so the UI can ask "where
  * would this land?" without an edit happening as a side effect of asking.
  */
 export function findScriptTarget(scripts: ScriptSource[]): ScriptTarget | null {
@@ -226,7 +226,7 @@ export function findScriptTarget(scripts: ScriptSource[]): ScriptTarget | null {
  * Order of preference mirrors `ensureStyleSheet` (see `findScriptTarget`): an
  * existing writable external script, then an existing writable inline
  * `<script>` block, and only if neither exists a new `script.js` next to the
- * page with a `<script src>` appended to `<body>` (`defer` omitted — placing it
+ * page with a `<script src>` appended to `<body>` (`defer` omitted - placing it
  * last is the classic, dependency-free way to guarantee the DOM exists when the
  * snippet runs). A page that already keeps its JavaScript inline therefore
  * *stays* inline.
@@ -240,7 +240,7 @@ export function ensureScript(document: PageDocument, scripts: ScriptSource[]): E
   const target = joinRelative(dirname(document.relPath), 'script.js');
 
   // A `<script src>` this function appended earlier in the session is in the
-  // *document* but not yet in `scripts` — that list is only rebuilt when the
+  // *document* but not yet in `scripts` - that list is only rebuilt when the
   // page is re-parsed from disk. Without this check a second generated snippet
   // would append a second identical `<script>` tag to the page. (The stylesheet
   // side has no equivalent hole: `setStyle` folds the sheet it just created
@@ -292,7 +292,7 @@ export interface SerialiseInput {
  *
  * Embedded `<style>` and `<script>` content is written back into the HTML by
  * updating the host element's text child, so a project that keeps everything in
- * one file continues to do so — there is exactly one write, of `index.html`.
+ * one file continues to do so - there is exactly one write, of `index.html`.
  */
 export function collectWrites(input: SerialiseInput): FileWrite[] {
   const writes: FileWrite[] = [];
@@ -338,7 +338,7 @@ export function collectWrites(input: SerialiseInput): FileWrite[] {
 
   writes.push({ relPath: document.relPath, content: generateHtml(document) });
 
-  // Deduplicate, keeping the last write for a path — the HTML write above must
+  // Deduplicate, keeping the last write for a path - the HTML write above must
   // win over a stale entry from `createdFiles`.
   const byPath = new Map<string, FileWrite>();
   for (const write of writes) byPath.set(write.relPath, write);

@@ -1,5 +1,5 @@
 /**
- * The AI tool catalogue — what the installer knows how to fetch, and how.
+ * The AI tool catalogue - what the installer knows how to fetch, and how.
  *
  * Shared rather than living in the main process, because both sides need it and
  * for different halves: the renderer draws the name, the description and the
@@ -9,13 +9,13 @@
  *
  * ## Why Windows-only
  *
- * These are all global CLI installs — they write outside any project, into a
+ * These are all global CLI installs - they write outside any project, into a
  * package manager's global prefix or a vendor-chosen directory. On Linux that is
  * the package manager's or the distribution's business, not an editor's: `npm
  * install -g` there lands in a root-owned prefix on a default install, so a
  * button that shells it out would either fail on permissions or quietly want
  * sudo, and neither belongs behind a button in a website editor. Windows has no
- * such split — npm's global prefix is per-user and writable — so the installer
+ * such split - npm's global prefix is per-user and writable - so the installer
  * is offered there and only there. `AI_TOOLS_PLATFORM` is the single place that
  * decision is written down; `aiToolsService.ts` enforces it and the UI reads it
  * to decide whether the entry point exists at all.
@@ -34,7 +34,7 @@ export type AiToolId = 'claude-code' | 'copilot-cli' | 'grok-cli' | 'cursor-agen
  * How a tool gets onto the machine.
  *
  * `npm-global` is the ordinary case. `bash-script` is the vendor's own installer
- * shell script, which needs a POSIX shell — on Windows that means the `bash` that
+ * shell script, which needs a POSIX shell - on Windows that means the `bash` that
  * comes with Git for Windows (or WSL). It is not assumed to be there: the service
  * looks for it and, when it is missing, says so and points at the vendor's page
  * instead of failing with a raw "command not found".
@@ -55,7 +55,7 @@ export interface AiToolSpec {
    */
   readonly binary: string;
   readonly install: AiToolInstall;
-  /** Vendor page, opened in the user's own browser — never in the app. */
+  /** Vendor page, opened in the user's own browser - never in the app. */
   readonly homepage: string;
 }
 
@@ -63,7 +63,7 @@ export const AI_TOOLS: readonly AiToolSpec[] = [
   {
     id: 'claude-code',
     name: 'Claude Code',
-    description: 'Agent Anthropic w terminalu — czyta i zmienia pliki projektu.',
+    description: 'Agent Anthropic w terminalu - czyta i zmienia pliki projektu.',
     binary: 'claude',
     install: { kind: 'npm-global', package: '@anthropic-ai/claude-code' },
     homepage: 'https://docs.anthropic.com/en/docs/claude-code/overview',
@@ -71,7 +71,7 @@ export const AI_TOOLS: readonly AiToolSpec[] = [
   {
     id: 'copilot-cli',
     name: 'GitHub Copilot CLI',
-    description: 'Copilot jako polecenie — podpowiada i wykonuje komendy powłoki.',
+    description: 'Copilot jako polecenie - podpowiada i wykonuje komendy powłoki.',
     binary: 'copilot',
     install: { kind: 'npm-global', package: '@github/copilot' },
     homepage: 'https://github.com/features/copilot',
@@ -102,7 +102,7 @@ export function findAiTool(id: string): AiToolSpec | undefined {
  * The command as the user should see it, before anything runs.
  *
  * Shown in the dialog next to every tool. An installer that does not say what it
- * is about to execute is asking for trust it has not earned — and this one runs
+ * is about to execute is asking for trust it has not earned - and this one runs
  * commands that write outside the project, which is exactly the case where the
  * user is entitled to read it first.
  */
@@ -118,7 +118,7 @@ export function describeInstallCommand(tool: AiToolSpec): string {
  * There is no agreement between these four on what that output looks like: some
  * print a bare `1.2.3`, some prefix it with the package name, some with a `v`,
  * and some lead with a banner line and put the version after it. Detection only
- * needs the number, so the first thing in the output that looks like one wins —
+ * needs the number, so the first thing in the output that looks like one wins -
  * and anything unrecognisable yields `null`, which the UI shows as "installed,
  * version unknown" rather than as a failure. Lives here beside the catalogue
  * because it is a fact about these tools, and so that it is testable without

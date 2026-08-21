@@ -102,7 +102,7 @@ describe('setImageSource', () => {
     expect(getAttr(allImages()[1]!, 'src')).toBe('assets/placeholder.svg');
   });
 
-  it('writes a plain <img src> to the file — nothing hints at the editor', async () => {
+  it('writes a plain <img src> to the file - nothing hints at the editor', async () => {
     await loadPage();
     const [first] = allImages();
     useEditorStore.getState().setImageSource(first!.id, 'assets/kot.jpg', 800, 600);
@@ -150,7 +150,7 @@ describe('resolveImageDropTarget', () => {
   });
 
   it('returns null for an image the editor does not track', () => {
-    // Without an id there is nothing to write the new source to — falling back
+    // Without an id there is nothing to write the new source to - falling back
     // to free placement is the honest outcome.
     expect(resolveImageDropTarget(fakeDocument(fakeImage(null)), 10, 10)).toBeNull();
   });

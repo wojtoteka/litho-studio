@@ -18,7 +18,7 @@ import {
 /**
  * Scheme the canvas iframe uses for every project-local asset reference
  * (`<img src>`, `<link href>`, …). A plain `file://` `<base>` only resolves
- * inside the iframe when the *app window itself* is also `file://` — true in
+ * inside the iframe when the *app window itself* is also `file://` - true in
  * a packaged build, false under `npm run dev` where the window loads from the
  * Vite dev server (`http://localhost:*`). Chromium refuses `http:` → `file:`
  * subresource loads unconditionally, so images silently failed to load in
@@ -50,13 +50,13 @@ const isDevelopment = !app.isPackaged;
 const devServerUrl = process.env.LITHO_DEV_SERVER_URL || null;
 
 /**
- * Software compositing — on Linux only, and that platform restriction is the
+ * Software compositing - on Linux only, and that platform restriction is the
  * whole point of this block.
  *
  * Linux GPU/driver combinations are wildly inconsistent (missing DRI nodes,
  * VM/remote-desktop virtual GPUs, mismatched Mesa vs. kernel driver versions).
  * When Chromium's GPU process fails to initialise on one of these, the whole
- * renderer can be left compositing nothing — a permanently blank/white window
+ * renderer can be left compositing nothing - a permanently blank/white window
  * with no error dialog, because the failure happens below the web page level.
  * Falling back up front trades rendering performance for a window that reliably
  * paints, and this editor has no 3D workload that needs the GPU.
@@ -66,7 +66,7 @@ const devServerUrl = process.env.LITHO_DEV_SERVER_URL || null;
  *
  *  - Chromium only draws text with subpixel antialiasing (ClearType) when it is
  *    compositing on the GPU. Software compositing downgrades every glyph to
- *    greyscale AA, which at the 11–13 px the panels are built from reads as thin,
+ *    greyscale AA, which at the 11-13 px the panels are built from reads as thin,
  *    washed-out, faintly blurry text. Linux hides this because most desktops
  *    ship greyscale AA anyway, so there was nothing to lose there.
  *  - Every panel repaint, canvas drag and scroll goes through the CPU. The start
@@ -77,7 +77,7 @@ const devServerUrl = process.env.LITHO_DEV_SERVER_URL || null;
  * a property of the machine and not of the platform: a Windows box with a broken
  * driver can force the fallback, and a healthy Linux box can opt back into the
  * GPU. Must run before `app.whenReady()` (ideally before any other `app.*` call)
- * — Chromium reads this at GPU-process-launch time, not afterwards.
+ * - Chromium reads this at GPU-process-launch time, not afterwards.
  */
 const forceSoftwareRendering = envFlag('LITHO_DISABLE_GPU');
 const forceHardwareRendering = envFlag('LITHO_ENABLE_GPU');
@@ -95,7 +95,7 @@ function envFlag(name: string): boolean {
  * `--user-data-dir` is a Chromium switch: it moves the browser profile but
  * does *not* move `app.getPath('userData')`, which is what the recent-projects
  * store, the log file and the single-instance lock all use. The e2e harness
- * passes this flag for isolation, so honour it at the app level too — without
+ * passes this flag for isolation, so honour it at the app level too - without
  * this, every test instance shares (and pollutes) the real user's data and
  * fights over one single-instance lock.
  */
@@ -138,17 +138,17 @@ function getWindow(): BrowserWindow | null {
  * no inline script, no `eval`, and no remote script can execute in the editor
  * window. In development only, `'unsafe-inline'` is added to `script-src`
  * because Vite injects its React Fast Refresh preamble as an inline
- * `<script type="module">` into `index.html` — without this the preamble is
+ * `<script type="module">` into `index.html` - without this the preamble is
  * silently blocked and the renderer never mounts. This never ships: `isDevelopment`
  * is `!app.isPackaged`.
  *
  * `img-src`/`font-src`/`style-src` allow `https:`/`http:` so the canvas can
- * show a page's CDN-hosted images and web fonts exactly as a browser would —
+ * show a page's CDN-hosted images and web fonts exactly as a browser would -
  * the editor is not a network sandbox, only the write path (files on disk) is
  * ever touched automatically. The live preview pane already loads such
  * resources through its own session; this brings the canvas to parity.
  *
- * `base-uri` must allow `file:` — the canvas injects a `<base href="file://…">`
+ * `base-uri` must allow `file:` - the canvas injects a `<base href="file://…">`
  * into the page it renders so every relative asset path resolves against the
  * *project* folder instead of the app's own install directory. Leaving this at
  * `'none'` (the previous, over-tightened value) silently discarded that `<base>`
@@ -166,7 +166,7 @@ const EDITOR_CSP = [
   // Embeds (maps, video players, …) dropped onto a page still can't load live
   // in the edit canvas: even with this opened up, their own sub-requests
   // (scripts, XHR) would hit `connect-src`/`blockRemoteRequests` piecemeal and
-  // fail loudly one request at a time — worse than not loading at all. The
+  // fail loudly one request at a time - worse than not loading at all. The
   // canvas shows a static placeholder for `<iframe>` instead (see
   // `EDITOR_OVERLAY_CSS` in canvasDocument.ts); Preview and the exported HTML
   // render the real embed.
@@ -198,13 +198,13 @@ function applySecurityPolicies(): void {
  *
  * The canvas renders that page as an `about:srcdoc` iframe (see `ASSET_PROTOCOL`
  * comment above), so a missing image or unreachable stylesheet fails inside a
- * nested frame the user never opens DevTools on — Chromium's own diagnostics
+ * nested frame the user never opens DevTools on - Chromium's own diagnostics
  * (`GET … net::ERR_NAME_NOT_RESOLVED`, "Blocked script execution…") only ever
  * reach the *renderer's* built-in DevTools console, which nothing in this app
  * previously read. `webContents.on('console-message')` looked like the natural
  * hook (previewService.ts already uses it for the separate Preview pane), but
  * it turned out not to fire at all for network-diagnostic messages originating
- * in a subframe — verified empirically, not documented. `onErrorOccurred` is
+ * in a subframe - verified empirically, not documented. `onErrorOccurred` is
  * session-level and reports every failed request regardless of which frame
  * issued it, which is what actually works here.
  */
@@ -219,7 +219,7 @@ function forwardCanvasResourceErrors(): void {
   const MAX_REMEMBERED = 500;
 
   session.defaultSession.webRequest.onErrorOccurred((details) => {
-    // Only the editor canvas uses `srcdoc` — this excludes the app's own UI
+    // Only the editor canvas uses `srcdoc` - this excludes the app's own UI
     // and (moot anyway, separate partition) the Preview pane.
     if (details.frame?.url !== 'about:srcdoc') return;
     // `ERR_ABORTED` fires constantly as a normal side effect of the canvas
@@ -234,10 +234,10 @@ function forwardCanvasResourceErrors(): void {
 
     const offline = isUnreachableRemote(details.url, details.error);
     const message = offline
-      ? `Zasób z sieci jest niedostępny offline: ${details.url}. Strona wyświetli się bez niego — w przeglądarce z internetem wczyta się normalnie.`
+      ? `Zasób z sieci jest niedostępny offline: ${details.url}. Strona wyświetli się bez niego - w przeglądarce z internetem wczyta się normalnie.`
       : `Nie udało się wczytać zasobu strony: ${details.url} (${details.error})`;
     // A web font that cannot be fetched with no connection says nothing about
-    // the user's project — reporting it as an error made the console look like
+    // the user's project - reporting it as an error made the console look like
     // the page was broken when the only thing missing was the network.
     const level = offline ? 'warn' : 'error';
 
@@ -252,8 +252,8 @@ function forwardCanvasResourceErrors(): void {
 
 /**
  * True when a remote resource failed for a reason that is about the *network*,
- * not about the project: no connection, DNS unavailable, or — the common one
- * for a page referencing Google Fonts while offline — nothing in the HTTP
+ * not about the project: no connection, DNS unavailable, or - the common one
+ * for a page referencing Google Fonts while offline - nothing in the HTTP
  * cache to serve and no way to fetch it (`ERR_CACHE_MISS`).
  */
 function isUnreachableRemote(url: string, error: string): boolean {
@@ -275,12 +275,12 @@ function isUnreachableRemote(url: string, error: string): boolean {
  * Litho Studio never sends anything anywhere: there is no telemetry, no
  * auto-update, and no app code that fetches or posts data over the network.
  * This handler enforces the "no outgoing data" half of that at the network
- * layer, cancelled before the request leaves the machine — defence in depth on
+ * layer, cancelled before the request leaves the machine - defence in depth on
  * top of `connect-src 'self'` in the CSP above, which already blocks
  * `fetch`/`XHR`/`WebSocket` from application code.
  *
- * The one deliberate exception is passive display resources — images, fonts
- * and stylesheets — which the canvas needs to render a page exactly as a
+ * The one deliberate exception is passive display resources - images, fonts
+ * and stylesheets - which the canvas needs to render a page exactly as a
  * browser would when that page references a CDN or a web font. Loading those
  * is a read with no user data attached, unlike a script (which could execute
  * arbitrary code) or a `fetch`/`xhr`/`websocket` (which could exfiltrate
@@ -351,19 +351,19 @@ function createWindow(): BrowserWindow {
      * the same contents: a Chromium-drawn "Projekt Edycja Widok Narzędzia Pomoc"
      * strip welded under the title bar, and the identical tree behind the
      * toolbar's ☰. One of them had to go, and the platform one is the one that
-     * cannot be styled — it answers to the desktop's own font and colours, so on
+     * cannot be styled - it answers to the desktop's own font and colours, so on
      * a dark editor it reads as a band belonging to some other program.
      *
      * macOS keeps its bar: there the menu is not a strip inside the window but
      * the system-wide bar at the top of the screen, which is where every Mac
      * application's menu belongs and which no app should be hiding.
      *
-     * The native menu stays *registered* on every platform — only its bar is
+     * The native menu stays *registered* on every platform - only its bar is
      * hidden. That is what keeps Projekt's real accelerators (Ctrl+O,
      * Ctrl+Shift+N…) working, since those are the only ones this app does not
      * implement in its own key handler. `autoHideMenuBar` is also what makes
-     * `setMenuBarVisibility` below stick — with it off, some window managers put
-     * the bar back on the next resize — and it leaves Alt summoning the native
+     * `setMenuBarVisibility` below stick - with it off, some window managers put
+     * the bar back on the next resize - and it leaves Alt summoning the native
      * bar for anyone who wants it.
      */
     autoHideMenuBar: process.platform !== 'darwin',
@@ -425,7 +425,7 @@ function createWindow(): BrowserWindow {
  * Closing the window races the debounced save: the renderer may still be
  * holding up to ~180 ms of edits it has not written yet. The first close
  * request is therefore intercepted, the renderer is asked to flush, and the
- * window closes only after it confirms — with a hard timeout so a hung
+ * window closes only after it confirms - with a hard timeout so a hung
  * renderer can never make the window unclosable.
  */
 function installFlushOnClose(window: BrowserWindow): void {
@@ -448,7 +448,7 @@ function installFlushOnClose(window: BrowserWindow): void {
     };
 
     const timeout = setTimeout(() => {
-      log.warn('[main] renderer did not confirm flush before close — closing anyway');
+      log.warn('[main] renderer did not confirm flush before close - closing anyway');
       finish();
     }, 2000);
 
@@ -499,7 +499,7 @@ function lockDownNavigation(window: BrowserWindow): void {
 }
 
 /**
- * Serves project files under `litho-asset://project/<posix-relative-path>` —
+ * Serves project files under `litho-asset://project/<posix-relative-path>` -
  * the same containment guard (`resolveProjectAssetPath`, which goes through
  * `PathGuard`) that every other file access uses, so this cannot be coaxed
  * into reading outside the open project. `net.fetch` on a `file://` URL

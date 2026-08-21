@@ -36,7 +36,7 @@ function startElectron(devServerUrl) {
 
   electronProcess.on('exit', (code) => {
     if (!shuttingDown) {
-      log(`Electron exited (code ${code ?? 0}) — shutting down dev server`);
+      log(`Electron exited (code ${code ?? 0}) - shutting down dev server`);
       shutdown(code ?? 0);
     }
   });
@@ -45,7 +45,7 @@ function startElectron(devServerUrl) {
 function scheduleRestart(devServerUrl) {
   clearTimeout(restartTimer);
   restartTimer = setTimeout(() => {
-    log('main process bundle changed — restarting Electron');
+    log('main process bundle changed - restarting Electron');
     startElectron(devServerUrl);
   }, 150);
 }

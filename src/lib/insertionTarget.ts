@@ -6,7 +6,7 @@ import { canHoldChildren } from '@/state/editorStore.js';
  * Where a palette click should insert.
  *
  * Into the selected element when it is a container; otherwise right after the
- * selection inside its parent — inserting a `<section>` *into* an `<h2>` would
+ * selection inside its parent - inserting a `<section>` *into* an `<h2>` would
  * produce markup the HTML parser silently restructures on the next reload,
  * which reads as elements teleporting. No selection appends to `<body>`.
  */

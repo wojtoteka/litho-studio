@@ -6,7 +6,7 @@ import { useUiStore } from '@/state/uiStore.js';
  * where it is.
  *
  * The live preview is a native `WebContentsView`, composited above the document
- * — no `z-index` can put a menu in front of it, so a popover that opens over
+ * - no `z-index` can put a menu in front of it, so a popover that opens over
  * the previewed page is not "behind" it by some fixable amount, it is simply
  * invisible. The only remedy is to stand the native view down while something
  * covers it, which is what PreviewPane does with the boxes published here.
@@ -22,7 +22,7 @@ export function useFloatingLayer(ref: React.RefObject<HTMLElement | null>, activ
   const setFloatingLayer = useUiStore((state) => state.setFloatingLayer);
 
   /*
-   * Deliberately without a dependency array — the box has to be re-read after
+   * Deliberately without a dependency array - the box has to be re-read after
    * *every* commit of the owning component.
    *
    * Menus decide their own final position in a layout effect of their own and
@@ -43,7 +43,7 @@ export function useFloatingLayer(ref: React.RefObject<HTMLElement | null>, activ
   });
 
   // Unmounting is the usual way a menu closes, and it produces no final commit
-  // of its own — without this the layer would stay registered forever and the
+  // of its own - without this the layer would stay registered forever and the
   // preview would never come back.
   useEffect(() => () => setFloatingLayer(id, null), [id, setFloatingLayer]);
 }

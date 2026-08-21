@@ -8,11 +8,11 @@ import { combinedCss, type StyleSheetModel } from './cssGenerator.js';
  * common pattern in modern hand-written pages: content is shipped hidden
  * (`opacity: 0`) and a scroll observer adds a class to reveal it. Without the
  * script the class never arrives and everything below the first screen stays
- * invisible — the page renders fully in the live preview and half-empty in the
+ * invisible - the page renders fully in the live preview and half-empty in the
  * editor.
  *
  * Guessing library class names (`.wow`, `[data-aos]`, …) does not solve this:
- * real pages roll their own, and — worse — hide through *descendant* selectors
+ * real pages roll their own, and - worse - hide through *descendant* selectors
  * where the hidden element carries no marker at all:
  *
  *     .reveal-group > *         { opacity: 0 }   <- the child has no class
@@ -27,10 +27,10 @@ import { combinedCss, type StyleSheetModel } from './cssGenerator.js';
  * library name.
  *
  * Overrides are appended rather than edited in, so the user's stylesheet is
- * never rewritten — this affects only what the canvas renders.
+ * never rewritten - this affects only what the canvas renders.
  */
 
-/** `opacity: 0`, `0.0`, `0%` — anything that renders the element invisible. */
+/** `opacity: 0`, `0.0`, `0%` - anything that renders the element invisible. */
 const HIDDEN_OPACITY = /^(0(\.0+)?|0+%)$/u;
 
 interface SelectorShape {
@@ -43,7 +43,7 @@ interface SelectorShape {
 /**
  * Splits a selector into its structural skeleton and the set of state tokens it
  * requires. `.reveal-group.visible > *` becomes skeleton `> *` with tokens
- * `{.reveal-group, .visible}` — so it can be compared against `.reveal-group > *`,
+ * `{.reveal-group, .visible}` - so it can be compared against `.reveal-group > *`,
  * which has the same skeleton and a strict subset of the tokens.
  *
  * Attributes count as state alongside classes: a page is just as likely to
@@ -52,7 +52,7 @@ interface SelectorShape {
 export function analyzeSelector(selector: string): SelectorShape {
   const tokens = new Set<string>();
   const skeleton = selector
-    // Attributes first — their values may contain dots (`[href=".x"]`), which
+    // Attributes first - their values may contain dots (`[href=".x"]`), which
     // would otherwise be mistaken for class tokens.
     .replace(/\[[^\]]*\]/gu, (match) => {
       tokens.add(match.replace(/\s+/gu, ''));
@@ -130,7 +130,7 @@ export function neutralizeHiddenReveals(css: string): string {
   for (const entry of hiding) {
     // A rule that hides *and* animates is a CSS entrance animation ending in
     // the visible state (`animation-fill-mode: forwards`). The editor wants
-    // that end state immediately — not a fade replaying on every reload, and
+    // that end state immediately - not a fade replaying on every reload, and
     // not a permanently blank element when the OS asks for reduced motion.
     if (entry.animated) {
       targets.add(entry.selector);
@@ -162,5 +162,5 @@ export function canvasCss(models: StyleSheetModel[]): string {
   const css = combinedCss(models);
   const overrides = neutralizeHiddenReveals(css);
   if (overrides === '') return css;
-  return `${css}\n\n/* Litho Studio — odsłonięcie treści ukrytej do czasu przewinięcia */\n${overrides}`;
+  return `${css}\n\n/* Litho Studio - odsłonięcie treści ukrytej do czasu przewinięcia */\n${overrides}`;
 }

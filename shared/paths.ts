@@ -2,8 +2,8 @@
  * Path helpers shared by the main process and the renderer.
  *
  * The renderer only ever speaks in *project-relative POSIX paths*. Turning one
- * of those into an absolute path — and proving it stays inside the project root
- * — happens exclusively in the main process (`electron/ipc/pathGuard.ts`). These
+ * of those into an absolute path - and proving it stays inside the project root
+ * - happens exclusively in the main process (`electron/ipc/pathGuard.ts`). These
  * helpers hold the pure string logic so both sides agree on normalisation and
  * so the rules can be unit-tested without Electron.
  */
@@ -138,7 +138,7 @@ export function joinRelative(...parts: string[]): string {
  *
  * Returns `null` for anything that is not a project-local file reference:
  * absolute URLs, protocol-relative URLs, `data:`/`mailto:`/`tel:` and bare
- * fragments. Callers treat `null` as "not ours — leave it alone".
+ * fragments. Callers treat `null` as "not ours - leave it alone".
  */
 export function resolveHref(pageRelPath: string, href: string): string | null {
   const trimmed = href.trim();

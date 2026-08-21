@@ -16,7 +16,7 @@ import {
  * a PostCSS AST, mutates only the declarations the user actually changed, and
  * stringifies the same AST back. Comments, custom properties, vendor hacks,
  * `@supports`, rule order and formatting the editor does not understand all
- * survive untouched — which is what makes it safe to point this at a stylesheet
+ * survive untouched - which is what makes it safe to point this at a stylesheet
  * somebody else wrote.
  *
  * Nothing here reimplements the cascade. Current *effective* values come from
@@ -93,7 +93,7 @@ export interface StyleTarget {
  * Picks the stylesheet that new rules are written into.
  *
  * The *last* writable sheet in document order wins, because a rule added there
- * beats identical-specificity rules earlier in the cascade — so the user's edit
+ * beats identical-specificity rules earlier in the cascade - so the user's edit
  * takes effect without the editor ever resorting to `!important`.
  *
  * Returns `null` when the page has no writable stylesheet at all; the caller
@@ -112,7 +112,7 @@ export function chooseStyleTarget(models: StyleSheetModel[]): StyleTarget | null
  * defines `selector`.
  *
  * Named styles (`.page-intro`) are edited over and over, and blindly writing
- * every edit into the last sheet would scatter one class across several files —
+ * every edit into the last sheet would scatter one class across several files -
  * the user would see `.page-intro` in two places with half the properties in
  * each. Editing the rule where it lives keeps the stylesheet readable; when no
  * writable sheet defines it (a brand new class, or one that exists only in a
@@ -146,14 +146,14 @@ export function definesSelector(model: StyleSheetModel, selector: string): boole
  * Returns the selector used to style an element, creating a hook if needed.
  *
  * Preference order is chosen so that generated CSS reads like the page's own,
- * while still guaranteeing the edit is visible — a declaration under a
+ * while still guaranteeing the edit is visible - a declaration under a
  * selector that loses the cascade to some other rule elsewhere is, from the
  * user's side, indistinguishable from the panel doing nothing:
- *  1. an existing `id` — already unique and already how the author refers to it;
+ *  1. an existing `id` - already unique and already how the author refers to it;
  *  2. an existing class that is unique in the document, so the edit lands on the
  *     hook the author was already using;
  *  3. a newly allocated **id**, not a class. A class fabricated here has no
- *     author convention to preserve — it is purely the editor's own hook —
+ *     author convention to preserve - it is purely the editor's own hook -
  *     and a plain single class (specificity 0,1,0) can silently lose to a
  *     pre-existing compound/descendant selector on the same element (e.g. a
  *     template rule like `.card .title`, specificity 0,2,0): the declaration
@@ -191,7 +191,7 @@ export function planSelector(
   for (const className of getClassList(element)) {
     if (!isValidCssIdentifier(className)) continue;
     // A class from an icon font library belongs to every icon in the page, not
-    // to this one element — it is only "unique" while the page happens to hold
+    // to this one element - it is only "unique" while the page happens to hold
     // a single icon. Styling through it would rewrite the library's own rule,
     // and every icon added later would inherit this element's size.
     if (isIconFontClass(className)) continue;
@@ -209,7 +209,7 @@ export function planSelector(
  * Every class name defined by a `.foo` selector anywhere across the page's
  * stylesheets, sorted and deduplicated.
  *
- * Feeds the properties panel's class picker — the point is to let the user
+ * Feeds the properties panel's class picker - the point is to let the user
  * assign a style the page *already defines* rather than retype it, so this
  * has to read every sheet (not just the one new rules would be written into)
  * and every compound/descendant selector, not only bare `.foo` rules.
@@ -267,7 +267,7 @@ export function readDeclarations(
     rule.walkDecls((declaration) => {
       const value = declaration.value + (declaration.important ? ' !important' : '');
       // The panel edits `background-color`/`background-image`, so a rule
-      // written with the `background` shorthand — which is most of them —
+      // written with the `background` shorthand - which is most of them -
       // would otherwise read as having no background at all. Expanded here,
       // in cascade order, so a longhand written after the shorthand still
       // wins, exactly as it does in the browser.
@@ -290,7 +290,7 @@ export function readDeclarations(
 /**
  * Parses the declarations a user typed into the raw-CSS box.
  *
- * The box shows a whole rule (`.name { … }`), but people edit loosely — they
+ * The box shows a whole rule (`.name { … }`), but people edit loosely - they
  * delete the braces, paste just `color: red; margin: 0`, or leave a trailing
  * property with no semicolon. So both a full rule and a bare declaration list
  * are accepted: anything between the first `{` and the last `}` is treated as
@@ -367,7 +367,7 @@ export function applyDeclarations(
      * Keeps the rule even after its last declaration is removed.
      *
      * Set when the *selector itself* is something the user created and can see
-     * by name — a reusable style class. Pruning it would make the style vanish
+     * by name - a reusable style class. Pruning it would make the style vanish
      * from the styles panel (and from every picker) the moment its last
      * property was cleared, taking the name with it; for an element's own
      * generated hook, where nobody ever refers to the selector by name,
@@ -389,7 +389,7 @@ export function applyDeclarations(
 
   // A `background` shorthand in the rule covers every longhand the panel
   // writes, so appending `background-color: transparent` next to
-  // `background: linear-gradient(…)` changed nothing on screen — the reported
+  // `background: linear-gradient(…)` changed nothing on screen - the reported
   // "on the counter block I can't set a transparent background or a single
   // colour". Splitting the shorthand first makes the panel's declaration the
   // one that decides, without touching rules the user is not editing.
@@ -431,7 +431,7 @@ export interface StyleClassInfo {
   /**
    * True when a writable sheet defines `.name` on its own. False for a class
    * that only ever appears inside a compound selector (`.card .title`) or that
-   * lives in a read-only sheet — the panel can still edit it, but the edit
+   * lives in a read-only sheet - the panel can still edit it, but the edit
    * creates a new rule rather than changing the one that is already there.
    */
   ownRule: boolean;
@@ -439,7 +439,7 @@ export interface StyleClassInfo {
 
 /**
  * Every class the page's stylesheets mention, with the declarations of its own
- * `.name` rule — the model behind the styles panel.
+ * `.name` rule - the model behind the styles panel.
  */
 export function listStyleClasses(models: StyleSheetModel[], breakpoint: Breakpoint): StyleClassInfo[] {
   return listClassNames(models).map((name) => ({
@@ -466,7 +466,7 @@ export function ensureRule(model: StyleSheetModel, selector: string, breakpoint:
  * Removes a selector from the sheet at every breakpoint.
  *
  * A rule that lists several selectors (`.intro, .lead { … }`) loses only the
- * one being removed — the other selectors keep their declarations, which is the
+ * one being removed - the other selectors keep their declarations, which is the
  * only reading of "delete this style" that does not silently restyle unrelated
  * parts of the page.
  */
@@ -496,7 +496,7 @@ export function removeSelectorRules(model: StyleSheetModel, selector: string): b
 }
 
 /**
- * Renames a class everywhere it is used in selectors — including inside
+ * Renames a class everywhere it is used in selectors - including inside
  * compound and descendant selectors (`.card .old`, `.old.active`), which a
  * plain selector rename would miss and leave pointing at a class that no
  * element carries any more.
@@ -564,8 +564,8 @@ function replaceClassToken(selector: string, from: string, to: string): string {
  * already have.
  *
  * Deduplication is by selector, checked across *every* sheet (not just the
- * target): if the page already styles `.przycisk` — whether because the user
- * dropped this template before or wrote the class by hand — that rule is
+ * target): if the page already styles `.przycisk` - whether because the user
+ * dropped this template before or wrote the class by hand - that rule is
  * left alone. Rules inside `@media` blocks are matched within the equivalent
  * block. Returns true when anything was actually added.
  */
@@ -714,7 +714,7 @@ export function renameSelector(model: StyleSheetModel, from: string, to: string)
    * Rewrites one selector, carrying its pseudo-class suffix along.
    *
    * `#hook` and `#hook:hover` are two rules describing the same element, so
-   * renaming one without the other would strip the element's hover styling —
+   * renaming one without the other would strip the element's hover styling -
    * which is exactly what would happen now that the properties panel can write
    * pseudo-state rules (see `StyleState`). The suffix must begin at a `:` so
    * that renaming `#a` can never match `#ab`.
@@ -852,7 +852,7 @@ function pruneEmpty(rule: Rule): void {
 }
 
 /**
- * Splits a selector list on top-level commas only — commas inside `:is(...)`,
+ * Splits a selector list on top-level commas only - commas inside `:is(...)`,
  * `:not(...)` or attribute values must not split the selector.
  */
 export function splitSelectorList(selector: string): string[] {
